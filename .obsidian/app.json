@@ -6,7 +6,7 @@
   "strictLineBreaks": false,
   "showLineNumber": false,
   "rightToLeft": false,
-  "spellcheck": true,
+  "spellcheck": false,
   "userIgnoreFilters": [
     "attachments/"
   ],
