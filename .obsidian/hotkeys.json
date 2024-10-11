@@ -1,0 +1,39 @@
+{
+  "omnisearch:show-modal": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "F"
+    }
+  ],
+  "global-search:open": [],
+  "obsidian-completr:completr-insert-selected-suggestion": [
+    {
+      "modifiers": [
+        ""
+      ],
+      "key": "Tab"
+    }
+  ],
+  "obsidian-completr:completr-jump-to-next-snippet-placeholder": [
+    {
+      "modifiers": [
+        ""
+      ],
+      "key": "Tab"
+    }
+  ],
+  "markdown:add-metadata-property": [],
+  "editor:delete-paragraph": [],
+  "workspace:next-tab": [
+    {
+      "modifiers": [
+        "Meta",
+        "Shift"
+      ],
+      "key": "]"
+    }
+  ]
+}

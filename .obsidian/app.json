@@ -1,0 +1,21 @@
+{
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "attachments",
+  "focusNewTab": false,
+  "strictLineBreaks": false,
+  "showLineNumber": false,
+  "rightToLeft": false,
+  "spellcheck": true,
+  "userIgnoreFilters": [
+    "attachments/"
+  ],
+  "showInlineTitle": true,
+  "foldIndent": false,
+  "autoPairMarkdown": false,
+  "showIndentGuide": false,
+  "readableLineLength": true,
+  "foldHeading": true,
+  "newFileLocation": "current",
+  "showRibbon": true
+}

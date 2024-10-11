@@ -1,0 +1,16 @@
+{
+  "accentColor": "#aa62d0",
+  "theme": "moonstone",
+  "cssTheme": "Minimal",
+  "baseFontSize": 18,
+  "interfaceFontFamily": "Atkinson Hyperlegible",
+  "textFontFamily": "Atkinson Hyperlegible",
+  "translucency": false,
+  "showViewHeader": true,
+  "enabledCssSnippets": [
+    "test",
+    "snippets"
+  ],
+  "monospaceFontFamily": "Source Code Pro",
+  "nativeMenus": true
+}

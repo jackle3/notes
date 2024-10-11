@@ -1,0 +1,99 @@
+.cm-formatting-list.cm-formatting-list-ul .list-bullet {
+	margin-right: 6px;
+}
+
+.omnisearch-default-highlight {
+  text-decoration: none;
+}
+
+.suggestion-item.omnisearch-result {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5em;
+}
+
+span.omnisearch-result__title {
+    font-weight: 600;
+}
+
+.HyperMD-list-line { 
+    padding-top: 4px !important; 
+    padding-bottom: 4px !important; 
+}
+
+
+body {
+	--h1-size: 1.6em;
+  --h1-weight: 900;
+	--h2-size: 1.37em;
+	--h3-size: 1.2em;
+  --h3-weight: 600;
+	--h4-size: 1.12em;
+  --line-height-normal:1.5;
+}
+
+
+.mod-cm6 .cm-editor .HyperMD-header,
+.markdown-reading-view .markdown-preview-section :is(h1,h2,h3,h4,h5,h6) {
+    padding-bottom:0.4em !important; 
+}
+
+.markdown-source-view :is(.cm-line + .cm-line) {
+   padding-bottom: 0.4em;
+}
+
+.markdown-source-view.mod-cm6 .internal-embed > img, .markdown-preview-view .internal-embed > img {
+  border:1px solid #ccc;  
+  margin: 0.25rem 0 0.25rem 0;
+
+}
+
+.cm-lapel {
+  font-weight: 900;
+  font-size: var(--font-large);
+}
+
+.HyperMD-header-1::after, h1 {
+    display: block;
+    content: "";
+    width: 100%; /* Full width for h1 */
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.6); /* Light gray with 60% opacity */
+}
+
+.HyperMD-header-2::after, h2 {
+    display: block;
+    content: "";
+    width: 60%; 
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.6); /* Light gray with 60% opacity */
+}
+
+.cm-heading-marker[data-level="1"] {
+  --heading-marker: "H1";
+
+}
+
+.cm-heading-marker[data-level="2"] {
+  --heading-marker: "H2";
+  color: #FFD6A5; /* Pastel orange */
+}
+
+.cm-heading-marker[data-level="3"] {
+  --heading-marker: "H3";
+  color: #BDB2FF; /* Pastel indigo */
+}
+
+.cm-heading-marker[data-level="4"] {
+  --heading-marker: "H4";
+ color: #FFADAD; /* Pastel red */ 
+}
+
+.cm-heading-marker[data-level="5"] {
+  --heading-marker: "H5";
+  color: #FFC6FF; /* Pastel violet */
+}
+
+.cm-heading-marker[data-level="6"] {
+  --heading-marker: "H6";
+  color: #FDFFB6; /* Pastel yellow */
+}
