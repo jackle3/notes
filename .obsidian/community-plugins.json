@@ -8,5 +8,6 @@
   "obsidian-linter",
   "obsidian-latex-suite",
   "obsidian-reading-time",
-  "obsidian-git"
+  "obsidian-git",
+  "obsidian-languagetool-plugin"
 ]
