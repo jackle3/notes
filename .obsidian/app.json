@@ -21,6 +21,12 @@
   "spellcheckDictionary": [
     "stochasticity",
     "Stochasticity",
-    "Normals"
+    "Normals",
+    "Artifactual",
+    "GFlop",
+    "GFlops",
+    "SIMD",
+    "CUDA",
+    "ISPC"
   ]
 }
