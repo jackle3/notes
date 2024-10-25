@@ -27,6 +27,10 @@
     "GFlops",
     "SIMD",
     "CUDA",
-    "ISPC"
+    "ISPC",
+    "underfitting",
+    "devset",
+    "kilomides",
+    "vasoconstrictor"
   ]
 }
