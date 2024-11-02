@@ -120,8 +120,30 @@ $$
 \end{bmatrix} \in \mathbb{R}^{b \times d}
 \end{align*}
 $$
-# Other Rules
-## Useful Identities
+
+# Hessian
+The Hessian matrix of a scalar-valued function $f(x)$ of a vector $x \in \mathbb{R}^n$ is a square matrix of second-order partial derivatives. It is defined as follows:
+
+For a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, where $f(x)$ is twice differentiable, the Hessian matrix $H_f(x)$ is given by:
+$$
+H_f(x) = \nabla^2 f(x) = 
+\begin{bmatrix}
+\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+\frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & \cdots & \frac{\partial^2 f}{\partial x_2 \partial x_n} \\
+\vdots & \vdots & \ddots & \vdots \\
+\frac{\partial^2 f}{\partial x_n \partial x_1} & \frac{\partial^2 f}{\partial x_n \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix}.
+$$
+In this matrix:
+- Each entry $\frac{\partial^2 f}{\partial x_i \partial x_j} = \frac{\partial}{\partial x_i}\frac{\partial}{\partial x_j}f$ represents applying the partial with respect to $x_j$ first, followed by $x_i$.
+- The Hessian matrix is symmetric if $f(x)$ is twice continuously differentiable, i.e., $\frac{\partial^2 f}{\partial x_i \partial x_j} = \frac{\partial^2 f}{\partial x_j \partial x_i}$.
+The concavity of a function $f(x)$ is determined by the properties of its Hessian matrix $H$:
+- **PSD Hessian ($H \succeq 0$)**: $f(x)$ is convex, critical point is a local minimum (possibly global if $f(x)$ is convex everywhere ⟶ only has one critical point).
+- **PD Hessian ($H \succ 0$)****: $f(x)$ is strictly convex, critical point is a global minimum.
+- **NSD Hessian ($H \preceq 0$)**: $f(x)$ is concave, critical point is a local maximum (possibly global if $f(x)$ is concave everywhere ⟶ only has one critical point).
+- **ND Hessian ($H \prec 0$)**: $f(x)$ is strictly concave, critical point is a global maximum.
+In general, positive definiteness and convexity lead to minima, while negative definiteness and concavity lead to maxima at critical points.
+# Useful Identities
 1. **Trace Cyclic Property**
    For matrices $\mathbf{A}$ and $\mathbf{B}$ where the product $\mathbf{A} \mathbf{B}$ is defined:
 $$
@@ -145,14 +167,14 @@ $$
 5. **Eigenvalues and Determinant**
    For a matrix $\mathbf{A}$, the determinant $\det(\mathbf{A})$ is the product of its eigenvalues.
 
-## Probability and Expectation Rules
+# Probability and Expectation Rules
 1. **Expectation of a Quadratic Form**
    For a random vector $\mathbf{x}$ with mean $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$:
 $$
    \mathbb{E}[\mathbf{x}^T \mathbf{A} \mathbf{x}] = \operatorname{Tr}(\mathbf{A} \mathbf{\Sigma}) + \mathbf{\mu}^T \mathbf{A} \mathbf{\mu}
 $$
-## Derivative Rules
-### **Gradient of a Scalar Quadratic Form**
+# Derivative Rules
+### **Gradient Of a Scalar Quadratic Form**
    For a quadratic form $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$ with $\mathbf{x} \in \mathbb{R}^n$ and symmetric $\mathbf{A} \in \mathbb{R}^{n \times n}$:
 $$
    \nabla_{\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A} \mathbf{x}
@@ -161,37 +183,37 @@ $$
 $$
    \nabla_{\mathbf{x}} f(\mathbf{x}) = (\mathbf{A} + \mathbf{A}^T) \mathbf{x}
 $$
-### **Gradient of a Quadratic Form with Respect to a Matrix**
+### **Gradient Of a Quadratic Form with Respect to a Matrix**
    For a quadratic form $f(\mathbf{A}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$:
 $$
    \frac{d}{d\mathbf{A}} \left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right) = \mathbf{x} \mathbf{x}^T
 $$
-### **Derivative of an Inner Product**
+### **Derivative Of an Inner Product**
   If $f(\mathbf{x}) = \mathbf{a}^T \mathbf{x}= \mathbf{x}^T \mathbf{a}$, then:
 $$
    \frac{d}{d\mathbf{x}} \left( \mathbf{a}^T \mathbf{x} \right) = \mathbf{a}
 $$
-### **Derivative of a Matrix-Vector Product with Respect to a Vector**
+### **Derivative Of a Matrix-Vector Product with Respect to a Vector**
   If $f(\mathbf{x}) = \mathbf{A} \mathbf{x}$, then:
 $$
    \frac{d}{d\mathbf{x}} \left( \mathbf{A} \mathbf{x} \right) = \mathbf{A}
 $$
-### **Derivative of Log Determinant**
+### **Derivative Of Log Determinant**
    For $f(\mathbf{A}) = \log |\det(\mathbf{A})|$, where $\mathbf{A} \in \mathbb{R}^{n \times n}$ is square and invertible:
 $$
    \frac{d}{d\mathbf{A}} \log |\det(\mathbf{A})| = \mathbf{A}^{-T}
 $$
-### **Gradient of Determinant of a Matrix**
+### **Gradient Of Determinant of a Matrix**
    For $f(\mathbf{A}) = \det(\mathbf{A})$, where $\mathbf{A} \in \mathbb{R}^{n \times n}$ is square and invertible:
 $$
    \frac{d}{d\mathbf{A}} \det(\mathbf{A}) = \det(\mathbf{A}) \cdot \mathbf{A}^{-T}
 $$
-### **Gradient of a Trace Function**
+### **Gradient Of a Trace Function**
    If $f(\mathbf{A}) = \operatorname{Tr}(\mathbf{A} \mathbf{X})$:
 $$
    \frac{d}{d\mathbf{A}} \operatorname{Tr}(\mathbf{A} \mathbf{X}) = \mathbf{X}^T
 $$
-### **Derivative of a Matrix-Vector Quadratic Form with Respect to a Vector**
+### **Derivative Of a Matrix-Vector Quadratic Form with Respect to a Vector**
    If $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x} + \mathbf{b}^T \mathbf{x} + c$, then:
 $$
    \frac{d}{d\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A} \mathbf{x} + \mathbf{b}
@@ -203,10 +225,10 @@ $$
 $$
    \frac{\partial f}{\partial \mathbf{X}} = \frac{\partial g}{\partial h} \cdot \frac{\partial h}{\partial \mathbf{X}}
 $$
-### **Jacobian of a Vector-Matrix Product**
+### **Jacobian Of a Vector-Matrix Product**
    If $\mathbf{y} = \mathbf{A} \mathbf{x}$, then the Jacobian of $\mathbf{y}$ with respect to $\mathbf{x}$ is simply $\mathbf{A}$.
 
-### **Hessian of a Scalar Quadratic Form**
+### **Hessian Of a Scalar Quadratic Form**
 For a scalar quadratic form $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$, the Hessian with respect to $\mathbf{x}$ is:
 $$
     \nabla^2_{\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A}
@@ -229,3 +251,48 @@ $$
     
 $$
 ### Norm
+The gradient of $f(x) = \|x - a\|_2^2$ with respect to $x$ can be found as follows. First, expand the $\ell_2$-norm squared:
+$$
+f(x) = \|x - a\|_2^2 = (x - a)^T (x - a).
+$$
+
+Expanding the expression gives:
+$$
+f(x) = x^T x - 2 a^T x + a^T a.
+$$
+
+Now, take the gradient with respect to $x$:
+$$
+\nabla_x f(x) = \nabla_x (x^T x - 2 a^T x + a^T a).
+$$
+
+Since $a$ is a constant with respect to $x$:
+$$
+\nabla_x f(x) = 2x - 2a.
+$$
+
+Therefore, the gradient is:
+$$
+\nabla_x \|x - a\|_2^2 = 2(x - a).
+$$
+### Least Squares
+Gradient of the least squares objective function $f(x) = \|Ax - b\|_2^2$ with respect to $x$. The objective function is
+$$
+f(x) = \|Ax - b\|_2^2 = (Ax - b)^T (Ax - b).
+$$
+Expanding $f(x)$ gives
+$$
+f(x) = x^T A^T A x - 2 b^T A x + b^T b.
+$$
+We now take the gradient of each term with respect to $x$.
+- The gradient of $x^T A^T A x$ with respect to $x$ is $2 A^T A x$.
+- The gradient of $-2 b^T A x = -2x^TA^Tb$ with respect to $x$ is $-2 A^T b$.
+- The term $b^T b$ is a constant with respect to $x$, so its gradient is zero.
+Putting it all together, we get
+$$
+\nabla_x f(x) = 2 A^T A x - 2 A^T b.
+$$
+Thus, the gradient of $\|Ax - b\|_2^2$ with respect to $x$ is:
+$$
+\nabla_x \|Ax - b\|_2^2 = 2 A^T (Ax - b).
+$$
