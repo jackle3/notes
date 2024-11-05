@@ -52,6 +52,10 @@ body {
   font-size: var(--font-large);
 }
 
+.cm-inline-code {
+  font-weight: 600 !important;
+}
+
 .HyperMD-header-1::after, h1 {
     display: block;
     content: "";
@@ -97,3 +101,4 @@ body {
   --heading-marker: "H6";
   color: #FDFFB6; /* Pastel yellow */
 }
+
