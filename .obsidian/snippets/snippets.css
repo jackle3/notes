@@ -102,3 +102,6 @@ body {
   color: #FDFFB6; /* Pastel yellow */
 }
 
+.inline-title {
+  color: black !important;
+}
