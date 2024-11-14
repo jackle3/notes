@@ -63,41 +63,6 @@
 		- Control dependencies
 		- Available execution units
 
-### Peak Throughput Calculation
-- **Components**:
-	1. Core Count (N)
-	2. SIMD Width (M)
-	3. Superscalar Factor (S)
-	4. Clock Speed (C)
-	5. Operations per Instruction (O)
-	6. Note that hardware threads do not affect peak throughput
-
-- **Formula**:
-	Peak Throughput = N * M * S * C * O
-
-- **Example Calculation**:
-	- 8 cores (N=8)
-	- AVX-512 SIMD (M=16 for float32)
-	- 4-way superscalar (S=4)
-	- 2.5 GHz clock (C=2.5 billion/sec)
-	- FMA instructions (O=2 ops/instruction)
-	
-	Peak = 8 * 16 * 4 * 2.5B * 2
-	= 1.6 TFLOPS (theoretical maximum)
-
-- **Practical Considerations**:
-	- Real workloads rarely achieve peak
-	- Hardware threads help with:
-		- Latency hiding
-		- Better resource utilization
-		- Maintaining high throughput despite stalls
-	- Common limiting factors:
-		- Memory bandwidth
-		- Instruction dependencies
-		- Branch mispredictions
-		- Cache misses
-	- Typical achievement: 10-30% of peak
-
 ## 3. Parallel Programming Models
 
 ### Thread-based Parallelism
@@ -234,6 +199,48 @@
 		2. Peak memory bandwidth (for bandwidth bound)
 		3. Arithmetic intensity determines which bound applies
 		4. Available parallelism to hide latency
+
+### Throughput and Bandwidth Calculations
+
+#### Peak Throughput
+- **Basic Formula**: 
+	Peak FLOPS = Cores × SIMD Width × Clock Speed × Operations per cycle
+	- Hardware threads don't increase peak FLOPS, they only help hide latency
+
+- **Example**:
+	- Hardware: 8 cores running at 3.2 GHz
+	- Each core has 16-wide SIMD
+	- Can do 2 Fused Multiply-Add (FMA) operations per cycle
+	- Total Peak = 8 cores × 16 floats × 3.2 billion cycles/sec × 2 ops = 819.2 GFLOPS
+
+#### Memory Bandwidth Requirements
+- **Basic Formula**: 
+	Required Memory Bandwidth = Data accessed per unit time
+	= (Bytes needed × Operations per second) / Operations per data access
+	= (# of cores × clock) × (SIMD width × bytes per cycle)
+
+- **Real Example**: Vector Addition Program
+	- System: 8 cores, 32-wide SIMD, 1 GHz clock
+	- Maximum compute: 8 × 32 × 1G = 256 billion ops/sec
+	- Memory pattern: Read 12 bytes every 30 compute cycles
+	- Required bandwidth = 256G × (12/30) = 102.4 GB/sec
+
+#### Arithmetic Intensity (Computing vs Memory Ratio)
+- **Formula**:
+	Arithmetic Intensity = Compute Operations / Memory Bytes Accessed
+	- Higher is better - means more computation per memory access
+
+- **Real Example**: Simple Matrix Multiplication
+	- Each FMA operation: 2 floating point operations
+	- Needs to access: 12 bytes of data (3 4-byte floats)
+	- Arithmetic Intensity = 2/12 = 0.167 operations/byte
+	- This low ratio indicates memory-bound behavior
+
+#### Memory-Limited Performance
+- When memory bandwidth is the bottleneck:
+	Actual Performance = Available Memory Bandwidth × Arithmetic Intensity
+	- Example: With 50 GB/s bandwidth and AI of 0.167:
+		Maximum achievable = 50 GB/s × 0.167 = 8.35 GFLOPS
 
 ## 6. Common Patterns
 
