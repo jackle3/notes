@@ -7,7 +7,7 @@
 - Speedup = Time(1 processor) / Time(P processors)
 - Limitations:
 	- Communication between processors
-	- Imbalance in work assignments 
+	- Imbalance in work assignments
 	- Overhead costs
 
 ### Amdahl's Law
@@ -203,7 +203,7 @@
 ### Throughput and Bandwidth Calculations
 
 #### Peak Throughput
-- **Basic Formula**: 
+- **Basic Formula**:
 	Peak FLOPS = Cores × SIMD Width × Clock Speed × Operations per cycle
 	- Hardware threads don't increase peak FLOPS, they only help hide latency
 
@@ -214,10 +214,15 @@
 	- Total Peak = 8 cores × 16 floats × 3.2 billion cycles/sec × 2 ops = 819.2 GFLOPS
 
 #### Memory Bandwidth Requirements
-- **Basic Formula**: 
+- **Basic Formula**:
 	Required Memory Bandwidth = Data accessed per unit time
 	= (Bytes needed × Operations per second) / Operations per data access
-	= (# of cores × clock) × (SIMD width × bytes per cycle)
+	= (# of cores × clock) × (SIMD width × bytes per ops)
+- Note that the units are:
+	- (cores × cycles per second per core) × (ops per cycle × bytes per op) = bytes per second
+$$
+\text{cores} \times \frac{\text{cycle}}{\text{second} ×\text{core}}× \frac{\text{ops}}{\text{cycle}}× \frac{\text{bytes}}{\text{op}} = \frac{\text{bytes}}{\text{second}}
+$$
 
 - **Real Example**: Vector Addition Program
 	- System: 8 cores, 32-wide SIMD, 1 GHz clock
@@ -225,7 +230,7 @@
 	- Memory pattern: Read 12 bytes every 30 compute cycles
 	- Required bandwidth = 256G × (12/30) = 102.4 GB/sec
 
-#### Arithmetic Intensity (Computing vs Memory Ratio)
+#### Arithmetic Intensity (Computing Vs Memory Ratio)
 - **Formula**:
 	Arithmetic Intensity = Compute Operations / Memory Bytes Accessed
 	- Higher is better - means more computation per memory access
@@ -235,6 +240,17 @@
 	- Needs to access: 12 bytes of data (3 4-byte floats)
 	- Arithmetic Intensity = 2/12 = 0.167 operations/byte
 	- This low ratio indicates memory-bound behavior
+
+- To find the maximum arithmetic intensity, divide the peak throughput by the memory bandwidth.
+$$
+\text{Arithmetic Intensity (ops per byte)} = \frac{\text{Peak Throughput (ops per second)}}{\text{Memory Bandwidth (bytes per second)}}
+$$
+- This corresponds to the "knee" part of the **roofline plot**
+- **Example:**
+	- Suppose we have a 1GHz dual-core processor with 4-wide SIMD. The peak throughput is 8 GFLOPS/sec.
+	- Suppose the memory system provides 4 GB/sec of bandwidth.
+	- The knee is at 8/4 = 2 ops per byte
+![[Pasted image 20241114152534.png]]
 
 #### Memory-Limited Performance
 - When memory bandwidth is the bottleneck:
