@@ -18,7 +18,7 @@
 
 * As $n$ gets bigger, an algorithm that runs in time $O(n^{1.6})$ is better than an $O(n^2)$.
 
-### Divide and conquer
+### Divide and Conquer
 
 ![image-20230403143048760](image-20230403143048760.png)
 
@@ -82,7 +82,7 @@
 
 ![image-20230406200845326](image-20230406200845326.png)
 
-### Worst-case analysis
+### Worst-case Analysis
 
 * This answers the question of "Does it work?"
 
@@ -112,7 +112,7 @@
 
 ![image-20230406202015589](image-20230406202015589.png)
 
-### Asymptotic Analysis:
+### Asymptotic Analysis
 
 * This answers the question of "Is it fast?"
 
@@ -269,7 +269,7 @@
 
 * How do we calculate the runtime of a recursive algorithm?
 
-#### Merge Sort, revisited
+#### Merge Sort, Revisited
 
 ![image-20230410153027278](image-20230410153027278.png)
 
@@ -365,7 +365,7 @@
 
 ![image-20230410191941305](image-20230410191941305.png)
 
-##### Case 1:  $a = b^d$
+##### Case 1: $a = b^d$
 
 ![image-20230410192105479](image-20230410192105479.png)
 
@@ -547,7 +547,7 @@
 
 * It gets much harder if we decide to generalize this problem.
 
-### k-SELECT solution
+### k-SELECT Solution
 
 * Let's try divide and conquer!
 * We do this much like quick sort.
@@ -572,7 +572,7 @@
 
 * The choice of 50 is arbitrary. This base case is because it's a set length, so its O(1). Technically, if you sort a fixed length array, it's 0(1). Big-O is focused on what happens as the array length grows.
 
-#### Proof for why it works
+#### Proof for why it Works
 
 * Check the iPython notebook and the formal proof on the website.
 
@@ -582,13 +582,13 @@
 
 ![image-20230416124604924](image-20230416124604924.png)
 
-#### Picking pivot
+#### Picking Pivot
 
 * A good pivot is one that splits the array into half, where the length of $L$ is n/2 and the length of $R$ is n/2.
 
  ![image-20230416124721789](image-20230416124721789.png)
 
-* With this ideal pivot, the recurrence relation is roughly $T(n/2) + O(n)$. 
+* With this ideal pivot, the recurrence relation is roughly $T(n/2) + O(n)$.
 
 ![image-20230416124832304](image-20230416124832304.png)
 
@@ -605,13 +605,13 @@
 
 ![image-20230416125500222](image-20230416125500222.png)
 
-### Approach to picking pivot
+### Approach to Picking Pivot
 
 #### Ideal Pivot
 
 ![image-20230416125559156](image-20230416125559156.png)
 
-#### Good Enough pivot
+#### Good Enough Pivot
 
 ![image-20230416125610098](image-20230416125610098.png)
 
@@ -633,7 +633,7 @@
   * Then, we find the median of those medians.
 * The median of sub-medians is good enough.
 
-#### Picking the pivot
+#### Picking the Pivot
 
 * We first split the array into chunks.
 
@@ -723,7 +723,7 @@
 
 ![image-20230419231751250](image-20230419231751250.png)
 
-### How do we measure runtime of randomized algorithm?
+### How Do We Measure Runtime of Randomized Algorithm?
 
 ![image-20230419232650344](image-20230419232650344.png)
 
@@ -771,7 +771,7 @@
 
 * A lot of languages use QuickSort as the default sorting algorithm.
 
-#### How it works
+#### How it Works
 
 ![image-20230420113632905](image-20230420113632905.png)
 
@@ -786,7 +786,7 @@
 
 #### Running time
 
-* The partition is $O(n)$. 
+* The partition is $O(n)$.
 
 ![image-20230420113849288](image-20230420113849288.png)
 
@@ -815,7 +815,7 @@
 
 * We're basically saying the running of the expected list sizes is the same as the expected running time with all list sizes. This is not how it works.
 
-#### How does Quicksort recurse?
+#### How Does Quicksort Recurse?
 
 ![image-20230420114646346](image-20230420114646346.png)
 
@@ -836,7 +836,7 @@
 
 ![image-20230420115218321](image-20230420115218321.png)
 
-#### Counting comparisons
+#### Counting Comparisons
 
 ![image-20230420115252974](image-20230420115252974.png)
 
@@ -873,14 +873,14 @@
 
 ![image-20230420120605717](image-20230420120605717.png)
 
-* The adversary would choose either min or max of the array, which would make it become $O(n^2)$. 
+* The adversary would choose either min or max of the array, which would make it become $O(n^2)$.
 * The expected is $n \log n$ instead of $n^2$ because it's really unlikely that you pick the minimum or maximum element if you pick randomly.
 
 #### Implementation
 
 ![image-20230420120840188](image-20230420120840188.png)
 
-### Better way to do partition
+### Better way to Do Partition
 
 ![image-20230420121107806](image-20230420121107806.png)
 
@@ -902,7 +902,7 @@
 
 * Now we again the swap, then advance the bars, and then we're done.
 
-#### Why does this work?
+#### Why Does This Work?
 
 * If we prove it by induction, the inductive hypothesis is that
   * Everything between the red and blue bars (colored orange) is greater than the pivot.
@@ -911,7 +911,7 @@
 * For the inductive step, we would be like advancing the bars and swapping, which also maintains the inductive hypothesis.
 * We're gathering everything smaller than pivot before the red bar, everything bigger than the pivot in between the bars, then at the end we swap 4 into the right place.
 
-### QuickSort vs MergeSort
+### QuickSort Vs MergeSort
 
 ![image-20230420121658971](image-20230420121658971.png)
 
@@ -925,7 +925,7 @@
 
 ---
 
-## 4/19 L6: Sorting lower bounds, Radix/Bucket
+## 4/19 L6: Sorting Lower Bounds, Radix/Bucket
 
 ### Sorting
 
@@ -939,7 +939,7 @@
 
 ![image-20230424124501743](image-20230424124501743.png)
 
-### Comparison-based sorting
+### Comparison-based Sorting
 
 * You want to sort an array of items.
 * In comparison-based, you can't access the items' values directly; you can only compare two items and find out which is bigger or smaller.
@@ -972,14 +972,14 @@
 
 ![image-20230424125220800](image-20230424125220800.png)
 
-#### Runtime on an input
+#### Runtime on an Input
 
 ![image-20230424125422774](image-20230424125422774.png)
 
 * The running time is at least the length the path for that input.
   * In this case, the running time is determined by the number of comparisons.
 
-#### Runtime in worst case
+#### Runtime in Worst case
 
 ![image-20230424125512506](image-20230424125512506.png)
 
@@ -988,7 +988,7 @@
 ![image-20230424125550959](image-20230424125550959.png)
 
 * There are at least $n!$ leaves, because there are $n!$ possible orderings that we could output for our array.
-  * We say at least because we don't know what the algorithm is doing. There could possibly be duplicated orderings. 
+  * We say at least because we don't know what the algorithm is doing. There could possibly be duplicated orderings.
 * The longest path of every tree is at least $\log(n!)$.
   * This is because at level 1, there is 2 nodes. At level 2, there is 4 nodes. At level $j$, there is $2^j$ nodes. If we let $j = \log(n!)$, we have that level $j$ has $n!$ nodes. This is the last level, hence our depth is $\log(n!)$.
 
@@ -1029,28 +1029,29 @@
 
 * You can use RadixSort to sort both integers and strings. It can use less space because it uses less buckets.
 
-#### Step 1: CountingSort on least significant digit
+#### Step 1: CountingSort on Least Significant Digit
 
 ![image-20230424131214852](image-20230424131214852.png)
 
 * After we put them in the buckets, we take them all out and concatenate them in order. Note that the buckets are FIFO queues.
 
-#### Step 2: CountingSort on second least sig. digit
+#### Step 2: CountingSort on Second Least Sig. Digit
 
 ![image-20230424131304221](image-20230424131304221.png)
 
 * For numbers without the 2nd least sig. digit, like $1$, we can imagine that we just pad it with zeros. As such, we put it in the zero bucket.
 * Importantly again, we create the final array by taking numbers out in FIFO order.
 
-#### Step 3: CountingSort on the third least sig. digit
+#### Step 3: CountingSort on the Third Least Sig. Digit
 
 ![image-20230424131353443](image-20230424131353443.png)
 
-#### Why does it work?
+#### Why Does it Work?
 
 ![image-20230424131431150](image-20230424131431150.png)
 
-###  Proof by induction![image-20230424131637969](image-20230424131637969.png)
+### Proof by Induction
+![image-20230424131637969](image-20230424131637969.png)
 
 * To prove this, we'll use induction. The inductive hypothesis is that after iteration $i$, the array is sorted by the $i$ least significant digits.
 
@@ -1079,7 +1080,6 @@
 * Thus, with this, we know that RadixSort is correct.
 
 ### Running Time of RadixSort
-
 ![image-20230424143346785](image-20230424143346785.png)
 
 ![image-20230424143420948](image-20230424143420948.png)
@@ -1089,24 +1089,20 @@
 
 ![image-20230424143617954](image-20230424143617954.png)
 
-#### Example base change
+#### Example Base Change
 
 ![image-20230424143637687](image-20230424143637687.png)
 
 * First we pad it with zeros
-
 ![image-20230424143651257](image-20230424143651257.png)
 
 * In the first iteration above, we look at the two least significant digits (because its base 100)
-
 ![image-20230424143742506](image-20230424143742506.png)
 
 * After just two iterations, it's already sorted.
-
 ![image-20230424143813999](image-20230424143813999.png)
 
-#### General running time
-
+#### General Running time
 ![image-20230424143836807](image-20230424143836807.png)
 
 * If we let $r = M$, then we essentially have counting sort.
@@ -1117,7 +1113,6 @@
 ![image-20230424144032926](image-20230424144032926.png)
 
 ### Recap
-
 ![image-20230424144115348](image-20230424144115348.png)
 
 ![image-20230424144153813](image-20230424144153813.png)
@@ -1126,7 +1121,7 @@
 
 ## 4/24 L7: BST and Red-Black Tress
 
-### Recap of what we have so far
+### Recap of what We Have so far
 
 ![image-20230424150336336](image-20230424150336336.png)
 
@@ -1228,7 +1223,7 @@
 
 ![image-20230424154923296](image-20230424154923296.png)
 
-#### Idea 2: Have some proxy for balance
+#### Idea 2: Have Some Proxy for Balance
 
 * Maintaining perfect balance is hard. As such, we come up with some property to show that it's *pretty* balanced.
 
@@ -1253,7 +1248,7 @@
   * If we go to the left from the root, there are three black nodes (including NIL).
   * If we go to the right of the root to the red, then right again to the NIL, there are two black nodes (including NIL).
 
-#### Why these rules?
+#### Why These Rules?
 
 ![image-20230424161122719](image-20230424161122719.png)
 
@@ -1261,7 +1256,7 @@
 
 ---
 
-#### Red Black Tree 
+#### Red Black Tree
 
 ![image-20230501123432154](image-20230501123432154.png)
 
@@ -1284,7 +1279,7 @@ $$
 	2^{b(x)} - 1 = 2 - 1 = 1 = d(x)
 \end{equation*}
 $$
-**Inductive Step**: Assume the IH holds for $k = h$. We want to show that it holds for $k = h + 1$. 
+**Inductive Step**: Assume the IH holds for $k = h$. We want to show that it holds for $k = h + 1$.
 
 <img src="./cs161.assets/image-20230501124540829.png" alt="image-20230501124540829" style="zoom:150%;" />
 
@@ -1342,7 +1337,7 @@ This is what we wanted to show.
 
 ---
 
-### First approach at O(1)
+### First Approach at O(1)
 
 * We can do this by creating a bunch of buckets for each item.
 
@@ -1423,7 +1418,7 @@ This is what we wanted to show.
 
 * Our goal is to show that these chains at the bottom don't get *too* long.
 
-#### Example: uniformly random function
+#### Example: Uniformly Random Function
 
 ![image-20230501153903751](image-20230501153903751.png)
 
@@ -1439,7 +1434,7 @@ This is what we wanted to show.
 
 ---
 
-#### Aside from pre-lecture 8
+#### Aside from Pre-lecture 8
 
 * Note that the expected number of items in bucket $i$ is different from the expected number of items in $u_i$'s bucket.
 * Suppose we have a random roll from $1$ to $n$, and if it lands on $i$, then all the items goes into bucket $i$.
@@ -1536,7 +1531,7 @@ This is what we wanted to show.
 
 ![image-20230501232917189](image-20230501232917189.png)
 
-#### How do we pick the hash function?
+#### How Do We Pick the Hash Function?
 
 ![image-20230501233008517](image-20230501233008517.png)
 
@@ -1665,7 +1660,7 @@ This is what we wanted to show.
 
 ---
 
-### How to represent graphs
+### How to Represent Graphs
 
 #### Adjacency Matrix
 
@@ -1737,7 +1732,7 @@ This is what we wanted to show.
 
 * Consider the graph above, which is two connected components. To explore it, we'd have to run DFS multiple times, on each component.
 
-#### Why depth-first?
+#### Why Depth-first?
 
 * Consider it as building a tree.
 
@@ -1809,7 +1804,7 @@ This is what we wanted to show.
 
   ![image-20230508134851576](image-20230508134851576.png)
 
-#### Topological sort
+#### Topological Sort
 
 ![image-20230508134914274](image-20230508134914274.png)
 
@@ -1854,7 +1849,7 @@ This is what we wanted to show.
 
 ---
 
-#### Distance between w and all other vertices v
+#### Distance between W and All other Vertices V
 
 ![image-20230508140044002](image-20230508140044002.png)
 
@@ -1868,7 +1863,7 @@ This is what we wanted to show.
 
 ---
 
-### Application of BFS: Testing bipartite-ness
+### Application of BFS: Testing Bipartite-ness
 
 ![image-20230508140244997](image-20230508140244997.png)
 
@@ -1886,7 +1881,7 @@ This is what we wanted to show.
 
 * To do this check, while we're checking of the neighboring nodes are unvisited, we can also check if they're the same color.
 
-#### Proof of why this works
+#### Proof of why This Works
 
 * Just because this coloring doesn’t  work, why does that mean that  there is no coloring that works?
 
@@ -1975,7 +1970,7 @@ This is what we wanted to show.
 * Components where every node within that component is mutually reachable.
   * We break the graph into chunks that are strongly connected.
 
-### Why do we care about SCCs?
+### Why Do We Care about SCCs?
 
 ![image-20230510145121542](image-20230510145121542.png)
 
@@ -1989,11 +1984,11 @@ This is what we wanted to show.
 
 * Many graph algorithms require it to be possible to reach all the nodes.
 
-### How to find SCCs?
+### How to Find SCCs?
 
 ![image-20230510145441623](image-20230510145441623.png)
 
-#### Straightforward way to use DFS to find SCCs
+#### Straightforward way to Use DFS to Find SCCs
 
 ![image-20230510145629325](image-20230510145629325.png)
 
@@ -2026,7 +2021,7 @@ This is what we wanted to show.
 
 ---
 
-#### Example run of the algorithm
+#### Example Run of the Algorithm
 
 1. Here is the strongly connected components of the graph from before. This is what we try to find.
 
@@ -2059,7 +2054,7 @@ This is what we wanted to show.
 
 ---
 
-#### How to reverse the edge?
+#### How to Reverse the Edge?
 
 * With an adjacency matrix, simply take the transpose of the adjacency matrix.
 * With an adjacency list in a directed graph, each bucket has a linked list for outgoing edges and for incoming edges. To reverse it, simply switch the outgoing and incoming edges.
@@ -2067,7 +2062,7 @@ This is what we wanted to show.
 
 ---
 
-### Why does it work?
+### Why Does it Work?
 
 #### The SCC Graph
 
@@ -2122,7 +2117,7 @@ This is what we wanted to show.
 
 ---
 
-#### Why this finds SCCs
+#### Why This Finds SCCs
 
 ![image-20230510152118295](image-20230510152118295.png)
 
@@ -2184,7 +2179,7 @@ This is what we wanted to show.
 
 ---
 
-### Single-source shortest-path problem
+### Single-source Shortest-path Problem
 
 ![image-20230515154504118](image-20230515154504118.png)
 
@@ -2228,20 +2223,20 @@ This is what we wanted to show.
 
 ---
 
-### Why does Dijkstra's work?
+### Why Does Dijkstra's Work?
 
 ![image-20230515155800464](image-20230515155800464.png)
 
 * What Claim 1 and Claim 2 are basically saying is that `d[v]` is an overestimate, and will gradually decreases until we get the right answer.
 * `d[v]` never increases because the algorithm replaces it with the minimum of itself with something else. Can only decrease or stay same.
 
-#### Claim 1: `d[v]` is always an overestimate
+#### Claim 1: `d[v]` is Always an Overestimate
 
 ![image-20230515160136227](image-20230515160136227.png)
 
 ![image-20230515160222098](image-20230515160222098.png)
 
-#### Claim 2: When vertex `u` is marked sure, `d[u] = d(s, u)`
+#### Claim 2: When Vertex `u` is Marked Sure, `d[u] = d(s, u)`
 
 ![image-20230515160328066](image-20230515160328066.png)
 
@@ -2320,7 +2315,7 @@ This is what we wanted to show.
 
 ---
 
-### Bellman-Ford algorithm
+### Bellman-Ford Algorithm
 
 ![image-20230515202658227](image-20230515202658227.png)
 
@@ -2350,7 +2345,7 @@ This is what we wanted to show.
 
 ---
 
-### Does it work and is it fast?
+### Does it Work and is it Fast?
 
 ![image-20230515203403072](image-20230515203403072.png)
 
@@ -2384,7 +2379,7 @@ This is what we wanted to show.
 
 ![image-20230519120225872](image-20230519120225872.png)
 
-### Single-source shortest path
+### Single-source Shortest Path
 
 * Dijkstra and Bellman-Ford both solve this problem
 
@@ -2407,7 +2402,7 @@ This is what we wanted to show.
   * For d3, there exists a path with three edges, from Gates to Packard to CS161 to Old Union.
   * For d4, this is the same as d3.
 
-#### Correctness proof with DP
+#### Correctness Proof with DP
 
 ![image-20230519121314714](image-20230519121314714.png)
 
@@ -2415,7 +2410,7 @@ This is what we wanted to show.
 
 ![image-20230519121436040](image-20230519121436040.png)
 
-#### Most important thing abt BF
+#### Most Important Thing Abt BF
 
 ![image-20230519122548676](image-20230519122548676.png)
 
@@ -2437,13 +2432,13 @@ This is what we wanted to show.
 
 ![image-20230519124931584](image-20230519124931584.png)
 
-#### Optimal sub-structure
+#### Optimal Sub-structure
 
 ![image-20230519125051285](image-20230519125051285.png)
 
 * This is the same as in divide and conquer, where we use the smaller problems to approach and solve our bigger problem.
 
-#### Overlapping sub-problems
+#### Overlapping Sub-problems
 
 ![image-20230519125208856](image-20230519125208856.png)
 
@@ -2451,7 +2446,7 @@ This is what we wanted to show.
 
 ![image-20230519125250789](image-20230519125250789.png)
 
-### Bottom up approach to DP
+### Bottom up Approach to DP
 
 * In the bottom up approach, you solve smaller problems to build up to the bigger problem.
 
@@ -2461,7 +2456,7 @@ This is what we wanted to show.
 
 ![image-20230519125337747](image-20230519125337747.png)
 
-### Top down approach to DP
+### Top down Approach to DP
 
 * The top-down approach is defined by the idea of memo-ization. You memoize the things that you have solved previously.
 
@@ -2483,7 +2478,7 @@ This is what we wanted to show.
 
 ---
 
-### Dynamic programming recap
+### Dynamic Programming Recap
 
 ![image-20230522125005992](image-20230522125005992.png)
 
@@ -2505,7 +2500,7 @@ This is what we wanted to show.
 
 ---
 
-### Step 1: Optimal substructure
+### Step 1: Optimal Substructure
 
 ![image-20230522125643804](image-20230522125643804.png)
 
@@ -2514,7 +2509,7 @@ This is what we wanted to show.
 * The shortest path from $u$ to $v$ where the only vertices we're allowed to use is the ones in $1 \dots k-1$.
 * There's $n$ vertices total.
 
-### Step 2: Recursive formulation
+### Step 2: Recursive Formulation
 
 ![image-20230522125827435](image-20230522125827435.png)
 
@@ -2569,7 +2564,7 @@ This is what we wanted to show.
 
 ![image-20230522144940614](image-20230522144940614.png)
 
-### Step 1: Optimal substructure
+### Step 1: Optimal Substructure
 
 * We're trying to find subproblems in a sequence. The natural thing is to look at prefixes of the string.
 
@@ -2704,7 +2699,7 @@ This is what we wanted to show.
 
 * The `K[x] = 0` is basically the base case. If none of the $w_i$ are less than $x$, then the best value we can have with capacity x is zero.
 
-#### Finding actual solution
+#### Finding Actual Solution
 
 * What if we want to find the actual items?
 
@@ -2714,11 +2709,11 @@ This is what we wanted to show.
 
 #### Example
 
-##### x = 0 and x = 1
+##### X = 0 and X = 1
 
 ![image-20230522195546616](image-20230522195546616.png)
 
-##### x = 2
+##### X = 2
 
 * At this point, we could add a turtle.
 
@@ -2738,7 +2733,7 @@ This is what we wanted to show.
 
 ![image-20230522195718293](image-20230522195718293.png)
 
-##### k = 4
+##### K = 4
 
 ![image-20230522195750808](image-20230522195750808.png)
 
@@ -2787,7 +2782,7 @@ This is what we wanted to show.
 
 * The base cases say if $j = 0$, so there are no items, then you can have no value. If $x = 0$, so you have no capacity, then you also have no value.
 
-#### Bottom-up DP algorithm
+#### Bottom-up DP Algorithm
 
 ![image-20230529171158777](image-20230529171158777.png)
 
@@ -2807,18 +2802,18 @@ This is what we wanted to show.
 
 ---
 
-### Top-Down vs Bottom-up DP
+### Top-Down Vs Bottom-up DP
 
 * Top down is the same as divide and conquer, except you keep a table so you don't repeat work.
 * In bottom up, you fill that table iteratively from the bottom up.
 
 ![image-20230529172201449](image-20230529172201449.png)
 
-### What are greedy algorithms?
+### What Are Greedy Algorithms?
 
 ![image-20230529172304808](image-20230529172304808.png)
 
-### When does greedy not work?
+### When Does Greedy not Work?
 
 * An example of when it doesn't work is unbounded knapsack
 
@@ -2859,17 +2854,17 @@ This is what we wanted to show.
 * Taking the smallest finishing time and latest start time would both give optimal solutions.
   * Think of it as if you just reversed your activities.
 
-#### Is it fast?
+#### Is it Fast?
 
 ![image-20230529173603420](image-20230529173603420.png)
 
-####  Why is it greedy?
+#### Why is it Greedy?
 
 ![image-20230529173636009](image-20230529173636009.png)
 
 ![image-20230529173741759](image-20230529173741759.png)
 
-#### Does it work?
+#### Does it Work?
 
 ![image-20230529173812996](image-20230529173812996.png)
 
@@ -2878,7 +2873,7 @@ This is what we wanted to show.
 
 ![image-20230529173917043](image-20230529173917043.png)
 
-#### Proof of the claim:
+#### Proof of the Claim
 
 ![image-20230529173928137](image-20230529173928137.png)
 
@@ -2900,7 +2895,7 @@ This is what we wanted to show.
 
 ![image-20230529174310297](image-20230529174310297.png)
 
-#### Proof of correctness
+#### Proof of Correctness
 
 ![image-20230531013234820](image-20230531013234820.png)
 
@@ -2918,7 +2913,7 @@ This is what we wanted to show.
 
 ---
 
-### When are greedy algorithms a good idea?
+### When Are Greedy Algorithms a Good Idea?
 
 * When they have a particular type of substructure
 
@@ -2965,7 +2960,7 @@ This is what we wanted to show.
 
 ![image-20230531015026550](image-20230531015026550.png)
 
-#### Best job
+#### Best Job
 
 * What does it mean by taking the best job?
 
@@ -2973,7 +2968,7 @@ This is what we wanted to show.
 
 ![image-20230531015247177](image-20230531015247177.png)
 
-#### Proving that the greedy choice doesn't rule out success
+#### Proving that the Greedy Choice Doesn't Rule out Success
 
 ![image-20230531015600621](image-20230531015600621.png)
 
@@ -3002,7 +2997,7 @@ This is what we wanted to show.
 
 ---
 
-### Problem 3: Huffman coding
+### Problem 3: Huffman Coding
 
 * Coding refers to encoding data
 
@@ -3065,13 +3060,13 @@ This is what we wanted to show.
 
 ---
 
-### How to find an MST?
+### How to Find an MST?
 
 ![image-20230604123207884](image-20230604123207884.png)
 
 ---
 
-### Cuts in graphs
+### Cuts in Graphs
 
 ![image-20230604123734151](image-20230604123734151.png)
 
@@ -3087,7 +3082,7 @@ This is what we wanted to show.
 
 ![image-20230604125239139](image-20230604125239139.png)
 
-### Lemma with cuts
+### Lemma with Cuts
 
 ![image-20230604125352486](image-20230604125352486.png)
 
@@ -3135,7 +3130,7 @@ This is what we wanted to show.
 
 ![image-20230604134613756](image-20230604134613756.png)
 
-#### Does it work?
+#### Does it Work?
 
 ![image-20230604134727972](image-20230604134727972.png)
 
@@ -3187,7 +3182,7 @@ This is what we wanted to show.
 * The final tree will be connected because if we had two unconnected trees, there must exist an edge that we can add that wouldn't make a cycle.
   * We only stop once we have $n$ vertices with $n-1$ edges and we have no cycles.
 
-#### How do we make a fast implementation?
+#### How Do We Make a Fast Implementation?
 
 ![image-20230604140601968](image-20230604140601968.png)
 
@@ -3195,7 +3190,7 @@ This is what we wanted to show.
 
 * Notice that all these trees are disjoint. As such, we can keep each tree in a special data structure.
 
-#### Union-find data structure
+#### Union-find Data Structure
 
 ![image-20230604140710415](image-20230604140710415.png)
 
@@ -3215,7 +3210,7 @@ This is what we wanted to show.
 
 ![image-20230604141058325](image-20230604141058325.png)
 
-#### Does it work?
+#### Does it Work?
 
 ![image-20230604141343530](image-20230604141343530.png)
 
@@ -3241,7 +3236,7 @@ This is what we wanted to show.
 
 * Capacities are the same as weights. We're using a different name for it here.
 
-### s-t cut
+### S-t Cut
 
 * A cut that separates the source vertex $s$ from the sink vertex $t$.
 
@@ -3251,13 +3246,13 @@ This is what we wanted to show.
 
 * The cut above has cost $4 + 2 + 10 = 16$
 
-### Minimum s-t cut
+### Minimum S-t Cut
 
 ![image-20230605145324426](image-20230605145324426.png)
 
 * Only count edges that go from $s$'s side of the cut to $t$'s side of the cut.
 
-#### Why is min s-t cut important?
+#### Why is Min S-t Cut Important?
 
 ![image-20230605145504245](image-20230605145504245.png)
 
@@ -3271,13 +3266,13 @@ This is what we wanted to show.
 * The flow must be less than or equal to the capacity.
 * Except for the source and the sink, the incoming flows must equal outgoing flows.
 
-#### Value of a flow
+#### Value of a Flow
 
 ![image-20230605145811932](image-20230605145811932.png)
 
 * It's okay to have cycles and flow cycles in a graph, as long as it still follows the conservation of flow at vertices.
 
-### Max flow
+### Max Flow
 
 ![image-20230605145956983](image-20230605145956983.png)
 
@@ -3285,11 +3280,11 @@ This is what we wanted to show.
 
 * Note that in this example, 11 was also the cost of the minimum cut.
 
-#### Why do we care about max flow?
+#### Why Do We Care about Max Flow?
 
 ![image-20230605150100267](image-20230605150100267.png)
 
-### Min cut and max flow
+### Min Cut and Max Flow
 
 ![image-20230605150217944](image-20230605150217944.png)
 
@@ -3312,7 +3307,7 @@ This is what we wanted to show.
 
 * If you can find a cut with the same cost as some flow, then you're guaranteed that those are the max flow and the min cut.
 
-### Ford-Fulkerson algorithm
+### Ford-Fulkerson Algorithm
 
 ![image-20230605150732487](image-20230605150732487.png)
 
@@ -3333,7 +3328,7 @@ This is what we wanted to show.
 
 * Forward edges are the amount of capacity we have left to stuff stuff through, and the backwards edges are the amount of capacity that's already been used.
 
-#### Improving flow with residual networks
+#### Improving Flow with Residual Networks
 
 ![image-20230605151025070](image-20230605151025070.png)
 
@@ -3461,13 +3456,13 @@ This is what we wanted to show.
 
 ![image-20230605154845650](image-20230605154845650.png)
 
-### Aside about max flows
+### Aside about Max Flows
 
 ![image-20230605154929609](image-20230605154929609.png)
 
 ---
 
-### Application: maximum bipartite matching
+### Application: Maximum Bipartite Matching
 
 * Remember that a bipartite graph was one where you have vertices on one side and vertices on another, and edges in between.
 * There are no edges going between vertices on each side.
@@ -3478,7 +3473,7 @@ This is what we wanted to show.
 
 ![image-20230605155208618](image-20230605155208618.png)
 
-#### Solution with max flow
+#### Solution with Max Flow
 
 ![image-20230605155234180](image-20230605155234180.png)
 
@@ -3486,7 +3481,7 @@ This is what we wanted to show.
 
 * The edges where we have flow are the places where we should make assignments.
 
-#### Why does it work?
+#### Why Does it Work?
 
 ![image-20230605155423024](image-20230605155423024.png)
 
@@ -3508,7 +3503,7 @@ This is what we wanted to show.
 
 ![image-20230605155816250](image-20230605155816250.png)
 
-#### Why does this work?
+#### Why Does This Work?
 
 ![image-20230605160025771](image-20230605160025771.png)
 
@@ -3540,46 +3535,3 @@ This is what we wanted to show.
 ## 6/7 L18: Recap
 
 ![image-20230611152412733](image-20230611152412733.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
