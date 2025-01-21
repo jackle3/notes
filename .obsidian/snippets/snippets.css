@@ -31,9 +31,9 @@ span.omnisearch-result__title {
 body {
   --h1-size: 1.5em;
   --h1-weight: 700;
-  --h2-size: 1.3em;
+  --h2-size: 1.1em;
   --h2-weight: 600;
-  --h3-size: 1.1em;
+  --h3-size: 1em;
   --h3-weight: 600;
   --h4-size: 1em;
   --h4-weight: 500;
@@ -94,7 +94,7 @@ h2::after {
   display: block;
   width: 60%;
   margin-top: 0.2em;
-  border-bottom: 1px solid var(--background-modifier-border);
+  border-bottom: 2px solid var(--background-modifier-border);
 }
 
 /* Header markers with semantic colors */
