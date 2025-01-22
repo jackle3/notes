@@ -135,3 +135,11 @@ h2::after {
   font-weight: 700;
   margin-bottom: 0.5em;
 }
+
+.image-embed img {
+	display: block;
+	max-width: 550px !important;
+	max-height: 400px;
+	width: auto;
+	height: auto;
+}
