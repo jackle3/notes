@@ -17,7 +17,7 @@
   "readableLineLength": true,
   "foldHeading": true,
   "newFileLocation": "current",
-  "showRibbon": true,
+  "showRibbon": false,
   "spellcheckDictionary": [
     "stochasticity",
     "Stochasticity",
