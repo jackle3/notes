@@ -12,5 +12,6 @@
     "snippets"
   ],
   "monospaceFontFamily": "Source Code Pro",
-  "nativeMenus": true
+  "nativeMenus": true,
+  "showRibbon": false
 }
