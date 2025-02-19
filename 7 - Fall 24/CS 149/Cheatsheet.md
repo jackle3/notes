@@ -672,16 +672,16 @@ $$
 	- Lock-free linked list
 
 #### Memory Coherence vs Consistency
-- **Cache Coherence**:
-	- Maintains consistency for single location
-	- Makes caches transparent to program
-	- Only needed with shared memory caches
-	- Ensures writes to same address are seen by all processors
-- **Memory Consistency**:
-	- Defines ordering across all locations
-	- Required in any parallel system
-	- Affects compiler and hardware optimizations
-	- Governs reads/writes to different addresses
+- **Cache Coherence:**
+	- **Maintains consistency for single location**
+	- **Makes caches transparent to program**
+	- **Only needed with shared memory caches**
+	- **Ensures writes to same address are seen by all processors**
+- **Memory Consistency:**
+	- **Defines ordering across all locations**
+	- **Required in any parallel system**
+	- **Affects compiler and hardware optimizations**
+	- **Governs reads/writes to different addresses**
 
 #### Memory Consistency Models
 - **Sequential Consistency**:
