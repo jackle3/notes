@@ -1,6 +1,6 @@
 /* List bullet styling */
 .cm-formatting-list.cm-formatting-list-ul .list-bullet {
-  margin-right: 0.5em;
+  margin-right: 0.4em;
 }
 
 /* Omnisearch styling */
@@ -23,8 +23,8 @@ span.omnisearch-result__title {
 
 /* List line spacing */
 .HyperMD-list-line {
-  padding-top: 0.25em !important;
-  padding-bottom: 0.25em !important;
+  padding-top: 0.15em !important;
+  padding-bottom: 0.15em !important;
 }
 
 /* Typography variables */
@@ -37,7 +37,7 @@ body {
   --h3-weight: 600;
   --h4-size: 1em;
   --h4-weight: 500;
-  --line-height-normal: 1.6;
+  --line-height-normal: 1.5;
 }
 
 /* Header spacing */
