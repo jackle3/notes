@@ -42,7 +42,7 @@ body {
 
 /* Header spacing */
 .mod-cm6 .cm-editor .HyperMD-header,
-.markdown-reading-view .markdown-preview-section :is(h1, h2, h3, h4, h5, h6) {
+.markdown-reading-view .markdown-preview-section :is(h1, h2) {
   padding-top: 0.8em !important;
   padding-bottom: 0.4em !important;
   margin: 0;
