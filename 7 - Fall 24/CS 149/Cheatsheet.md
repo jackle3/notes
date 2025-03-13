@@ -250,7 +250,7 @@ $$
 	- Suppose we have a 1GHz dual-core processor with 4-wide SIMD. The peak throughput is 8 GFLOPS/sec.
 	- Suppose the memory system provides 4 GB/sec of bandwidth.
 	- The knee is at 8/4 = 2 ops per byte
-![Pasted image 20241114152534](attachments/Pasted%20image%2020241114152534.png)
+![Pasted image 20241114152534](../../attachments/Pasted%20image%2020241114152534.png)
 
 #### Memory-Limited Performance
 - When memory bandwidth is the bottleneck:

@@ -13,33 +13,33 @@
 
 
 # 1. Before Caller Invokes Callee
-![Pasted image 20250113223947](attachments/Pasted%20image%2020250113223947.png)
+![Pasted image 20250113223947](../../attachments/Pasted%20image%2020250113223947.png)
 
 # 2. Before Callee Starts Running
-![Pasted image 20250113223928](attachments/Pasted%20image%2020250113223928.png)
+![Pasted image 20250113223928](../../attachments/Pasted%20image%2020250113223928.png)
 # 3. Before Callee Returns
-![Pasted image 20250113224023](attachments/Pasted%20image%2020250113224023.png)
+![Pasted image 20250113224023](../../attachments/Pasted%20image%2020250113224023.png)
 
 
 # Main Function Example
 * This is step 2: before callee starts running (in this case callee is `main`)
-![Pasted image 20250113224110](attachments/Pasted%20image%2020250113224110.png)
+![Pasted image 20250113224110](../../attachments/Pasted%20image%2020250113224110.png)
 
 * This is step 1: before caller invokes callee (callee is `fact`)
-![Pasted image 20250113224207](attachments/Pasted%20image%2020250113224207.png)
+![Pasted image 20250113224207](../../attachments/Pasted%20image%2020250113224207.png)
 
 * This is step 3: before callee returns (callee is `main`)
-![Pasted image 20250113224238](attachments/Pasted%20image%2020250113224238.png)
+![Pasted image 20250113224238](../../attachments/Pasted%20image%2020250113224238.png)
 
 # Factorial Example
 * This is step 2: before callee starts running (callee is `fact(n)`)
-![Pasted image 20250113224308](attachments/Pasted%20image%2020250113224308.png)
+![Pasted image 20250113224308](../../attachments/Pasted%20image%2020250113224308.png)
 
 * This is all of computations, as well as step 1: before caller invokes callee (callee is `fact(n-1)`)
-![Pasted image 20250113224347](attachments/Pasted%20image%2020250113224347.png)
+![Pasted image 20250113224347](../../attachments/Pasted%20image%2020250113224347.png)
 
 * This is step 3: before callee returns (callee is `fact(n)`)
-![Pasted image 20250113224409](attachments/Pasted%20image%2020250113224409.png)
+![Pasted image 20250113224409](../../attachments/Pasted%20image%2020250113224409.png)
 
 * This is what the stack loops like
-![400](attachments/Pasted%20image%2020250113224428.png)
+![400](../../attachments/Pasted%20image%2020250113224428.png)

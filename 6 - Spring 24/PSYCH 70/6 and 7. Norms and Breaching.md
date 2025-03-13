@@ -51,13 +51,13 @@ Week: Week 4
 
 ## Examples of Breaching
 
-![Untitled 192.png](attachments/Untitled%20192.png)
+![Untitled 192.png](../../attachments/Untitled%20192.png)
 
-![Untitled 1 155.png](attachments/Untitled%201%20155.png)
+![Untitled 1 155.png](../../attachments/Untitled%201%20155.png)
 
 # Reactions to breaches
 
-![Untitled 2 154.png](attachments/Untitled%202%20154.png)
+![Untitled 2 154.png](../../attachments/Untitled%202%20154.png)
 
 1. The person doing the breach will sometimes find it almost impossible to do.
     - This is because of **norm internalization**, since we’ve been enforcing it on ourselves for a very long time.
@@ -75,7 +75,7 @@ Week: Week 4
 - Difficulty of breaching offers insight on norm enforcement.
     - People often “self-sanction” for deviance.
 
-![Untitled 3 151.png](attachments/Untitled%203%20151.png)
+![Untitled 3 151.png](../../attachments/Untitled%203%20151.png)
 
 - People internalize the feeling that they are being watched → adhere to norms even with no one watching.
     - We watch ourselves → you can blush and get embarrassed when alone
@@ -106,7 +106,7 @@ Week: Week 4
 
 - Did surveys of undergraduate students to measure their endorsement of liberal ideas.
 
-![Untitled 4 146.png](attachments/Untitled%204%20146.png)
+![Untitled 4 146.png](../../attachments/Untitled%204%20146.png)
 
 ---
 
@@ -164,7 +164,7 @@ Week: Week 4
 - Outcomes of threshold models are very sensitive to distribution of thresholds.
     - Especially presence/absence of potential early movers → makes then highly unpredictable.
 
-![Untitled 5 143.png](attachments/Untitled%205%20143.png)
+![Untitled 5 143.png](../../attachments/Untitled%205%20143.png)
 
 - In the example above, each row is a world. The number on each person is their threshold.
     - The early movers are the ones with zero and one → they adopt the behavior and begin the behavior right away.
@@ -173,12 +173,12 @@ Week: Week 4
 
 # Takeaways
 
-![Untitled 6 141.png](attachments/Untitled%206%20141.png)
+![Untitled 6 141.png](../../attachments/Untitled%206%20141.png)
 
 # Breaching Assignment
 
-![Untitled 7 137.png](attachments/Untitled%207%20137.png)
+![Untitled 7 137.png](../../attachments/Untitled%207%20137.png)
 
-![Untitled 8 128.png](attachments/Untitled%208%20128.png)
+![Untitled 8 128.png](../../attachments/Untitled%208%20128.png)
 
-![Untitled 9 124.png](attachments/Untitled%209%20124.png)
+![Untitled 9 124.png](../../attachments/Untitled%209%20124.png)

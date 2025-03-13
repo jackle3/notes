@@ -165,7 +165,7 @@ Supply chain attacks are increasingly prevalent and sophisticated, as demonstrat
 
 
 
-[Combatting LLM-Generated Social Engineering Attacks With LLMs  (perception-point.io)](perception-point.io))
+[Combatting LLM-Generated Social Engineering Attacks With LLMs  (perception-point.io)](perception-point.io)))
 
 [Introducing Trace: AI Powered Semantic Search for the NetRise Platform](https://www.netrise.io/xiot-security-blog/trace-solution-benefits)
 

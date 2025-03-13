@@ -17,9 +17,9 @@ $$
 \begin{align*} \frac{\partial f}{\partial x} \left[ x^T \theta \right] &= \nabla_x \left[ x^T \theta \right] \\ &= \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \dots & \frac{\partial f_1}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \dots & \frac{\partial f_m}{\partial x_n} \end{bmatrix} \\ &= \begin{bmatrix} \frac{\partial}{\partial x_1} (x_1 \theta_{1,1} + x_2 \theta_{2,1} + \dots + x_n \theta_{n,1}) & \dots & \frac{\partial}{\partial x_1} (x_1 \theta_{1,m} + x_2 \theta_{2,m} + \dots + x_n \theta_{n,m}) \\ \vdots & \ddots & \vdots \\ \frac{\partial}{\partial x_n} (x_1 \theta_{1,1} + x_2 \theta_{2,1} + \dots + x_n \theta_{n,1}) & \dots & \frac{\partial}{\partial x_n} (x_1 \theta_{1,m} + x_2 \theta_{2,m} + \dots + x_n \theta_{n,m}) \end{bmatrix} \\ &= \begin{bmatrix} \theta_{1,1} & \theta_{2,1} & \dots & \theta_{n,1} \\ \vdots & \vdots & \ddots & \vdots \\ \theta_{1,m} & \theta_{2,m} & \dots & \theta_{n,m} \end{bmatrix} \\ &= \theta^T \end{align*}
 $$
 ## Generalized Version
-![Pasted image 20241029213351](attachments/Pasted%20image%2020241029213351.png)
-![Pasted image 20241029213416](attachments/Pasted%20image%2020241029213416.png)
-![Pasted image 20241030172004](attachments/Pasted%20image%2020241030172004.png)
+![Pasted image 20241029213351](../../../attachments/Pasted%20image%2020241029213351.png)
+![Pasted image 20241029213416](../../../attachments/Pasted%20image%2020241029213416.png)
+![Pasted image 20241030172004](../../../attachments/Pasted%20image%2020241030172004.png)
 ## Kronecker Product
 The Kronecker product $A \otimes B$ for matrices $A$ and $B$ where $A$ is $b \times 1$ and $B$ is $1 \times d$ will result in a new matrix $C$ of dimensions $(b \times 1) \times (1 \times d) = b \times d$.
 1. If $A = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_b \end{bmatrix}$ (a $b \times 1$ column vector) and $B = \begin{bmatrix} b_1 & b_2 & \dots & b_d \end{bmatrix}$ (a $1 \times d$ row vector),
