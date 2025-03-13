@@ -1,12 +1,12 @@
 # Broadcom Peripherals Map
-![Pasted image 20250114174009](Pasted%20image%2020250114174009.png)
+![Pasted image 20250114174009](attachments/Pasted%20image%2020250114174009.png)
 
 # GPIO
 * Starts on page 90 of the Broadcom datasheet
 * Notice that IO peripherals are at address `0x7Exxxxxx` in the **bus address** space.
 * However, the **physical address** of the IO peripherals is at `0x20xxxxxx`
 * We need to do this because we don't have virtual memory implemented yet; we are using the physical address space
-![Pasted image 20250114174206](Pasted%20image%2020250114174206.png)
+![Pasted image 20250114174206](attachments/Pasted%20image%2020250114174206.png)
 
 # Common GPIO Operations
 ## Important Addresses
