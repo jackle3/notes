@@ -4,9 +4,8 @@
   "obsidian-style-settings",
   "lapel",
   "obsidian-smart-typography",
-  "editing-toolbar",
   "obsidian-linter",
-  "obsidian-latex-suite",
-  "obsidian-reading-time",
-  "obsidian-git"
+  "obsidian-git",
+  "text-extractor",
+  "oz-clear-unused-images"
 ]
