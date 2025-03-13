@@ -6,49 +6,49 @@
 	* E.g. can't quantify world health, so use GDP as a proxy
 
 # Binary Classification Setting
-![[Pasted image 20241030175058.png]]
+![Pasted image 20241030175058](Pasted%20image%2020241030175058.png)
 
 # Score-based Models
-![[Pasted image 20241030175113.png]]
+![Pasted image 20241030175113](Pasted%20image%2020241030175113.png)
 
 ## Classifiers
 * Models need to set a threshold for the score and classify based on that.
-![[Pasted image 20241030175203.png]]
+![Pasted image 20241030175203](Pasted%20image%2020241030175203.png)
 
 # Point Metrics
 ## Confusion Matrix
-![[Pasted image 20241030175223.png]]
+![Pasted image 20241030175223](Pasted%20image%2020241030175223.png)
 * The top left (9) are the **true positives**
 * The bottom right (8) are the **true negatives**
 * The top right (2) are the **false positives** ⟶ Type I error
 * The bottom left (1) are the **false negatives** ⟶ Type II error
 
 ## Accuracy
-![[Pasted image 20241030175401.png]]
+![Pasted image 20241030175401](Pasted%20image%2020241030175401.png)
 
 ## Precision
-![[Pasted image 20241030175410.png]]
-![[Pasted image 20241030175624.png]]
+![Pasted image 20241030175410](Pasted%20image%2020241030175410.png)
+![Pasted image 20241030175624](Pasted%20image%2020241030175624.png)
 
 ## Positive Recall
 * Also known as sensitivity.
-![[Pasted image 20241030175436.png]]
+![Pasted image 20241030175436](Pasted%20image%2020241030175436.png)
 
 ## Negative Recall
 * Also known as specificity.
-![[Pasted image 20241030175451.png]]
+![Pasted image 20241030175451](Pasted%20image%2020241030175451.png)
 
 ## F-score
 * F-score is the harmonic mean of precision and recall.
 	* Penalizes both low recall and low precision.
 	* F1 ensures a good balance between precision and recall.
-![[Pasted image 20241030175514.png]]![[Pasted image 20241030175519.png]]
+![Pasted image 20241030175514](Pasted%20image%2020241030175514.png)![Pasted image 20241030175519](Pasted%20image%2020241030175519.png)
 
 ## Varying the Threshold
 * Changing the threshold can result in a new confusion matrix, and new values for some of the metrics
 * Many threshold values are redundant (between two consecutively ranked examples)
 * Number of effective thresholds = # examples + 1
-![[Pasted image 20241030175734.png]]
+![Pasted image 20241030175734](Pasted%20image%2020241030175734.png)
 
 # Summary Metrics
 
@@ -57,27 +57,27 @@
 	* Looks at a variety of confusion matrices by varying the threshold in order to generate the plot.
 	* This plots (1 - specificity) against (recall) for all thresholds tested (in the table above)
 * We want the area under the cur e to be as large as possible.
-![[Pasted image 20241030175807.png]]
+![Pasted image 20241030175807](Pasted%20image%2020241030175807.png)
 
 ### AUROC
-![[Pasted image 20241030175847.png]]
-![[Pasted image 20241030181122.png|300]]
+![Pasted image 20241030175847](Pasted%20image%2020241030175847.png)
+![300](Pasted%20image%2020241030181122.png)
 
 
 ## PR Curve
 * This curve plots precision against recall.
-![[Pasted image 20241030175948.png]]
+![Pasted image 20241030175948](Pasted%20image%2020241030175948.png)
 
 ### AUPRC
 * What is the expected precision when randomly picking threshold?
 	* Recall precision is: out of model predicted positives, how many were actually positive?
 	* Precision **focuses on the positive and negative class**. The AUROC focuses on the **negative class**.
-![[Pasted image 20241030181138.png|300]]
+![300](Pasted%20image%2020241030181138.png)
 
 ## Log-loss
 * These two models achieve the same values for most of the metrics so far. Which is better?
 	* Same AUROC, AUPRC, point metrics etc. (same discrimination)
-![[Pasted image 20241030180036.png|300]]
+![300](Pasted%20image%2020241030180036.png)
 
 * Log-loss (cross entropy) rewards confident correct predictions and heavily penalizes confident incorrect predictions.
 $$
@@ -90,10 +90,10 @@ $$
 # Calibration Metrics
 
 ## Reliability Diagrams
-![[Pasted image 20241030180604.png]]
+![Pasted image 20241030180604](Pasted%20image%2020241030180604.png)
 
 ## Techniques
-![[Pasted image 20241030180617.png]]
+![Pasted image 20241030180617](Pasted%20image%2020241030180617.png)
 
 # Class Imbalance
 * Occurs when there is a significant imbalance between our classes.

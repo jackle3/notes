@@ -3,11 +3,11 @@ Week: Week 3
 ---
 # Important Terminology
 
-![[attachments/Untitled 194.png|Untitled 194.png]]
+![Untitled 194.png](attachments/Untitled%20194.png)
 
 ## Measures
 
-![[attachments/Untitled 1 157.png|Untitled 1 157.png]]
+![Untitled 1 157.png](attachments/Untitled%201%20157.png)
 
 # Social Influence: 100 Years of Research
 
@@ -21,13 +21,13 @@ Week: Week 3
 - reduced less extreme judgements with a group than with alone
 - instinctual submission to the group
 
-![[attachments/Untitled 2 156.png|Untitled 2 156.png]]
+![Untitled 2 156.png](attachments/Untitled%202%20156.png)
 
 # Sherif Autokinetic Experiments
 
-![[attachments/Untitled 3 153.png|Untitled 3 153.png]]
+![Untitled 3 153.png](attachments/Untitled%203%20153.png)
 
-![[attachments/Untitled 4 148.png|Untitled 4 148.png]]
+![Untitled 4 148.png](attachments/Untitled%204%20148.png)
 
 - interested in how groups come together to uniformity
 - moving illusion with the white light on black background - ambiguous
@@ -36,29 +36,29 @@ Week: Week 3
     - group -> individual, quicker convergence, which persists when individuals are separated!
     - thoughts we obtain in presence of other can endure even afterwards
 
-![[attachments/Untitled 5 145.png|Untitled 5 145.png]]
+![Untitled 5 145.png](attachments/Untitled%205%20145.png)
 
 ## Convergence
 
-![[attachments/Untitled 6 143.png|Untitled 6 143.png]]
+![Untitled 6 143.png](attachments/Untitled%206%20143.png)
 
 ## Informational influence
 
-![[attachments/Untitled 7 139.png|Untitled 7 139.png]]
+![Untitled 7 139.png](attachments/Untitled%207%20139.png)
 
-![[attachments/Untitled 8 130.png|Untitled 8 130.png]]
+![Untitled 8 130.png](attachments/Untitled%208%20130.png)
 
 # Muller-Lyon Illusion
 
 - These two lines are the same length, but the illusion makes it seem different.
 
-![[attachments/Untitled 9 126.png|Untitled 9 126.png]]
+![Untitled 9 126.png](attachments/Untitled%209%20126.png)
 
 - This illusion is culture-bound.
 
 # How does social influence show up in real life?
 
-![[attachments/Untitled 10 120.png|Untitled 10 120.png]]
+![Untitled 10 120.png](attachments/Untitled%2010%20120.png)
 
 - upsides: easy, saves you time
 - downsides: momentum built in shared representations, people aren’t always right, generates and preserves culture
@@ -71,13 +71,13 @@ Week: Week 3
     - people conform to the group even if they feel they are wrong
     - give in to see the world in the group’s perspective
 
-![[attachments/Untitled 11 116.png|Untitled 11 116.png]]
+![Untitled 11 116.png](attachments/Untitled%2011%20116.png)
 
 ## Normative influence
 
-![[attachments/Untitled 12 113.png|Untitled 12 113.png]]
+![Untitled 12 113.png](attachments/Untitled%2012%20113.png)
 
-![[attachments/Untitled 13 104.png|Untitled 13 104.png]]
+![Untitled 13 104.png](attachments/Untitled%2013%20104.png)
 
 ## Why?
 
@@ -94,7 +94,7 @@ Week: Week 3
 - On a panel with more democratic colleagues, the republican appointee had more liberal votes than the democratic appointee on the republican panel.
     - judges who are conservative will act more like their liberal colleagues in liberal majority, and vice versa
 
-![[attachments/Untitled 14 91.png|Untitled 14 91.png]]
+![Untitled 14 91.png](attachments/Untitled%2014%2091.png)
 
 ## Why?
 
@@ -119,7 +119,7 @@ Week: Week 3
 
 - The state in which people in a group mistakenly think that their own individual thoughts, feelings, or behaviors are different from those of the group.
 
-![[attachments/Untitled 15 87.png|Untitled 15 87.png]]
+![Untitled 15 87.png](attachments/Untitled%2015%2087.png)
 
 # Obedience Study (Stanley Milgram)
 
@@ -137,14 +137,14 @@ Week: Week 3
 - **Obedience:** compliance with the directives of an authority figure telling the what to do.
     - There were many attempts to find which individuals would not comply, but no reliable answers.
 
-![[attachments/Untitled 16 81.png|Untitled 16 81.png]]
+![Untitled 16 81.png](attachments/Untitled%2016%2081.png)
 
 - Notice that in the graph above, all the factors are situational.
     - The more social interaction there is, the less likely a person is to comply.
 
 ## Obedience in Real Life
 
-![[attachments/Untitled 17 76.png|Untitled 17 76.png]]
+![Untitled 17 76.png](attachments/Untitled%2017%2076.png)
 
 ## Lesson
 
@@ -190,7 +190,7 @@ Week: Week 3
 
 ## Experiment: Zaki
 
-![[attachments/Untitled 18 69.png|Untitled 18 69.png]]
+![Untitled 18 69.png](attachments/Untitled%2018%2069.png)
 
 - Participants were asked to rate a person, and then after, they were given social information about the attractiveness of the person (e.g. “other people rated them an 8”)
     - This social information was randomized.
@@ -199,4 +199,4 @@ Week: Week 3
 
 # Conclusions
 
-![[attachments/Untitled 19 62.png|Untitled 19 62.png]]
+![Untitled 19 62.png](attachments/Untitled%2019%2062.png)
