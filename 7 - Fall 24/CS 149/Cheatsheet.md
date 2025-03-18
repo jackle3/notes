@@ -175,7 +175,7 @@
 		- Common solution: Caching, changing access patterns, better memory tech
 		- Example:
 			- Peak bandwidth: 100 GB/s
-			- Application needs: 80 GB/s
+			- Application achieved is: 80 GB/s
 			- Utilization = 80% regardless of threads
 			- HBM memory could provide 2-3x more bandwidth
 	- **Memory Latency Bound**:
@@ -336,7 +336,7 @@ $$
 
 #### Transactional Memory
 - **Basic Concept**:
-	- Atomic { ... } blocks
+	- Atomic { … } blocks
 	- System tracks reads/writes
 	- Automatic conflict detection
 - **Types**:
@@ -583,7 +583,7 @@ $$
 - More efficient for private data
 - Common in modern processors
 
-#### Directory-Based Coherence	
+#### Directory-Based Coherence
 - Avoids broadcast with central directory
 - Tracks cache line state and sharers
 - Point-to-point messages vs broadcast
@@ -597,7 +597,6 @@ $$
 	- Pad data structures
 	- Align to cache line boundaries
 	- Separate frequently written data
-
 
 ### Synchronization and Locking
 
@@ -671,7 +670,7 @@ $$
 	- Lock-free queue with separate push/pop threads
 	- Lock-free linked list
 
-#### Memory Coherence vs Consistency
+#### Memory Coherence Vs Consistency
 - **Cache Coherence:**
 	- **Maintains consistency for single location**
 	- **Makes caches transparent to program**
@@ -724,8 +723,6 @@ $$
 - Synchronized programs yield sequentially consistent results
 - Well-synchronized code behaves predictably across models
 
-
-
 ### Transactional Memory
 - **Definition**: Higher-level synchronization primitive
 - **Key Properties (A.I.S.)**:
@@ -768,7 +765,6 @@ $$
 	- Best for low-conflict scenarios
 	- Not suitable when immediate visibility needed
 	- Requires careful transaction sizing
-
 
 #### Software TM Implementation
 - **Runtime Data Structures**:
@@ -816,7 +812,7 @@ $$
 	- Write-write conflicts
 	- Write-read conflicts
 
-#### HTM vs STM Trade-offs
+#### HTM Vs STM Trade-offs
 - **HTM Advantages**:
 	- Lower overhead
 	- Hardware-speed detection
