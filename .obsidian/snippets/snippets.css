@@ -143,3 +143,21 @@ h2::after {
 	width: auto;
 	height: auto;
 }
+
+/* Callout styling */
+
+/* every child in callout-content should have no margin */
+.callout-content > * {
+  margin: 0.5em !important;
+}
+
+/* first child should have a top margin */
+.callout-content > *:first-child {
+  margin-top: 1em !important;
+}
+
+/* last child should have a bottom margin */
+.callout-content > *:last-child {
+  margin-bottom: 1em !important;
+}
+

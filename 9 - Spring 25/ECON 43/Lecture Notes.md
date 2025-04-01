@@ -1,5 +1,5 @@
 
-# 1 Lecture 1: Intro
+# 1 Intro
 ## 1.1 Course Overview
 - **Course Title**: Economics 43: Introduction to Financial Decision Making
 - **Professors**: Michael J. Boskin & Annamaria Lusardi
@@ -33,17 +33,44 @@
 - **Money**: Medium of exchange, unit of account, store of value
 - **Payment Systems**: How transactions are conducted and settled
 - **Income**: Flows of resources (wages, dividends, interest, etc.)
-- **Saving**: Portion of income not spent (borrowing is negative saving)
-- **Wealth**: Accumulated savings/net worth (assets minus liabilities)
+- **Saving**: Portion of income not spent (borrowing money is called negative saving)
+- **Wealth**: Accumulated savings, also called net worth (assets minus liabilities)
 - **Stocks**: Ownership shares in companies
-- **Bonds**: Fixed income instruments (loans to companies/governments)
+- **Bonds**: Fixed income instruments (loans by an investor to companies/governments)
 - **Derivatives**: Securities derived from underlying assets
+	- Securities are financial instruments that represent ownership or debt
+	- Common types are options, futures, forwards, and swaps
+		- Options: Contracts giving the right (but not obligation) to buy/sell an asset at a set price by a certain date
+		- Futures: Agreements to buy/sell an asset at a predetermined price on a specific future date
+		- Forwards: Similar to futures but customized and traded directly between parties, not on exchanges
+		- Swaps: Agreements to exchange cash flows or other financial items between parties
+	- Used for hedging ⟶ reduce risk by offsetting potential losses with gains in other areas
 - **Liquidity**: How easily an asset can be converted to cash
-- **Solvency**: Ability to meet long-term debt obligations
+- **Solvency**: Measure of a business's ability to meet long-term debt obligations
 - **Credit**: Ability to borrow with promise of future payment
-- **Leverage**: How much debt relative to equity
+- **Leverage**: How much debt a person has relative to equity (capital)
 
-## 1.6 Major Financial Decisions We All Face
+### 1.5.1 Additional Details
+- **Debt/Equity Ratio**: Measures the proportion of a company's assets that are financed through debt
+	- The higher the D/E, the higher the interest rate a company will have to pay to borrow (must pay more if they already have more debt)
+- **Liquidity vs. Solvency**:
+	- Liquidity is the ability to meet short-term financial obligations
+	- Solvency is the ability to meet long-term financial obligations (key to a company's ability to continue operating)
+
+## 1.6 Types of Businesses
+- **Corporations (C and S)**: Legal entities separate from owners that offer limited liability, with C-corps taxed at corporate level and S-corps passing income to shareholders.
+- **LLC**: Business structure that combines the pass-through taxation of partnerships with the limited liability of corporations.
+- **Partnerships**: Business arrangements where two or more individuals share ownership, profits, and liabilities.
+- **Sole Proprietorships**: Unincorporated businesses owned and operated by a single individual with unlimited personal liability.
+- **Mutual Form**: Organizations owned by their customers/members rather than external shareholders, commonly seen in insurance companies and credit unions.
+- **State Owned or Sponsored Enterprises**: Businesses owned or significantly controlled by government entities to serve public interests.
+
+### 1.6.1 Corporations
+- For larger companies, partnerships are not practical due to the number of owners/shareholders
+- Corporations have stocks that can be bought and sold, easy transferability of ownership
+- Corporations offer limited liability ⟶ shareholders are not personally liable for the company's debts
+
+## 1.7 Major Financial Decisions We All Face
 1. **Budgeting**
 	- Understanding current and forecasting future income/expenses
 	- Balancing income, spending, and saving/investing
@@ -56,51 +83,35 @@
 	- Housing (buying vs. renting)
 	- Transportation
 5. **Credit Management**
-	- Using credit responsibly
+	- Using credit responsibly via credit cards
 	- Building good credit history
 6. **Taxes**
-	- Understanding tax obligations
-	- Legal tax minimization strategies
+	- Understanding tax obligations (federal, state, payroll, sales, and property taxes)
+	- Strategies to legally minimize taxes
 7. **Saving and Investing**
 	- Building wealth for emergencies, education, retirement
 	- Understanding investment options
 
-## 1.7 Financial Mistakes and Their Consequences
+## 1.8 Financial Mistakes
 - Lack of financial planning
 - Frivolous spending/living paycheck-to-paycheck
-- Poor debt management
+- Poor debt management and failing to establish good credit
 - Failing to invest or diversify investments
 - Blindly trusting others with financial management
 
-## 1.8 Money and Happiness
+## 1.9 Money and Happiness
 - Money provides freedom, choices, and security
 - Research (Kahneman & Killingsworth) shows happiness increases with income
 - Diminishing returns apply (more pronounced at higher income levels)
 - Happiness linked to spending on:
-	- Reducing financial anxiety
+	- Reducing financial anxiety ⟶ money is the largest source of stress (above relationships)
 	- Experiences (travel, learning)
 	- Helping others
 	- Freeing up time
-
-## 1.9 Financial Stress
-- 26% of Americans report being under financial stress most/all of the time
-- Money is the largest source of stress (above personal relationships)
-- Financial stress correlates with poor health outcomes, shorter lifespan
-- Solution: Better spending control and increased savings
+- Easterlin Paradox: happiness is linked to *relative* income (happiness levels constant as average incomes increase)
 
 ## 1.10 Risk and Uncertainty
 - **Risk**: Situations where outcomes and probabilities can be identified
-- **Uncertainty**: Inherent inability to quantify information about outcomes
-- **Black swan events**: Important, unpredictable occurrences
+- **Uncertainty**: Inability to quantify information about outcomes ⟶ implies a limit to knowledge
+- **Black swan events**: Important but unpredictable events
 - Financial decisions involve evaluating risk-return tradeoffs
-
-## 1.11 Starting Point in Personal Finance
-- Personal finance is a journey
-- Begin by setting clear objectives
-- The journey requires understanding principles and language of finance
-
-## 1.12 Summary
-- This economics course empowers sound financial decision-making
-- Financial decisions have consequential impacts on quality of life
-- The course teaches financial language and principles
-- Suitable for all students regardless of major or year
