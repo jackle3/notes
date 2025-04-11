@@ -1,5 +1,5 @@
 
-# Jacobian
+# 1 Jacobian
 Let $c = (c_1, c_2, \dots, c_n) \in \mathbb{R}^n$ and $F: \mathbb{R}^n \rightarrow \mathbb{R}^m$ be a differentiable function defined as:
 $$
  F(c) = \begin{pmatrix} F_1(c) \\ F_2(c) \\ \vdots \\ F_m(c) \end{pmatrix} 
@@ -16,11 +16,11 @@ We can compute the Jacobian as follows:
 $$
 \begin{align*} \frac{\partial f}{\partial x} \left[ x^T \theta \right] &= \nabla_x \left[ x^T \theta \right] \\ &= \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \dots & \frac{\partial f_1}{\partial x_n} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \dots & \frac{\partial f_m}{\partial x_n} \end{bmatrix} \\ &= \begin{bmatrix} \frac{\partial}{\partial x_1} (x_1 \theta_{1,1} + x_2 \theta_{2,1} + \dots + x_n \theta_{n,1}) & \dots & \frac{\partial}{\partial x_1} (x_1 \theta_{1,m} + x_2 \theta_{2,m} + \dots + x_n \theta_{n,m}) \\ \vdots & \ddots & \vdots \\ \frac{\partial}{\partial x_n} (x_1 \theta_{1,1} + x_2 \theta_{2,1} + \dots + x_n \theta_{n,1}) & \dots & \frac{\partial}{\partial x_n} (x_1 \theta_{1,m} + x_2 \theta_{2,m} + \dots + x_n \theta_{n,m}) \end{bmatrix} \\ &= \begin{bmatrix} \theta_{1,1} & \theta_{2,1} & \dots & \theta_{n,1} \\ \vdots & \vdots & \ddots & \vdots \\ \theta_{1,m} & \theta_{2,m} & \dots & \theta_{n,m} \end{bmatrix} \\ &= \theta^T \end{align*}
 $$
-## Generalized Version
+## 1.1 Generalized Version
 ![Pasted image 20241029213351](../../../attachments/Pasted%20image%2020241029213351.png)
 ![Pasted image 20241029213416](../../../attachments/Pasted%20image%2020241029213416.png)
 ![Pasted image 20241030172004](../../../attachments/Pasted%20image%2020241030172004.png)
-## Kronecker Product
+## 1.2 Kronecker Product
 The Kronecker product $A \otimes B$ for matrices $A$ and $B$ where $A$ is $b \times 1$ and $B$ is $1 \times d$ will result in a new matrix $C$ of dimensions $(b \times 1) \times (1 \times d) = b \times d$.
 1. If $A = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_b \end{bmatrix}$ (a $b \times 1$ column vector) and $B = \begin{bmatrix} b_1 & b_2 & \dots & b_d \end{bmatrix}$ (a $1 \times d$ row vector),
 2. Then $A \otimes B$ is given by:
@@ -38,8 +38,8 @@ a_{21} B & a_{22} B & \dots & a_{2n} B \\
 a_{m1} B & a_{m2} B & \dots & a_{mn} B
 \end{bmatrix}
 $$
-## Tensorized Logistic Regression
-### Givens
+## 1.3 Tensorized Logistic Regression
+### 1.3.1 Givens
 $$
 Y = \sigma(XW)
 $$
@@ -48,7 +48,7 @@ where:
 - $W$ is a $d \times 1$ vector, and
 - $Y$ is a $b \times 1$ vector (element-wise application of sigmoid on $XW$).
 
-### Derivative of $Y$ Wrt $XW$
+### 1.3.2 Derivative of $Y$ Wrt $XW$
 Define:
 $$
 Z = XW
@@ -71,7 +71,7 @@ $$
 \frac{dY}{d(XW)} = \sigma(XW) \odot (1 - \sigma(XW)) \in \mathbb{R}^{b \times 1}
 $$
 	where $\odot$ multiplies each entry of $\sigma(XW)$ by each entry of $(1 - \sigma(XW))$.
-### Derivative of $Y$ Wrt $W$
+### 1.3.3 Derivative of $Y$ Wrt $W$
 Using the chain rule:
 $$
 \frac{dY}{dW} = \frac{dY}{d(XW)} \cdot \frac{d(XW)}{dW}
@@ -85,7 +85,7 @@ $$
 \frac{dY}{dW} = \left(\sigma(XW) \odot (1 - \sigma(XW))\right) \odot X \in \mathbb{R}^{b\times d}
 $$
 where $\odot$ multiplies each row of $X$ by the corresponding entry in $\sigma(XW) \odot (1 - \sigma(XW))$
-### Derivative of $Y$ Wrt $X$
+### 1.3.4 Derivative of $Y$ Wrt $X$
 To find $\frac{dY}{dX}$, we use the chain rule again:
 $$
 \frac{dY}{dX} = \frac{dY}{d(XW)} \cdot \frac{d(XW)}{dX}
@@ -121,7 +121,7 @@ $$
 \end{align*}
 $$
 
-# Hessian
+# 2 Hessian
 The Hessian matrix of a scalar-valued function $f(x)$ of a vector $x \in \mathbb{R}^n$ is a square matrix of second-order partial derivatives. It is defined as follows:
 
 For a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, where $f(x)$ is twice differentiable, the Hessian matrix $H_f(x)$ is given by:
@@ -143,7 +143,7 @@ The concavity of a function $f(x)$ is determined by the properties of its Hessia
 - **NSD Hessian ($H \preceq 0$)**: $f(x)$ is concave, critical point is a local maximum (possibly global if $f(x)$ is concave everywhere ⟶ only has one critical point).
 - **ND Hessian ($H \prec 0$)**: $f(x)$ is strictly concave, critical point is a global maximum.
 In general, positive definiteness and convexity lead to minima, while negative definiteness and concavity lead to maxima at critical points.
-# Useful Identities
+# 3 Useful Identities
 1. **Trace Cyclic Property**
    For matrices $\mathbf{A}$ and $\mathbf{B}$ where the product $\mathbf{A} \mathbf{B}$ is defined:
 $$
@@ -167,14 +167,14 @@ $$
 5. **Eigenvalues and Determinant**
    For a matrix $\mathbf{A}$, the determinant $\det(\mathbf{A})$ is the product of its eigenvalues.
 
-# Probability and Expectation Rules
+# 4 Probability and Expectation Rules
 1. **Expectation of a Quadratic Form**
    For a random vector $\mathbf{x}$ with mean $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$:
 $$
    \mathbb{E}[\mathbf{x}^T \mathbf{A} \mathbf{x}] = \operatorname{Tr}(\mathbf{A} \mathbf{\Sigma}) + \mathbf{\mu}^T \mathbf{A} \mathbf{\mu}
 $$
-# Derivative Rules
-### **Gradient Of a Scalar Quadratic Form**
+# 5 Derivative Rules
+### 5.1.1 **Gradient Of a Scalar Quadratic Form**
    For a quadratic form $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$ with $\mathbf{x} \in \mathbb{R}^n$ and symmetric $\mathbf{A} \in \mathbb{R}^{n \times n}$:
 $$
    \nabla_{\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A} \mathbf{x}
@@ -183,52 +183,52 @@ $$
 $$
    \nabla_{\mathbf{x}} f(\mathbf{x}) = (\mathbf{A} + \mathbf{A}^T) \mathbf{x}
 $$
-### **Gradient Of a Quadratic Form with Respect to a Matrix**
+### 5.1.2 **Gradient Of a Quadratic Form with Respect to a Matrix**
    For a quadratic form $f(\mathbf{A}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$:
 $$
    \frac{d}{d\mathbf{A}} \left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right) = \mathbf{x} \mathbf{x}^T
 $$
-### **Derivative Of an Inner Product**
+### 5.1.3 **Derivative Of an Inner Product**
   If $f(\mathbf{x}) = \mathbf{a}^T \mathbf{x}= \mathbf{x}^T \mathbf{a}$, then:
 $$
    \frac{d}{d\mathbf{x}} \left( \mathbf{a}^T \mathbf{x} \right) = \mathbf{a}
 $$
-### **Derivative Of a Matrix-Vector Product with Respect to a Vector**
+### 5.1.4 **Derivative Of a Matrix-Vector Product with Respect to a Vector**
   If $f(\mathbf{x}) = \mathbf{A} \mathbf{x}$, then:
 $$
    \frac{d}{d\mathbf{x}} \left( \mathbf{A} \mathbf{x} \right) = \mathbf{A}
 $$
-### **Derivative Of Log Determinant**
+### 5.1.5 **Derivative Of Log Determinant**
    For $f(\mathbf{A}) = \log |\det(\mathbf{A})|$, where $\mathbf{A} \in \mathbb{R}^{n \times n}$ is square and invertible:
 $$
    \frac{d}{d\mathbf{A}} \log |\det(\mathbf{A})| = \mathbf{A}^{-T}
 $$
-### **Gradient Of Determinant of a Matrix**
+### 5.1.6 **Gradient Of Determinant of a Matrix**
    For $f(\mathbf{A}) = \det(\mathbf{A})$, where $\mathbf{A} \in \mathbb{R}^{n \times n}$ is square and invertible:
 $$
    \frac{d}{d\mathbf{A}} \det(\mathbf{A}) = \det(\mathbf{A}) \cdot \mathbf{A}^{-T}
 $$
-### **Gradient Of a Trace Function**
+### 5.1.7 **Gradient Of a Trace Function**
    If $f(\mathbf{A}) = \operatorname{Tr}(\mathbf{A} \mathbf{X})$:
 $$
    \frac{d}{d\mathbf{A}} \operatorname{Tr}(\mathbf{A} \mathbf{X}) = \mathbf{X}^T
 $$
-### **Derivative Of a Matrix-Vector Quadratic Form with Respect to a Vector**
+### 5.1.8 **Derivative Of a Matrix-Vector Quadratic Form with Respect to a Vector**
    If $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x} + \mathbf{b}^T \mathbf{x} + c$, then:
 $$
    \frac{d}{d\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A} \mathbf{x} + \mathbf{b}
 $$
    assuming $\mathbf{A}$ is symmetric.
 
-### **Chain Rule for Matrix Calculus**
+### 5.1.9 **Chain Rule for Matrix Calculus**
    If $f(\mathbf{X}) = g(h(\mathbf{X}))$, then:
 $$
    \frac{\partial f}{\partial \mathbf{X}} = \frac{\partial g}{\partial h} \cdot \frac{\partial h}{\partial \mathbf{X}}
 $$
-### **Jacobian Of a Vector-Matrix Product**
+### 5.1.10 **Jacobian Of a Vector-Matrix Product**
    If $\mathbf{y} = \mathbf{A} \mathbf{x}$, then the Jacobian of $\mathbf{y}$ with respect to $\mathbf{x}$ is simply $\mathbf{A}$.
 
-### **Hessian Of a Scalar Quadratic Form**
+### 5.1.11 **Hessian Of a Scalar Quadratic Form**
 For a scalar quadratic form $f(\mathbf{x}) = \mathbf{x}^T \mathbf{A} \mathbf{x}$, the Hessian with respect to $\mathbf{x}$ is:
 $$
     \nabla^2_{\mathbf{x}} f(\mathbf{x}) = 2 \mathbf{A}
@@ -236,7 +236,7 @@ $$
 $$
     assuming $\mathbf{A}$ is symmetric.
 
-### **Softmax Gradient**
+### 5.1.12 **Softmax Gradient**
 If $\sigma(\mathbf{z})_i = \frac{\exp(z_i)}{\sum_j \exp(z_j)}$, then:
 $$
     \frac{\partial \sigma(\mathbf{z})_i}{\partial z_j} = \sigma(\mathbf{z})_i (\delta_{ij} - \sigma(\mathbf{z})_j)
@@ -244,13 +244,13 @@ $$
 $$
     where $\delta_{ij}$ is the Kronecker delta.
 
-### **Sigmoid Derivative**
+### 5.1.13 **Sigmoid Derivative**
 If $\sigma(z) = \frac{1}{1 + e^{-z}}$, then:
 $$
     \frac{d\sigma}{dz} = \sigma(z)(1 - \sigma(z))
     
 $$
-### Norm
+### 5.1.14 Norm
 The gradient of $f(x) = \|x - a\|_2^2$ with respect to $x$ can be found as follows. First, expand the $\ell_2$-norm squared:
 $$
 f(x) = \|x - a\|_2^2 = (x - a)^T (x - a).
@@ -275,7 +275,7 @@ Therefore, the gradient is:
 $$
 \nabla_x \|x - a\|_2^2 = 2(x - a).
 $$
-### Least Squares
+### 5.1.15 Least Squares
 Gradient of the least squares objective function $f(x) = \|Ax - b\|_2^2$ with respect to $x$. The objective function is
 $$
 f(x) = \|Ax - b\|_2^2 = (Ax - b)^T (Ax - b).

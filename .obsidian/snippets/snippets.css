@@ -136,13 +136,13 @@ h2::after {
   margin-bottom: 0.5em;
 }
 
-.image-embed img {
+/* .image-embed img {
 	display: block;
 	max-width: 650px !important;
 	max-height: 400px;
 	width: auto;
 	height: auto;
-}
+} */
 
 /* Callout styling */
 
