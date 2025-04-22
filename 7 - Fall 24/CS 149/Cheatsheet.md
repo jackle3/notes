@@ -1,8 +1,8 @@
-# CS149 Parallel Computing Cheatsheet
+# 1 CS149 Parallel Computing Cheatsheet
 
-## 1. Fundamentals of Parallelism
+## 1.1 Fundamentals of Parallelism
 
-### Why Parallelism?
+### 1.1.1 Why Parallelism?
 - Parallel computer: Collection of processing elements cooperating to solve problems quickly
 - Speedup = Time(1 processor) / Time(P processors)
 - Limitations:
@@ -10,13 +10,13 @@
 	- Imbalance in work assignments
 	- Overhead costs
 
-### Amdahl's Law
+### 1.1.2 Amdahl's Law
 - If S = fraction of sequential execution
 - Maximum speedup with infinite processors ≤ 1/S
 - Dependencies limit maximum possible speedup
 - Maximum speedup given P processors ≤ 1/(S + (1-S)/P)
 
-### Key Themes
+### 1.1.3 Key Themes
 1. **Scale**: Design parallel programs that scale well
 	- Decompose work safely
 	- Assign work efficiently
@@ -24,21 +24,21 @@
 2. **Hardware Understanding**: Know how parallel computers work
 3. **Efficiency**: Fast ≠ Efficient (2x speedup on 10 processors is poor)
 
-## 2. Modern Processor Architecture
+## 1.2 Modern Processor Architecture
 
-### Basic Components
+### 1.2.1 Basic Components
 1. **Control** (fetch/decode): Determines next instruction
 2. **Execution unit** (ALU): Performs operations
 3. **State** (execution context): Maintains program state
 
-### Memory Hierarchy
+### 1.2.2 Memory Hierarchy
 1. **Registers**: Fastest, smallest
 2. **Cache Levels** (L1, L2, L3):
 	- Each larger but slower than previous
 	- Pulled in contiguous chunks (cache lines)
 3. **Main Memory**: Largest, slowest
 
-### Cache Concepts
+### 1.2.3 Cache Concepts
 - **Cache Line**: Contiguous chunk of memory loaded together
 - **Cache Policies**: Usually LRU (Least Recently Used)
 - **Locality Types**:
@@ -49,7 +49,7 @@
 	- Capacity miss: Cache full
 	- Conflict miss: Address mapping conflicts
 
-### Modern Processor Features
+### 1.2.4 Modern Processor Features
 - **Superscalar Execution**:
 	- CPU can execute multiple instructions per cycle
 	- Instructions must be independent
@@ -63,14 +63,14 @@
 		- Control dependencies
 		- Available execution units
 
-## 3. Parallel Programming Models
+## 1.3 Parallel Programming Models
 
-### Thread-based Parallelism
+### 1.3.1 Thread-based Parallelism
 - Each thread has private memory
 - Threads communicate via shared memory
 - Synchronization needed for coordination
 
-### Data Parallel Programming
+### 1.3.2 Data Parallel Programming
 - Operations on sequences of data
 - Common operations:
 	- map: Apply function to each element
@@ -78,7 +78,7 @@
 	- scan: Running totals like prefix sum
 	- filter: Select elements meeting criteria
 
-### CUDA Programming
+### 1.3.3 CUDA Programming
 - Hierarchy:
 	1. **Thread**: Finest level of execution, runs a single instance of the kernel function. Has its own registers and local memory.
 	2. **Warp**: Group of 32 threads that execute in SIMD fashion (Single Instruction Multiple Data). All threads in a warp execute the same instruction simultaneously on different data. When threads in a warp diverge (e.g., due to if/else), the warp executes each branch path sequentially with some threads inactive, reducing performance.
@@ -89,9 +89,9 @@
 	- Shared: Per-block memory
 	- Local: Per-thread memory
 
-## 4. Optimization Techniques
+## 1.4 Optimization Techniques
 
-### Work Distribution
+### 1.4.1 Work Distribution
 1. **Static Assignment**
 	- Fixed work distribution
 	- Good when work is predictable
@@ -102,13 +102,13 @@
 	- Better for unpredictable workloads
 	- Higher overhead
 
-### Communication Optimization
+### 1.4.2 Communication Optimization
 1. Minimize data movement
 2. Use local memory when possible
 3. Batch communications
 4. Overlap computation with communication
 
-### Cache Coherence
+### 1.4.3 Cache Coherence
 - Ensures consistent view of memory across processors
 - Protocols:
 	- MSI (Modified, Shared, Invalid)
@@ -117,28 +117,28 @@
 	1. Snooping-based
 	2. Directory-based
 
-## 5. Performance Considerations
+## 1.5 Performance Considerations
 
-### Memory Bandwidth
+### 1.5.1 Memory Bandwidth
 - Often the limiting factor
 - Calculate arithmetic intensity:
 	- Operations per byte of memory accessed
 - Use roofline model to identify bottlenecks
 
-### Load Balancing
+### 1.5.2 Load Balancing
 - Ensure even work distribution
 - Methods:
 	1. Block distribution
 	2. Cyclic distribution
 	3. Dynamic scheduling
 
-### Synchronization
+### 1.5.3 Synchronization
 - Minimize use of locks
 - Use barriers only when necessary
 - Consider lock-free alternatives
 - Avoid false sharing
 
-### Utilization Analysis
+### 1.5.4 Utilization Analysis
 - **Core Utilization** = (actual throughput) / (peak throughput)
 	- Example: If peak is 12 GFLOPS and achieving 9 GFLOPS → 75% utilization
 	- Detailed Example:
@@ -200,9 +200,9 @@
 		3. Arithmetic intensity determines which bound applies
 		4. Available parallelism to hide latency
 
-### Throughput and Bandwidth Calculations
+### 1.5.5 Throughput and Bandwidth Calculations
 
-#### Peak Throughput
+#### 1.5.5.1 Peak Throughput
 - **Basic Formula**:
 	Peak FLOPS = Cores × SIMD Width × Clock Speed × Operations per cycle
 	- Hardware threads don't increase peak FLOPS, they only help hide latency
@@ -213,7 +213,7 @@
 	- Can do 2 Fused Multiply-Add (FMA) operations per cycle
 	- Total Peak = 8 cores × 16 floats × 3.2 billion cycles/sec × 2 ops = 819.2 GFLOPS
 
-#### Memory Bandwidth Requirements
+#### 1.5.5.2 Memory Bandwidth Requirements
 - **Basic Formula**:
 	Required Memory Bandwidth = Data accessed per unit time
 	= (Bytes needed × Operations per second) / Operations per data access
@@ -230,7 +230,7 @@ $$
 	- Memory pattern: Read 12 bytes every 30 compute cycles
 	- Required bandwidth = 256G × (12/30) = 102.4 GB/sec
 
-#### Arithmetic Intensity (Computing Vs Memory Ratio)
+#### 1.5.5.3 Arithmetic Intensity (Computing Vs Memory Ratio)
 - **Formula**:
 	Arithmetic Intensity = Compute Operations / Memory Bytes Accessed
 	- Higher is better - means more computation per memory access
@@ -252,32 +252,32 @@ $$
 	- The knee is at 8/4 = 2 ops per byte
 ![Pasted image 20241114152534](../../attachments/Pasted%20image%2020241114152534.png)
 
-#### Memory-Limited Performance
+#### 1.5.5.4 Memory-Limited Performance
 - When memory bandwidth is the bottleneck:
 	Actual Performance = Available Memory Bandwidth × Arithmetic Intensity
 	- Example: With 50 GB/s bandwidth and AI of 0.167:
 		Maximum achievable = 50 GB/s × 0.167 = 8.35 GFLOPS
 
-## 6. Common Patterns
+## 1.6 Common Patterns
 
-### Map-Reduce
+### 1.6.1 Map-Reduce
 - Map: Transform each element independently
 - Reduce: Combine results using associative operation
 - Good for data-parallel operations
 
-### Fork-Join
+### 1.6.2 Fork-Join
 - Fork: Spawn parallel tasks
 - Join: Wait for completion
 - Good for recursive parallelism
 
-### Pipeline Parallelism
+### 1.6.3 Pipeline Parallelism
 - Break computation into stages
 - Each stage processes different data
 - Good for streaming computations
 
-## 7. Distributed Systems
+## 1.7 Distributed Systems
 
-### HDFS Architecture
+### 1.7.1 HDFS Architecture
 - **NameNode (Master)**:
 	- Stores metadata
 	- Tracks file locations
@@ -290,7 +290,7 @@ $$
 	- Read: Contact NameNode → DataNode
 	- Write: Pipeline through DataNodes
 
-### Specialized Hardware
+### 1.7.2 Specialized Hardware
 - **Double Buffering**:
 	- Producer writes to one buffer
 	- Consumer reads from other buffer
@@ -299,9 +299,9 @@ $$
 	- Multiple pipeline stages run in parallel
 	- Each stage can process different data
 
-### Synchronization Mechanisms
+### 1.7.3 Synchronization Mechanisms
 
-#### Locks and Mutexes
+#### 1.7.3.1 Locks and Mutexes
 - **Basic Operations**:
 	- lock(): Acquire exclusive access
 	- unlock(): Release exclusive access
@@ -314,7 +314,7 @@ $$
 	- Compare-and-Swap (CAS)
 	- Load-Linked/Store-Conditional (LL/SC)
 
-#### Fine-Grained Synchronization
+#### 1.7.3.2 Fine-Grained Synchronization
 - **Hand-over-hand locking**:
 	- Lock one node at a time
 	- Release previous node's lock
@@ -324,7 +324,7 @@ $$
 	- Single writer needs exclusive access
 	- Can lead to writer starvation
 
-#### Lock-Free Programming
+#### 1.7.3.3 Lock-Free Programming
 - **Properties**:
 	- At least one thread makes progress
 	- No mutual exclusion
@@ -334,7 +334,7 @@ $$
 	- ABA problem and solutions
 	- Version counting
 
-#### Transactional Memory
+#### 1.7.3.4 Transactional Memory
 - **Basic Concept**:
 	- Atomic { … } blocks
 	- System tracks reads/writes
@@ -348,9 +348,9 @@ $$
 	- Pessimistic: Detect at access
 	- Contention management policies
 
-## 8. Advanced Parallel Patterns
+## 1.8 Advanced Parallel Patterns
 
-### Work Stealing
+### 1.8.1 Work Stealing
 - **Basic Algorithm**:
 	- Each thread has work queue
 	- Idle threads steal from others
@@ -360,7 +360,7 @@ $$
 	- Locality-aware
 	- Low synchronization overhead
 
-### Event-Based Programming
+### 1.8.2 Event-Based Programming
 - **Event Loop**:
 	- Single thread processes events
 	- Non-blocking operations
@@ -370,7 +370,7 @@ $$
 	- Maintains sequential logic
 	- Efficient resource usage
 
-### Task Graphs
+### 1.8.3 Task Graphs
 - **Components**:
 	- Nodes represent tasks
 	- Edges represent dependencies
@@ -380,9 +380,9 @@ $$
 	- List scheduling
 	- Work stealing
 
-## 9. Performance Analysis
+## 1.9 Performance Analysis
 
-### Critical Path Analysis
+### 1.9.1 Critical Path Analysis
 - **Definitions**:
 	- Work (T1): Total operations
 	- Span (T∞): Longest path
@@ -391,7 +391,7 @@ $$
 	- Tp ≥ max(T1/p, T∞)
 	- Good parallelization: Tp ≈ T1/p
 
-### Scheduling Theory
+### 1.9.2 Scheduling Theory
 - **Metrics**:
 	- Makespan
 	- Response time
@@ -401,7 +401,7 @@ $$
 	- List scheduling
 	- Gang scheduling
 
-### Memory Models
+### 1.9.3 Memory Models
 - **Sequential Consistency**:
 	- All operations appear in program order
 	- Global ordering of operations
@@ -410,9 +410,9 @@ $$
 	- Partial Store Ordering (PSO)
 	- Release Consistency
 
-## 10. Advanced Hardware Concepts
+## 1.10 Advanced Hardware Concepts
 
-### NUMA Architecture
+### 1.10.1 NUMA Architecture
 - **Properties**:
 	- Non-uniform memory access times
 	- Local vs remote memory
@@ -422,7 +422,7 @@ $$
 	- Memory allocation
 	- Data migration
 
-### Cache Coherence Protocols
+### 1.10.2 Cache Coherence Protocols
 - **MESI Protocol Details**:
 	- Modified: Dirty exclusive
 	- Exclusive: Clean exclusive
@@ -433,7 +433,7 @@ $$
 	- Tracks cache line state
 	- Scales better than snooping
 
-### Performance Monitoring
+### 1.10.3 Performance Monitoring
 - **Hardware Counters**:
 	- Cache misses
 	- Branch mispredictions
@@ -444,9 +444,9 @@ $$
 	- Trace collectors
 	- Visualization tools
 
-## 11. Specialized Hardware
+## 1.11 Specialized Hardware
 
-### TPU (Tensor Processing Unit)
+### 1.11.1 TPU (Tensor Processing Unit)
 - **Architecture**:
 	- Systolic array design
 	- 8-bit integer operations
@@ -457,7 +457,7 @@ $$
 	- Energy efficient
 	- Dense matrix operations
 
-### Modern GPUs (H100)
+### 1.11.2 Modern GPUs (H100)
 - **Key Features**:
 	- Tensor cores
 	- Transformer engines
@@ -472,7 +472,7 @@ $$
 	- Asynchronous execution
 	- Pipeline overlapping
 
-### Domain Specific Languages
+### 1.11.3 Domain Specific Languages
 - **ThunderKittens**:
 	- Tile-based processing
 	- Async compute/memory
@@ -483,7 +483,7 @@ $$
 	- Memory bandwidth
 	- Pipeline efficiency
 
-### Reconfigurable Hardware
+### 1.11.4 Reconfigurable Hardware
 - **SambaNova Architecture**:
 	- PCUs (Processing Core Units)
 	- Distributed memory (PMUs)
@@ -498,9 +498,9 @@ $$
 	- Efficient pipelining
 	- Reduced synchronization
 
-## 12. Cache Coherence
+## 1.12 Cache Coherence
 
-### Cache Basics
+### 1.12.1 Cache Basics
 - **Purpose**: Automatically improve locality
 - **Types of Locality**:
 	- Temporal: Repeated access to same address
@@ -509,13 +509,13 @@ $$
 	- Improves spatial locality
 	- Common sizes: 32-128 bytes
 
-### Cache Misses
+### 1.12.2 Cache Misses
 - **Cold Miss**: First access to address
 - **Capacity Miss**: Cache full, had to evict
 - **Conflict Miss**: Address mapping conflict
 	- Due to set associativity limits
 
-### Cache Associativity Types
+### 1.12.3 Cache Associativity Types
 - **Direct Mapped (1-way)**:
 	- One possible cache location
 	- Based on address % cache size
@@ -529,7 +529,7 @@ $$
 	- N possible locations per set
 	- Common: 2-way, 4-way, 8-way
 
-### Cache Design Features
+### 1.12.4 Cache Design Features
 - **Cache Line Contents**:
 	- Dirty bit
 	- Line state
@@ -541,7 +541,7 @@ $$
 	- Write-allocate: Load line on write miss
 	- No-write-allocate: Write directly to memory
 
-### Cache Coherence Problem
+### 1.12.5 Cache Coherence Problem
 - Multiple processors see different values
 - Caused by local cache copies
 - Need coherence protocol to maintain consistency
@@ -550,9 +550,9 @@ $$
 	- Writes serialized across processors
 	- Cache state coordination
 
-### Cache Coherence Solutions
+### 1.12.6 Cache Coherence Solutions
 
-#### Shared Cache Approach
+#### 1.12.6.1 Shared Cache Approach
 - Single cache shared by all processors
 - Pros: Simple coherence
 - Cons:
@@ -560,7 +560,7 @@ $$
 	- Limited bandwidth
 	- Destructive interference between processors
 
-#### Snooping Cache Coherence
+#### 1.12.6.2 Snooping Cache Coherence
 - Broadcast coherence messages to all processors
 - Cache controllers monitor ("snoop") memory operations
 - Write-through vs Write-back protocols
@@ -568,7 +568,7 @@ $$
 	- Broadcast medium - all see transactions
 	- Serialized access - ordered operations
 
-#### MSI Protocol States
+#### 1.12.6.3 MSI Protocol States
 - Modified (M): Exclusive dirty copy
 - Shared (S): Clean copy, others may have
 - Invalid (I): Line not present/valid
@@ -577,19 +577,19 @@ $$
 	- BusRdX: Read exclusive
 	- BusWB: Write back dirty data
 
-#### MESI Protocol
+#### 1.12.6.4 MESI Protocol
 - Adds Exclusive (E) clean state
 - Allows silent transition E->M
 - More efficient for private data
 - Common in modern processors
 
-#### Directory-Based Coherence
+#### 1.12.6.5 Directory-Based Coherence
 - Avoids broadcast with central directory
 - Tracks cache line state and sharers
 - Point-to-point messages vs broadcast
 - More scalable for many processors
 
-#### False Sharing Issues
+#### 1.12.6.6 False Sharing Issues
 - Multiple processors access same cache line
 - But different data within line
 - Causes unnecessary coherence traffic
@@ -598,9 +598,9 @@ $$
 	- Align to cache line boundaries
 	- Separate frequently written data
 
-### Synchronization and Locking
+### 1.12.7 Synchronization and Locking
 
-#### Deadlock
+#### 1.12.7.1 Deadlock
 - System state where no operation can make progress
 - Each operation holds resources needed by others
 - Required conditions:
@@ -609,13 +609,13 @@ $$
 	- No preemption
 	- Circular wait
 
-#### Livelock and Starvation
+#### 1.12.7.2 Livelock and Starvation
 - **Livelock**: Threads execute but make no progress
 	- Example: Cars repeatedly moving to let others pass
 - **Starvation**: Some threads unable to make progress
 	- Often due to unfair resource allocation
 
-#### Test-and-Set Locks
+#### 1.12.7.3 Test-and-Set Locks
 - Atomic read-modify-write operation
 - Basic implementation:
 	- Spin until lock value is 0
@@ -624,13 +624,13 @@ $$
 	- High cache contention
 	- Poor scalability with many processors
 
-#### Test-and-Test-and-Set Lock
+#### 1.12.7.4 Test-and-Test-and-Set Lock
 - Optimized version that reduces bus traffic
 - Read lock value in shared state
 - Only attempt test-and-set when lock appears free
 - Better cache behavior but still has contention on release
 
-#### Ticket Lock
+#### 1.12.7.5 Ticket Lock
 - Fair queuing system for lock acquisition
 - Two counters:
 	- next_ticket: Atomically incremented to get position
@@ -640,7 +640,7 @@ $$
 	- One write per lock acquisition
 	- Efficient spinning on reads
 
-#### Compare and Swap (CAS)
+#### 1.12.7.6 Compare and Swap (CAS)
 - More general atomic operation
 - Atomically checks and updates value
 - Used to implement:
@@ -648,7 +648,7 @@ $$
 	- Atomic operations (e.g., atomicMin)
 	- Efficient spin locks
 
-#### Fine-Grained Locking
+#### 1.12.7.7 Fine-Grained Locking
 - **Hand-over-hand locking**:
 	- Lock per data structure node
 	- Acquire next lock before releasing current
@@ -661,7 +661,7 @@ $$
 	- Deadlock prevention needed
 	- Higher overhead per operation
 
-#### Lock-Free Algorithms
+#### 1.12.7.8 Lock-Free Algorithms
 - Non-blocking algorithm where at least one thread makes progress
 - No thread can indefinitely block others
 - System-wide progress guaranteed even with preemption
@@ -670,7 +670,7 @@ $$
 	- Lock-free queue with separate push/pop threads
 	- Lock-free linked list
 
-#### Memory Coherence Vs Consistency
+#### 1.12.7.9 Memory Coherence Vs Consistency
 - **Cache Coherence:**
 	- **Maintains consistency for single location**
 	- **Makes caches transparent to program**
@@ -682,7 +682,7 @@ $$
 	- **Affects compiler and hardware optimizations**
 	- **Governs reads/writes to different addresses**
 
-#### Memory Consistency Models
+#### 1.12.7.10 Memory Consistency Models
 - **Sequential Consistency**:
 	- Operations appear in program order
 	- All threads see same global ordering
@@ -713,7 +713,7 @@ $$
 	 - Requires explicit synchronization
 	 - Can lead to subtle bugs
 
-#### Data Races and Synchronization
+#### 1.12.7.11 Data Races and Synchronization
 - Data races occur with concurrent access
 - Prevention requires:
 	- Proper synchronization (locks, fences)
@@ -723,7 +723,7 @@ $$
 - Synchronized programs yield sequentially consistent results
 - Well-synchronized code behaves predictably across models
 
-### Transactional Memory
+### 1.12.8 Transactional Memory
 - **Definition**: Higher-level synchronization primitive
 - **Key Properties (A.I.S.)**:
 	- Atomicity: All operations execute as one unit
@@ -735,7 +735,7 @@ $$
 	- Composable operations
 	- Only serializes conflicting transactions
 
-#### Implementation Approaches
+#### 1.12.8.1 Implementation Approaches
 - **Data Versioning**:
 	- Eager (undo-log based):
 	 - Write immediately to memory
@@ -754,7 +754,7 @@ $$
 	 - Better progress guarantees
 	 - May waste work on conflicts
 
-#### Trade-offs
+#### 1.12.8.2 Trade-offs
 - **Pessimistic Detection**:
 	- Pros: Early conflict detection
 	- Cons: More communication overhead, possible livelocks
@@ -766,7 +766,7 @@ $$
 	- Not suitable when immediate visibility needed
 	- Requires careful transaction sizing
 
-#### Software TM Implementation
+#### 1.12.8.3 Software TM Implementation
 - **Runtime Data Structures**:
 	- Transaction descriptor (per-thread):
 	 - Tracks read/write sets
@@ -782,7 +782,7 @@ $$
 	- Field-level: Fine-grained, more precise
 	- Trade-off between overhead and accuracy
 
-#### Intel McRT STM Example
+#### 1.12.8.4 Intel McRT STM Example
 - **Key Properties**:
 	- Eager versioning (immediate writes)
 	- Optimistic reads (no locks)
@@ -797,7 +797,7 @@ $$
 	- Commit: Update global timestamp, validate reads
 	- Validation: Check read set consistency
 
-#### Hardware TM (HTM)
+#### 1.12.8.5 Hardware TM (HTM)
 - **Implementation**:
 	- Uses cache for versioning
 	- Extends coherence for conflicts
@@ -812,7 +812,7 @@ $$
 	- Write-write conflicts
 	- Write-read conflicts
 
-#### HTM Vs STM Trade-offs
+#### 1.12.8.6 HTM Vs STM Trade-offs
 - **HTM Advantages**:
 	- Lower overhead
 	- Hardware-speed detection

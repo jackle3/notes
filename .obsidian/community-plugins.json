@@ -1,13 +1,11 @@
 [
-  "omnisearch",
-  "obsidian-minimal-settings",
   "obsidian-style-settings",
-  "lapel",
-  "obsidian-smart-typography",
-  "obsidian-linter",
+  "omnisearch",
+  "number-headings-obsidian",
+  "mousewheel-image-zoom",
+  "obsidian-minimal-settings",
   "obsidian-git",
-  "text-extractor",
-  "oz-clear-unused-images",
-  "obsidian-link-converter",
-  "number-headings-obsidian"
+  "lapel",
+  "obsidian-linter",
+  "obsidian-smart-typography"
 ]
