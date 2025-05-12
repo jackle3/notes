@@ -1,0 +1,627 @@
+\documentclass{article}
+\usepackage[margin=0.25in]{geometry} % Super small margins
+\usepackage{multicol}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{bm}
+
+\setlength{\parindent}{0pt} % No paragraph indentation
+\setlength{\parskip}{1pt} % Minimal space between paragraphs
+\setlength{\columnsep}{0.2in} % Space between columns
+
+% Reduce spacing in lists
+\setlist{noitemsep, topsep=0pt, parsep=0pt, partopsep=0pt, leftmargin=*}
+
+% Reduce spacing in math environments
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{1pt}
+\setlength{\belowdisplayshortskip}{1pt}
+
+% Smaller section headers
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+                                  {-1.5ex \@plus -1ex \@minus -.2ex}%
+                                  {0.8ex \@plus.2ex}%
+                                  {\normalfont\small\bfseries}}
+\makeatother
+
+\begin{document}
+\fontsize{6pt}{7pt}\selectfont % Size 6 font with 7pt line height
+
+\begin{multicols}{3} % Three columns for maximum space utilization
+
+\section*{\underline{Linear Classification}}
+\textbf{Score function}: $s = f(x; W) = Wx + b$\\
+\textbf{Softmax classifier}: $P(y_i|x_i) = \frac{e^{s_{y_i}}}{\sum_j e^{s_j}}$\\
+\textbf{Cross-entropy loss}: $L_i = -\log(P(y_i|x_i))$
+\begin{itemize}
+\item Min loss: 0 (when $P(y_i|x_i)=1$)
+\item Max loss: $\infty$ (when $P(y_i|x_i) \approx 0$)
+\item Random initialization: $\log(C)$ for $C$ classes
+\end{itemize}
+
+\textbf{SVM loss}: $L_i = \sum_{j \neq y_i} \max(0, s_j - s_{y_i} + \Delta)$
+\begin{itemize}
+\item $\Delta$ is margin parameter (typically $\Delta = 1$)
+\item Wants correct class score higher than incorrect class scores by at least $\Delta$
+\item Geometric interpretation: Linear hyperplanes separating classes
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Any FC network can be expressed as a CNN (with 1×1 filters) and vice versa
+\item Loss gradients flow from softmax loss to weight matrix proportional to input
+\item Linear classifiers can't solve XOR problems (need nonlinearities)
+\end{itemize}
+
+\section*{\underline{Regularization}}
+\textbf{Full loss}: $L = \frac{1}{N} \sum_{i=1}^N L_i + \lambda R(W)$\\
+\textbf{Types}:
+\begin{itemize}
+\item L2: $R(W) = \sum_k \sum_l W_{k,l}^2$ (prefers diffuse weights)
+\item L1: $R(W) = \sum_k \sum_l |W_{k,l}|$ (promotes sparsity)
+\item Elastic Net: $R(W) = \sum_k \sum_l \beta W_{k,l}^2 + |W_{k,l}|$
+\item Dropout: Randomly zero outputs during training (scale by p at test)
+\item Batch Norm: Normalize activations across batch dimension
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Early stopping: Regularization effect by halting training when validation error increases
+\item Dropout forces redundant representations, acts like ensemble averaging
+\item Regularizing bias terms is generally avoided (mainly regularize weights)
+\item Data augmentation: Adding transformed training examples
+\end{itemize}
+
+\section*{\underline{Optimization Algorithms}}
+\textbf{SGD}: $w_{t+1} = w_t - \alpha \nabla L(w_t)$\\
+\textbf{SGD+Momentum}: 
+\begin{align*}
+v_{t+1} &= \rho v_t + \nabla L(w_t)\\
+w_{t+1} &= w_t - \alpha v_{t+1}
+\end{align*}
+
+\textbf{RMSProp}:
+\begin{align*}
+\text{grad\_squared} &= \beta \cdot \text{grad\_squared} + (1-\beta) \cdot g^2\\
+w_{t+1} &= w_t - \frac{\alpha \cdot g}{\sqrt{\text{grad\_squared}} + \epsilon}
+\end{align*}
+
+\textbf{Adam}:
+\begin{align*}
+m_t &= \beta_1 m_{t-1} + (1-\beta_1)g_t \quad \text{(momentum)}\\
+v_t &= \beta_2 v_{t-1} + (1-\beta_2)g_t^2 \quad \text{(RMSProp)}\\
+\hat{m}_t &= \frac{m_t}{1-\beta_1^t} \quad \text{(bias correction)}\\
+\hat{v}_t &= \frac{v_t}{1-\beta_2^t} \quad \text{(bias correction)}\\
+w_{t+1} &= w_t - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
+\end{align*}
+
+\textbf{Learning Rate Decay}:
+\begin{itemize}
+\item Step decay: $\alpha_t = \alpha_0 \cdot \gamma^{\lfloor t/\text{epoch} \rfloor}$
+\item Cosine decay: $\alpha_t = \alpha_{\text{min}} + \frac{1}{2}(\alpha_0 - \alpha_{\text{min}})(1 + \cos(\frac{t}{T}\pi))$
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item SGD issues: poor conditioning, getting stuck in local minima/saddle points, noisy
+\item Momentum helps overcome oscillations and escape poor local minima
+\item RMSProp addresses AdaGrad's decaying learning rate issue
+\item Adam combines momentum (first moment) and RMSProp (second moment)
+\item AdamW separates weight decay from gradient update for better regularization
+\end{itemize}
+
+\section*{\underline{Neural Networks}}
+\textbf{Multi-layer Perceptron}: $f = W_2 \cdot \text{max}(0, W_1 \cdot x + b_1) + b_2$\\
+\textbf{Dimensions}: $x \in \mathbb{R}^D$, $W_1 \in \mathbb{R}^{H \times D}$, $b_1 \in \mathbb{R}^H$, $W_2 \in \mathbb{R}^{C \times H}$, $b_2 \in \mathbb{R}^C$\\
+
+\textbf{Activation Functions}:
+\begin{itemize}
+\item ReLU: $f(x) = \max(0, x)$ (most common)
+\item Leaky ReLU: $f(x) = \max(\alpha x, x)$, $\alpha$ small (e.g., 0.01)
+\item ELU: $f(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha(e^x - 1) & \text{if } x \leq 0 \end{cases}$
+\item GELU: $f(x) = x \cdot \Phi(x)$ (used in transformers)
+\item Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$ (vanishing gradient)
+\item Tanh: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$ (zero-centered)
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item ReLU has zero gradient when inputs are negative (can cause "dying ReLU")
+\item Leaky ReLU can't cause numerically zero gradients (always has non-zero slope)
+\item Tanh has zero-centered outputs (advantage over sigmoid)
+\item Without nonlinear activations, deep networks reduce to linear models
+\item Deeper networks can represent more complex functions with fewer parameters
+\end{itemize}
+
+\section*{\underline{Backpropagation}}
+\textbf{Chain rule}: $\frac{dz}{dx} = \frac{dz}{dy} \frac{dy}{dx}$\\
+\textbf{Gradient flow}: Local gradients × upstream gradients = downstream gradients\\
+\textbf{Key steps}:
+\begin{enumerate}
+\item Forward pass: compute outputs and cache intermediates
+\item Backward pass: compute gradients using chain rule
+\item Update parameters using gradients
+\end{enumerate}
+
+\textbf{Vector derivatives}:
+\begin{itemize}
+\item Same shape as original variables
+\item Apply chain rule using matrix calculus
+\end{itemize}
+
+\textbf{Special derivatives}:
+\begin{itemize}
+\item Sigmoid: $\frac{d\sigma(x)}{dx} = \sigma(x)(1-\sigma(x))$
+\item Tanh: $\frac{d\tanh(x)}{dx} = 1 - \tanh^2(x)$
+\item ReLU: $\frac{d\text{ReLU}(x)}{dx} = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x < 0 \end{cases}$
+\end{itemize}
+
+\textbf{Key Concepts}:
+\begin{itemize}
+\item Computational graphs organize calculations as directed acyclic graphs
+\item Backprop can handle arbitrary complex computational graphs
+\item Gradient checking: compare analytic vs. numerical gradients
+\end{itemize}
+
+\section*{\underline{Convolutional Neural Networks}}
+\textbf{Advantages}:
+\begin{itemize}
+\item Parameter sharing: Same filter applied across image
+\item Sparse connectivity: Each output depends on small local region
+\item Translation equivariance: Shifting input shifts output
+\end{itemize}
+
+\textbf{Output dimensions}: 
+\begin{align*}
+\text{Output size} &= \frac{N - F + 2P}{S} + 1
+\end{align*}
+Where N=input size, F=filter size, P=padding, S=stride
+
+\textbf{Parameter counting}:
+\begin{itemize}
+\item Each filter: $F \times F \times C_{in} + 1$ (includes bias)
+\item Conv layer: $F \times F \times C_{in} \times C_{out} + C_{out}$
+\end{itemize}
+
+\textbf{Pooling layers}: 
+\begin{itemize}
+\item Max pooling: Take maximum value in window
+\item Average pooling: Average values in window
+\item Reduces spatial dimensions, increases receptive field
+\end{itemize}
+
+\textbf{Receptive field}: Region of input that affects output
+\begin{itemize}
+\item Grows with depth and filter size
+\item For stacked 3×3 filters, RF grows by 2 per layer
+\item For stacked F×F filters, RF grows by (F-1) per layer
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Multiple 3×3 filters better than single large filter: fewer parameters, more nonlinearities
+\item 1×1 convolutions: used for dimension reduction across channels
+\item Dilated convolutions: expand receptive field without increasing parameters
+\item Depth-wise separable convs: separate spatial and cross-channel operations
+\end{itemize}
+
+\section*{\underline{Normalization Techniques}}
+\textbf{Batch Normalization}:
+\begin{align*}
+\mu_c &= \frac{1}{N} \sum_{n=1}^{N} x_{n,c,h,w}\\
+\sigma_c &= \sqrt{\frac{1}{N} \sum_{n=1}^{N} (x_{n,c,h,w} - \mu_c)^2}\\
+\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_c}{\sigma_c}\\
+y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\end{align*}
+Normalizes across batch dimension for each channel
+
+\textbf{Layer Normalization}:
+\begin{align*}
+\mu_n &= \frac{1}{C} \sum_{c=1}^{C} x_{n,c,h,w}\\
+\sigma_n &= \sqrt{\frac{1}{C} \sum_{c=1}^{C} (x_{n,c,h,w} - \mu_n)^2}\\
+\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_n}{\sigma_n}\\
+y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\end{align*}
+Normalizes across channel dimension for each sample
+
+\textbf{Instance Normalization}:
+\begin{align*}
+\mu_{n,c} &= \frac{1}{H \times W} \sum_{h,w} x_{n,c,h,w}\\
+\sigma_{n,c} &= \sqrt{\frac{1}{H \times W} \sum_{h,w} (x_{n,c,h,w} - \mu_{n,c})^2}\\
+\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_{n,c}}{\sigma_{n,c}}\\
+y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\end{align*}
+Normalizes each channel independently for each sample
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item BatchNorm: Used in CNNs, must track running stats for inference
+\item LayerNorm: Used in transformers, no dependence on batch statistics
+\item Instance Norm: Used in style transfer, normalizes each feature map
+\item Group Norm: Compromise between Layer and Instance Norm
+\item Normalization adds regularization effect due to noise in batch stats
+\end{itemize}
+
+\section*{\underline{CNN Architectures}}
+\textbf{VGG}:
+\begin{itemize}
+\item Multiple 3×3 convs followed by max-pooling
+\item Multiple 3×3 filters have same receptive field as larger filter with fewer parameters
+\item Uniform design: doubles channels after each pooling
+\end{itemize}
+
+\textbf{ResNet}:
+\begin{itemize}
+\item Skip connections: $\text{output} = F(x) + x$
+\item Allow deeper networks by learning residual mapping
+\item Solves vanishing gradient problem in deep nets
+\item Typical block: Conv → BN → ReLU → Conv → BN → Add → ReLU
+\end{itemize}
+
+\textbf{Bottleneck layer}:
+\begin{itemize}
+\item 1×1 conv to reduce channels, 3×3 conv, 1×1 conv to expand
+\item Reduces computation by decreasing channels in 3×3 conv
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Network design trade-offs: depth vs. width vs. resolution
+\item Skip connections help gradient flow and enable deeper networks
+\item Deeper networks generally need more regularization
+\item ResNet skip connections: $O_l = I_l + F(I_l)$ not $O_l = I_l * F(I_l)$
+\end{itemize}
+
+\section*{\underline{Weight Initialization}}
+\textbf{Xavier/Glorot}: $W \sim \mathcal{N}(0, \sqrt{\frac{2}{n_{in} + n_{out}}})$
+\begin{itemize}
+\item For tanh/sigmoid activations
+\item Maintains variance across linear layers
+\end{itemize}
+
+\textbf{Kaiming initialization}: $W \sim \mathcal{N}(0, \sqrt{\frac{2}{D_{in}}})$ for ReLU
+\begin{itemize}
+\item For ReLU activations (accounts for half being zeroed)
+\item For CNN: $D_{in} = \text{kernel\_size}^2 \times \text{input\_channels}$
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Poor initialization can cause vanishing/exploding gradients
+\item Initialization in deep nets is crucial for trainability
+\item Even with good normalization, bad initialization slows training
+\item Initialization should match the activation function
+\end{itemize}
+
+\section*{\underline{Training Techniques}}
+\textbf{Data Preprocessing}:
+\begin{itemize}
+\item Zero-centering: $\tilde{x} = x - \mu$
+\item Normalization: $\tilde{x} = \frac{x - \mu}{\sigma}$
+\end{itemize}
+
+\textbf{Data Augmentation}:
+\begin{itemize}
+\item Horizontal flips, random crops, color jitter
+\item Rotations, scaling, shearing (with limits)
+\item CutMix, Mixup: interpolate between images
+\end{itemize}
+
+\textbf{Transfer Learning}:
+\begin{itemize}
+\item Small dataset: Freeze pretrained model, retrain final layers
+\item Medium dataset: Freeze early layers, fine-tune later layers
+\item Large dataset: Initialize with pretrained weights, fine-tune all layers
+\end{itemize}
+
+\textbf{Diagnostics}:
+\begin{itemize}
+\item Underfitting: Low train/val accuracy, small gap
+\item Overfitting: High train accuracy, low val accuracy, large gap
+\item Not training enough: Low train/val accuracy with gap
+\end{itemize}
+
+\textbf{Hyperparameter selection}:
+\begin{itemize}
+\item Random search usually better than grid search
+\item Check initial loss, overfit small sample first
+\item Find LR that makes loss decrease within ~100 iterations
+\end{itemize}
+
+\section*{\underline{Loss Functions}}
+\textbf{Cross-entropy}: $L = -\sum_i y_i \log(\hat{y}_i)$
+\begin{itemize}
+\item For classification problems
+\item Measures dissimilarity between two probability distributions
+\end{itemize}
+
+\textbf{KL Divergence}: $D_{KL}(p||q) = \sum_i p_i \log\frac{p_i}{q_i} = \sum_i p_i(\log p_i - \log q_i)$
+\begin{itemize}
+\item Rewrite as subtraction for numerical stability
+\item Not symmetric: $D_{KL}(p||q) \neq D_{KL}(q||p)$
+\end{itemize}
+
+\textbf{Smooth L1/Huber Loss}:
+\begin{align*}
+L_{\delta}(x, y) = \begin{cases}
+\frac{1}{2}(x-y)^2 & \text{if } |x-y| < \delta \\
+\delta(|x-y| - \frac{1}{2}\delta) & \text{otherwise}
+\end{cases}
+\end{align*}
+\begin{itemize}
+\item Combines MSE (near zero) and L1 (for outliers)
+\item Differentiable everywhere, robust to outliers
+\end{itemize}
+
+\textbf{Triplet margin loss}: $L(a,p,n) = \max\{d(a,p) - d(a,n) + \text{margin}, 0\}$
+\begin{itemize}
+\item Used in contrastive learning
+\item Pushes anchor (a) closer to positive (p) than negative (n)
+\item Margin controls separation between positive and negative pairs
+\end{itemize}
+
+\section*{\underline{Recurrent Neural Networks}}
+\textbf{Vanilla RNN}:
+\begin{align*}
+h_t &= \tanh(W_{hh}h_{t-1} + W_{xh}x_t + b_h)\\
+y_t &= W_{hy}h_t + b_y
+\end{align*}
+
+\textbf{LSTM}:
+\begin{align*}
+f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)\\
+i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)\\
+\tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)\\
+C_t &= f_t \odot C_{t-1} + i_t \odot \tilde{C}_t\\
+o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)\\
+h_t &= o_t \odot \tanh(C_t)
+\end{align*}
+
+\textbf{RNN Applications}:
+\begin{itemize}
+\item Language modeling: Predict next token in sequence
+\item Image captioning: CNN feature extractor + RNN decoder
+\item Sequence-to-sequence: Translation, summarization
+\end{itemize}
+
+\textbf{Training RNNs}:
+\begin{itemize}
+\item Backpropagation through time (BPTT)
+\item Truncated BPTT for long sequences
+\item Gradient clipping to prevent explosion
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item RNNs can process variable-length sequences
+\item Vanishing/exploding gradients limit learning long-term dependencies
+\item LSTM addresses vanishing gradients via cell state pathway
+\item RNNs sequential processing limits parallelization
+\end{itemize}
+
+\section*{\underline{Attention Mechanism}}
+\textbf{Scaled Dot-Product Attention}:
+\begin{align*}
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\end{align*}
+
+\textbf{Multi-Head Attention}:
+\begin{align*}
+\text{MultiHead}(Q, K, V) &= \text{Concat}(\text{head}_1,...,\text{head}_h)W^O\\
+\text{head}_i &= \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\end{align*}
+
+\textbf{Types of Attention}:
+\begin{itemize}
+\item Self-attention: Q, K, V from same sequence
+\item Cross-attention: Q from one sequence, K, V from another
+\item Masked attention: Future positions masked (decoder)
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Time complexity: $O(n^2d)$ for sequence length $n$ and dimension $d$
+\item Memory complexity: $O(n^2)$ for attention weights
+\item Attention weights computed from Q and K (not V)
+\item Scaling factor $\sqrt{d_k}$ prevents vanishing gradients with large dimensions
+\item Self-attention is permutation equivariant without positional encoding
+\end{itemize}
+
+\section*{\underline{Transformers}}
+\textbf{Transformer block}:
+\begin{enumerate}
+\item Layer normalization
+\item Multi-head self-attention
+\item Residual connection
+\item Layer normalization
+\item Feed-forward network (MLP)
+\item Residual connection
+\end{enumerate}
+
+\textbf{Parameters in transformer block}:
+\begin{itemize}
+\item Self-attention: $4d^2$ (Q, K, V projections + output)
+\item Feed-forward: $2df$ (where $f$ is FF dimension, typically $4d$)
+\end{itemize}
+
+\textbf{Vision Transformer (ViT)}:
+\begin{itemize}
+\item Split image into patches (16×16)
+\item Linear projection + position embeddings
+\item Standard transformer encoder architecture
+\item [CLS] token or pooling for classification
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Transformers use LayerNorm, NOT BatchNorm
+\item Pre-norm vs. post-norm: affects training stability
+\item Transformers parallelize better than RNNs for sequences
+\item Positional encodings enable model to learn position information
+\end{itemize}
+
+\section*{\underline{Semantic Segmentation}}
+\textbf{Task}: Classify each pixel in an image\\
+\textbf{Architectures}:
+\begin{itemize}
+\item Fully Convolutional Networks (FCN)
+\item U-Net: Encoder-decoder with skip connections
+\item DeepLab: Atrous convolutions for dense predictions
+\end{itemize}
+
+\textbf{Upsampling techniques}:
+\begin{itemize}
+\item Unpooling: Reverse pooling operation
+\item Transposed convolution: Learnable upsampling
+\item Bilinear interpolation + 1×1 convs: Smoother results
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Semantic segmentation: One label per pixel, no instance separation
+\item Downsampling followed by upsampling preserves context while maintaining resolution
+\item Skip connections help preserve spatial detail
+\item Dilated/atrous convolutions expand receptive field without losing resolution
+\end{itemize}
+
+\section*{\underline{Object Detection}}
+\textbf{Key architectures}:
+\begin{itemize}
+\item R-CNN family: Region proposals + classification
+\item YOLO: Single-pass detection with grid cells
+\item DETR: Transformers with object queries
+\end{itemize}
+
+\textbf{Region Proposal Network}:
+\begin{itemize}
+\item Generate candidate boxes
+\item Binary classification (object vs. background)
+\item Bounding box regression
+\end{itemize}
+
+\textbf{Evaluation metrics}:
+\begin{itemize}
+\item IoU (Intersection over Union): $\frac{\text{area of intersection}}{\text{area of union}}$
+\item Precision: $\frac{\text{TP}}{\text{TP + FP}}$, Recall: $\frac{\text{TP}}{\text{TP + FN}}$
+\item AP: Area under PR curve for each class
+\item mAP: Mean AP across all classes
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Two-stage detectors (R-CNN family): region proposal + classification
+\item One-stage detectors (YOLO, SSD): directly predict boxes from grid cells
+\item NMS (Non-Maximum Suppression): Remove duplicate detections
+\item Anchor boxes: Pre-defined box shapes to match during training
+\end{itemize}
+
+\section*{\underline{Instance Segmentation}}
+\textbf{Mask R-CNN}:
+\begin{itemize}
+\item Extends Faster R-CNN with mask branch
+\item RoIAlign for accurate feature extraction
+\item Parallel heads for classification, box regression, mask prediction
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item RoIAlign: Keeps spatial information intact (avoids quantization)
+\item Instance segmentation separates individual instances of same class
+\item Panoptic segmentation: Combines semantic and instance segmentation
+\end{itemize}
+
+\section*{\underline{Video Understanding}}
+\textbf{Architectures}:
+\begin{itemize}
+\item Single-frame CNN + temporal pooling
+\item Early fusion: Treat time as channels
+\item 3D CNN: 3D convolutions (C3D, I3D)
+\item CNN + RNN: CNN features fed to RNN
+\item Transformer: Space-time attention
+\end{itemize}
+
+\textbf{3D convolution}: 
+\begin{align*}
+\text{Output}: F \times T' \times H' \times W'\\
+\text{Filter size}: C \times k_t \times k \times k
+\end{align*}
+
+\textbf{Two-stream networks}:
+\begin{itemize}
+\item Spatial stream: RGB frames
+\item Temporal stream: Optical flow
+\item Late fusion of predictions
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item 3D CNN receptive fields span space and time dimensions
+\item Early fusion builds temporal receptive field all at once
+\item Slow fusion gradually builds temporal receptive field
+\item 3D CNNs have temporal-shift invariance (early fusion doesn't)
+\end{itemize}
+
+\section*{\underline{Neural Network Visualization}}
+\textbf{Saliency maps}:
+\begin{itemize}
+\item Compute gradient of class score w.r.t input pixels
+\item Highlights regions important for classification
+\end{itemize}
+
+\textbf{Class Activation Mapping (CAM)}:
+\begin{align*}
+M_c(x,y) = \sum_k w_k^c \cdot f_k(x,y)
+\end{align*}
+
+\textbf{Grad-CAM}:
+\begin{itemize}
+\item Generalizes CAM to any CNN architecture
+\item Global-average-pools gradients for importance weights
+\item Weighted combination of feature maps
+\end{itemize}
+
+\textbf{Key concepts}:
+\begin{itemize}
+\item Visualizations help debug network decisions
+\item CNN filters often detect edges, textures, patterns, and semantic concepts
+\item Attention maps in transformers provide built-in visualization
+\end{itemize}
+
+\section*{\underline{Evaluation Metrics}}
+\textbf{Classification}:
+\begin{itemize}
+\item Accuracy: $\frac{\text{correct predictions}}{\text{total predictions}}$
+\item Precision: $\frac{\text{TP}}{\text{TP + FP}}$
+\item Recall: $\frac{\text{TP}}{\text{TP + FN}}$
+\item F1 Score: $\frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$
+\end{itemize}
+
+\textbf{Segmentation}:
+\begin{itemize}
+\item Pixel accuracy: $\frac{\text{correctly classified pixels}}{\text{total pixels}}$
+\item Mean IoU: Average IoU across all classes
+\item Dice coefficient: $\frac{2 \times \text{intersection}}{\text{sum of areas}}$
+\end{itemize}
+
+\textbf{Point Cloud Processing}:
+\begin{itemize}
+\item Translation equivariance: Output shifts when input shifts
+\item Rotation equivariance: Output rotates when input rotates 
+\item Convs on grid structure not rotation-equivariant
+\item Continuous point convs use weight functions of relative positions
+\end{itemize}
+
+\section*{\underline{Common Exam Traps}}
+\begin{itemize}
+\item CNN parameter counting: Remember biases, don't count nonlinearities
+\item Transformers use LayerNorm (not BatchNorm) between components
+\item Attention computation: Weights from Q,K dot product, not V
+\item Self-attention complexity: $O(n^2d)$ not $O(n^2d^2)$
+\item Receptive field calculation: For stacked F×F filters, RF grows by (F-1) per layer
+\item Leaky ReLU never has zero gradient (unlike ReLU, sigmoid, tanh)
+\item ResNet: Skip connections are additive, not multiplicative
+\end{itemize}
+\end{multicols}
+\end{document}
