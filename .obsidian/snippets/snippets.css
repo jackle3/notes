@@ -138,7 +138,7 @@
   
   .image-embed img {
       display: block;
-      max-width: 90% !important;
+      max-width: 80% !important;
       /* width: auto; */
       /* height: auto; */
   }
