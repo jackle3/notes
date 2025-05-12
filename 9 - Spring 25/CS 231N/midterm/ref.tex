@@ -4,6 +4,7 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{enumitem}
 \usepackage{bm}
+\usepackage{xcolor}
 
 \setlength{\parindent}{0pt} % No paragraph indentation
 \setlength{\parskip}{1pt} % Minimal space between paragraphs
@@ -13,10 +14,18 @@
 \setlist{noitemsep, topsep=0pt, parsep=0pt, partopsep=0pt, leftmargin=*}
 
 % Reduce spacing in math environments
-\setlength{\abovedisplayskip}{3pt}
-\setlength{\belowdisplayskip}{3pt}
-\setlength{\abovedisplayshortskip}{1pt}
-\setlength{\belowdisplayshortskip}{1pt}
+% \setlength{\abovedisplayskip}{3pt}
+% \setlength{\belowdisplayskip}{3pt}
+% \setlength{\abovedisplayshortskip}{1pt}
+% \setlength{\belowdisplayshortskip}{1pt}
+
+\expandafter\def\expandafter\normalsize\expandafter{%
+    \normalsize%
+    \setlength\abovedisplayskip{2pt}%
+    \setlength\belowdisplayskip{2pt}%
+    \setlength\abovedisplayshortskip{-8pt}%
+    \setlength\belowdisplayshortskip{2pt}%
+}
 
 % Smaller section headers
 \makeatletter
@@ -162,27 +171,32 @@ w_{t+1} &= w_t - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
 \begin{itemize}
 \item Computational graphs organize calculations as directed acyclic graphs
 \item Backprop can handle arbitrary complex computational graphs
-\item Gradient checking: compare analytic vs. numerical gradients
 \end{itemize}
 
 \section*{\underline{Convolutional Neural Networks}}
+\textbf{Conv Layer Summary}:
+\begin{itemize}
+\item \textbf{Input}: $C_{in} \times H \times W$
+\item \textbf{Hyperparameters}:
+\begin{itemize}
+\item Kernel size: $K_H \times K_W$
+\item Number filters: $C_{out}$
+\item Padding: $P = (K-1)/2$ ("same" padding)
+\item Stride: $S$
+\end{itemize}
+\item \textbf{Weight matrix}: $C_{out} \times C_{in} \times K_H \times K_W$
+\item \textbf{Bias vector}: $C_{out}$
+\item \textbf{Output size}: $C_{out} \times H' \times W'$ where:
+$$
+H', W' = \frac{H - K_{\{H, W\}} + 2P}{S} + 1
+$$
+\end{itemize}
+
 \textbf{Advantages}:
 \begin{itemize}
 \item Parameter sharing: Same filter applied across image
 \item Sparse connectivity: Each output depends on small local region
 \item Translation equivariance: Shifting input shifts output
-\end{itemize}
-
-\textbf{Output dimensions}: 
-\begin{align*}
-\text{Output size} &= \frac{N - F + 2P}{S} + 1
-\end{align*}
-Where N=input size, F=filter size, P=padding, S=stride
-
-\textbf{Parameter counting}:
-\begin{itemize}
-\item Each filter: $F \times F \times C_{in} + 1$ (includes bias)
-\item Conv layer: $F \times F \times C_{in} \times C_{out} + C_{out}$
 \end{itemize}
 
 \textbf{Pooling layers}: 
@@ -194,9 +208,8 @@ Where N=input size, F=filter size, P=padding, S=stride
 
 \textbf{Receptive field}: Region of input that affects output
 \begin{itemize}
-\item Grows with depth and filter size
-\item For stacked 3×3 filters, RF grows by 2 per layer
-\item For stacked F×F filters, RF grows by (F-1) per layer
+\item For stacked K×K filters, RF grows by (K-1) per layer
+\item With $L$ layers, RF is $1 + L * (K - 1)$
 \end{itemize}
 
 \textbf{Key concepts}:
@@ -402,15 +415,52 @@ h_t &= o_t \odot \tanh(C_t)
 \end{itemize}
 
 \section*{\underline{Attention Mechanism}}
-\textbf{Scaled Dot-Product Attention}:
+\textbf{Inputs}:
+\begin{itemize}
+\item Input sequence: $X \in \mathbb{R}^{N \times D_{in}}$
+\item Query matrix: $W_Q \in \mathbb{R}^{D_{in} \times D_{out}}$
+\item Key matrix: $W_K \in \mathbb{R}^{D_{in} \times D_{out}}$
+\item Value matrix: $W_V \in \mathbb{R}^{D_{in} \times D_{out}}$
+\end{itemize}
+
+\textbf{Computation}:
 \begin{align*}
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\text{Queries: } Q &= XW_Q \in \mathbb{R}^{N \times D_{out}}\\
+\text{Keys: } K &= XW_K \in \mathbb{R}^{N \times D_{out}}\\
+\text{Values: } V &= XW_V \in \mathbb{R}^{N \times D_{out}}\\
+\text{Similarities: } E &= \frac{QK^T}{\sqrt{D_{out}}} \in \mathbb{R}^{N \times N}\\
+\text{Weights: } A &= \text{softmax}(E, \text{dim=1}) \in \mathbb{R}^{N \times N}\\
+\text{Output: } Y &= AV \in \mathbb{R}^{N \times D_{out}}
 \end{align*}
 
 \textbf{Multi-Head Attention}:
+
+\textbf{Inputs}:
+\begin{itemize}
+\item Input vectors: $X \in \mathbb{R}^{N \times D}$
+\item For each head $h \in \{1,...,H\}$:
+  \begin{itemize}
+  \item Key matrix: $W_K^h \in \mathbb{R}^{D \times D_H}$
+  \item Value matrix: $W_V^h \in \mathbb{R}^{D \times D_H}$
+  \item Query matrix: $W_Q^h \in \mathbb{R}^{D \times D_H}$
+  \end{itemize}
+\item Output matrix: $W_O \in \mathbb{R}^{HD_H \times D}$
+\end{itemize}
+
+\textbf{Computation for each head $h$}:
 \begin{align*}
-\text{MultiHead}(Q, K, V) &= \text{Concat}(\text{head}_1,...,\text{head}_h)W^O\\
-\text{head}_i &= \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\text{Queries: } Q^h &= XW_Q^h \in \mathbb{R}^{N \times D_H}\\
+\text{Keys: } K^h &= XW_K^h \in \mathbb{R}^{N \times D_H}\\
+\text{Values: } V^h &= XW_V^h \in \mathbb{R}^{N \times D_H}\\
+\text{Similarities: } E^h &= \frac{Q^h(K^h)^T}{\sqrt{D_H}} \in \mathbb{R}^{N \times N}\\
+\text{Attention weights: } A^h &= \text{softmax}(E^h, \text{dim=1}) \in \mathbb{R}^{N \times N}\\
+\text{Head output: } Y^h &= A^hV^h \in \mathbb{R}^{N \times D_H}
+\end{align*}
+
+\textbf{Combining heads}:
+\begin{align*}
+\text{Concatenated output: } Y &= [Y^1; Y^2; ...; Y^H] \in \mathbb{R}^{N \times HD_H}\\
+\text{Final output: } O &= YW_O \in \mathbb{R}^{N \times D}
 \end{align*}
 
 \textbf{Types of Attention}:
@@ -613,15 +663,5 @@ M_c(x,y) = \sum_k w_k^c \cdot f_k(x,y)
 \item Continuous point convs use weight functions of relative positions
 \end{itemize}
 
-\section*{\underline{Common Exam Traps}}
-\begin{itemize}
-\item CNN parameter counting: Remember biases, don't count nonlinearities
-\item Transformers use LayerNorm (not BatchNorm) between components
-\item Attention computation: Weights from Q,K dot product, not V
-\item Self-attention complexity: $O(n^2d)$ not $O(n^2d^2)$
-\item Receptive field calculation: For stacked F×F filters, RF grows by (F-1) per layer
-\item Leaky ReLU never has zero gradient (unlike ReLU, sigmoid, tanh)
-\item ResNet: Skip connections are additive, not multiplicative
-\end{itemize}
 \end{multicols}
 \end{document}
