@@ -454,36 +454,30 @@ y_t &= W_{hy}h_t + b_y
 \includegraphics[width=\columnwidth]{imgs/seqs.png}
 
 \section*{\underline{Transformers}}
-\textbf{Transformer block}:
-\begin{enumerate}
-\item Layer normalization
-\item Multi-head self-attention
-\item Residual connection
-\item Layer normalization
-\item Feed-forward network (MLP)
-\item Residual connection
-\end{enumerate}
+\includegraphics[width=\columnwidth]{imgs/transformer.png}
 
-\textbf{Parameters in transformer block}:
+\textbf{Language Modeling}:
 \begin{itemize}
-\item Self-attention: $4d^2$ (Q, K, V projections + output)
-\item Feed-forward: $2df$ (where $f$ is FF dimension, typically $4d$)
+\item Learn an embedding and projection matrix to convert tokens to vectors and background
+\item Use masked attention to prevent future peeking
+\item Train to predict next token with softmax + CE loss
 \end{itemize}
 
 \textbf{Vision Transformer (ViT)}:
 \begin{itemize}
 \item Split image into patches (16×16)
-\item Linear projection + position embeddings
+\item Linear projection + position embeddings (same as 16×16 conv with stride 16, $C_{\text{in}} = 3$ and $C_{\text{out}} = D$)
 \item Standard transformer encoder architecture
-\item [CLS] token or pooling for classification
+\item CLS token or pooling for classification
 \end{itemize}
 
-\textbf{Key concepts}:
+\textbf{More Details}:
 \begin{itemize}
-\item Transformers use LayerNorm, NOT BatchNorm
-\item Pre-norm vs. post-norm: affects training stability
-\item Transformers parallelize better than RNNs for sequences
-\item Positional encodings enable model to learn position information
+\item Positional encodings to learn position information
+\item Pre-norm transformer: Normalization inside residual block allows learning identity function
+\item RMSNorm: Alternative normalization layer used in modern transformers
+\item SwiGLU MLP: Improved MLP architecture for transformer blocks
+\item Mixture of Experts (MoE): Uses $E$ different MLPs but only activates $A < E$ per token, increasing parameters with modest compute cost
 \end{itemize}
 
 \section*{\underline{Semantic Segmentation}}
@@ -491,100 +485,57 @@ y_t &= W_{hy}h_t + b_y
 \textbf{Architectures}:
 \begin{itemize}
 \item Fully Convolutional Networks (FCN)
-\item U-Net: Encoder-decoder with skip connections
-\item DeepLab: Atrous convolutions for dense predictions
+\item U-Net: Downsample with conv (increases receptive field, loses spatial information) then upsample with transposed conv (high resolution mapping), includes skip connections
 \end{itemize}
 
 \textbf{Upsampling techniques}:
 \begin{itemize}
-\item Unpooling: Reverse pooling operation
-\item Transposed convolution: Learnable upsampling
-\item Bilinear interpolation + 1×1 convs: Smoother results
+\item Unpooling: reverse pooling operation
+\item Transposed convolution: learnable upsampling
 \end{itemize}
+\includegraphics[width=\columnwidth]{imgs/upsampl.png}
 
 \textbf{Key concepts}:
 \begin{itemize}
 \item Semantic segmentation: One label per pixel, no instance separation
 \item Downsampling followed by upsampling preserves context while maintaining resolution
 \item Skip connections help preserve spatial detail
-\item Dilated/atrous convolutions expand receptive field without losing resolution
 \end{itemize}
 
 \section*{\underline{Object Detection}}
-\textbf{Key architectures}:
+\textbf{R-CNN (multi-pass detection)}:
 \begin{itemize}
-\item R-CNN family: Region proposals + classification
-\item YOLO: Single-pass detection with grid cells
-\item DETR: Transformers with object queries
+\item \textbf{R-CNN}: Extract region proposals → CNN classifies each region independently as object or background
+\item \textbf{Fast R-CNN}: CNN first, then extract regions from feature maps → more efficient
+\item \textbf{Faster R-CNN}: Region Proposal Network (RPN) to generate proposals from feature maps
+\item \textbf{RPN}: Predicts objectness score and box coordinates for anchor boxes at each location
+  \begin{itemize}
+    \item K bounding boxes of different size/aspect ratio at each location
+    \item For each anchor: binary classification (object/not) and regress box to ground truth
+    \item Outputs region proposals, picks top ones
+  \end{itemize}
 \end{itemize}
 
-\textbf{Region Proposal Network}:
+\textbf{YOLO (single-pass detection)}:
 \begin{itemize}
-\item Generate candidate boxes
-\item Binary classification (object vs. background)
-\item Bounding box regression
+\item Divides image into grid of cells → each cell predicts: prob of object, potential bounding boxes, class scores
+\item Each bounding box includes: (x, y, w, h, confidence)
+\item Single forward pass → much faster than R-CNN family
 \end{itemize}
 
-\textbf{Evaluation metrics}:
+\textbf{DETR (transformer-based)}:
 \begin{itemize}
-\item IoU (Intersection over Union): $\frac{\text{area of intersection}}{\text{area of union}}$
-\item Precision: $\frac{\text{TP}}{\text{TP + FP}}$, Recall: $\frac{\text{TP}}{\text{TP + FN}}$
-\item AP: Area under PR curve for each class
-\item mAP: Mean AP across all classes
-\end{itemize}
-
-\textbf{Key concepts}:
-\begin{itemize}
-\item Two-stage detectors (R-CNN family): region proposal + classification
-\item One-stage detectors (YOLO, SSD): directly predict boxes from grid cells
-\item NMS (Non-Maximum Suppression): Remove duplicate detections
-\item Anchor boxes: Pre-defined box shapes to match during training
+\item CNN backbone extracts image features → transformer encoder processes them
+\item Transformer decoder with object queries attends to encoded image
+\item Directly outputs fixed set of bounding boxes and class predictions
 \end{itemize}
 
 \section*{\underline{Instance Segmentation}}
 \textbf{Mask R-CNN}:
 \begin{itemize}
-\item Extends Faster R-CNN with mask branch
-\item RoIAlign for accurate feature extraction
-\item Parallel heads for classification, box regression, mask prediction
-\end{itemize}
-
-\textbf{Key concepts}:
-\begin{itemize}
-\item RoIAlign: Keeps spatial information intact (avoids quantization)
-\item Instance segmentation separates individual instances of same class
-\item Panoptic segmentation: Combines semantic and instance segmentation
-\end{itemize}
-
-\section*{\underline{Video Understanding}}
-\textbf{Architectures}:
-\begin{itemize}
-\item Single-frame CNN + temporal pooling
-\item Early fusion: Treat time as channels
-\item 3D CNN: 3D convolutions (C3D, I3D)
-\item CNN + RNN: CNN features fed to RNN
-\item Transformer: Space-time attention
-\end{itemize}
-
-\textbf{3D convolution}: 
-\begin{align*}
-\text{Output}: F \times T' \times H' \times W'\\
-\text{Filter size}: C \times k_t \times k \times k
-\end{align*}
-
-\textbf{Two-stream networks}:
-\begin{itemize}
-\item Spatial stream: RGB frames
-\item Temporal stream: Optical flow
-\item Late fusion of predictions
-\end{itemize}
-
-\textbf{Key concepts}:
-\begin{itemize}
-\item 3D CNN receptive fields span space and time dimensions
-\item Early fusion builds temporal receptive field all at once
-\item Slow fusion gradually builds temporal receptive field
-\item 3D CNNs have temporal-shift invariance (early fusion doesn't)
+\item Extends Faster R-CNN with mask branch for segmentation, operates on each ROI and predicts binary mask
+\item CNN backbone → RPN → RoIAlign → mask prediction
+\item RoIAlign preserves spatial precision (outputs classification scores and box coordinates)
 \end{itemize}
 
 \section*{\underline{Neural Network Visualization}}
@@ -592,49 +543,67 @@ y_t &= W_{hy}h_t + b_y
 \begin{itemize}
 \item Compute gradient of class score w.r.t input pixels
 \item Highlights regions important for classification
+\item Simple technique to visualize what the network looks at
 \end{itemize}
 
 \textbf{Class Activation Mapping (CAM)}:
-\begin{align*}
-M_c(x,y) = \sum_k w_k^c \cdot f_k(x,y)
-\end{align*}
+\begin{itemize}
+\item Extract feature maps from the final convolutional layer
+\item Weight these maps using the classification layer weights
+\item Requires specific network architecture with global average pooling
+\end{itemize}
 
 \textbf{Grad-CAM}:
 \begin{itemize}
-\item Generalizes CAM to any CNN architecture
-\item Global-average-pools gradients for importance weights
-\item Weighted combination of feature maps
+\item Works with any CNN architecture (more flexible)
+\item Computes importance of feature map for target class
+\item Combines feature maps weighted by their importance
+\item Creates heatmap highlighting discriminative regions
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
-\item Visualizations help debug network decisions
-\item CNN filters often detect edges, textures, patterns, and semantic concepts
-\item Attention maps in transformers provide built-in visualization
+\item Visualization reveal network's attention regions
+\item Early layers detect low-level features (edges, textures)
+\item Deeper layers detect high-level concepts (objects, parts)
+\item Helps identify dataset bias and explain model decisions
+\item Can verify if model focuses on relevant image regions
 \end{itemize}
 
-\section*{\underline{Evaluation Metrics}}
-\textbf{Classification}:
+\section*{\underline{Video Understanding}}
+\textbf{Architectures for Video Classification}:
 \begin{itemize}
-\item Accuracy: $\frac{\text{correct predictions}}{\text{total predictions}}$
-\item Precision: $\frac{\text{TP}}{\text{TP + FP}}$
-\item Recall: $\frac{\text{TP}}{\text{TP + FN}}$
-\item F1 Score: $\frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$
+\item Single-frame CNN: Process each frame, average preds
+\item Late fusion: Process frames independently with CNN, combine features with MLP or pooling
+\item Early fusion: Treat time as channels (reshape to $3T \times H \times W$), apply 2D CNN to get class scores
+\item 3D CNN: 3D convolutions across space-time dimensions
+\item CNN + RNN: Extract CNN features from frames, feed sequence to RNN for long-term temporal modeling
+\item Recurrent Convolutional Network: Replace RNN matrix multiplications with convolutions
+\item Transformer: Space-time self-attention on video tokens
 \end{itemize}
 
-\textbf{Segmentation}:
+\textbf{Receptive Fields}:
+
+\includegraphics[width=\columnwidth]{imgs/video.png}
+
+\textbf{RCN Layer}:
+\begin{align*}
+H_t^l &= \tanh(W_{xh}^l * X_t^l + W_{hh}^l * H_{t-1}^l)\\
+X_t^{l+1} &= H_t^l
+\end{align*}
 \begin{itemize}
-\item Pixel accuracy: $\frac{\text{correctly classified pixels}}{\text{total pixels}}$
-\item Mean IoU: Average IoU across all classes
-\item Dice coefficient: $\frac{2 \times \text{intersection}}{\text{sum of areas}}$
+\item Replaces matmuls in RNNs with convolutions
+\item Each layer is a convolution, each column is a time step
+\item Captures both spatial and temporal patterns simultaneously, though its slow
 \end{itemize}
 
-\textbf{Point Cloud Processing}:
+\textbf{Key concepts}:
 \begin{itemize}
-\item Translation equivariance: Output shifts when input shifts
-\item Rotation equivariance: Output rotates when input rotates 
-\item Convs on grid structure not rotation-equivariant
-\item Continuous point convs use weight functions of relative positions
+\item Early Fusion has no temporal shift invariance, needs to learn filters for same motion at different times.
+\item 3D CNN has temporal shift invariance, each filter slides over time.
+\item I3D: Inflated 2D CNN, expands 2D filters to 3D by repeating weights temporally
+\item Long-term temporal structure: CNN+RNN or space-time self-attention
+\item Video understanding benefits from multi-modal inputs (RGB, optical flow, audio)
 \end{itemize}
 
 \end{multicols}
