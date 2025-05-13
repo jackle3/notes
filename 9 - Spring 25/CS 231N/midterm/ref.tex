@@ -1,9 +1,10 @@
 \documentclass{article}
-\usepackage[margin=0.25in]{geometry} % Super small margins
+\usepackage[margin=0.2in]{geometry} % Super small margins
 \usepackage{multicol}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{enumitem}
 \usepackage{bm}
+\usepackage{bbm}
 \usepackage{xcolor}
 
 \setlength{\parindent}{0pt} % No paragraph indentation
@@ -72,12 +73,12 @@
 \item L1: $R(W) = \sum_k \sum_l |W_{k,l}|$ (promotes sparsity)
 \item Elastic Net: $R(W) = \sum_k \sum_l \beta W_{k,l}^2 + |W_{k,l}|$
 \item Dropout: Randomly zero outputs during training (scale by p at test)
-\item Batch Norm: Normalize activations across batch dimension
+\item Normalization adds regularization effect due to noise in batch stats
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
-\item Early stopping: Regularization effect by halting training when validation error increases
+\item Early stopping: end training when val error increases
 \item Dropout forces redundant representations, acts like ensemble averaging
 \item Regularizing bias terms is generally avoided (mainly regularize weights)
 \item Data augmentation: Adding transformed training examples
@@ -87,108 +88,110 @@
 \textbf{SGD}: $w_{t+1} = w_t - \alpha \nabla L(w_t)$\\
 \textbf{SGD+Momentum}: 
 \begin{align*}
-v_{t+1} &= \rho v_t + \nabla L(w_t)\\
+v_{t+1} &= \rho v_t + \nabla L(w_t) \tag{typically $\rho = 0.9$ or $0.99$}\\
 w_{t+1} &= w_t - \alpha v_{t+1}
 \end{align*}
 
 \textbf{RMSProp}:
 \begin{align*}
-\text{grad\_squared} &= \beta \cdot \text{grad\_squared} + (1-\beta) \cdot g^2\\
-w_{t+1} &= w_t - \frac{\alpha \cdot g}{\sqrt{\text{grad\_squared}} + \epsilon}
+\text{grad\_squared} &= \beta \cdot \text{grad\_squared} + (1-\beta) \cdot (\nabla L(w_t))^2\\
+w_{t+1} &= w_t - \frac{\alpha \cdot \nabla L(w_t)}{\sqrt{\text{grad\_squared}} + \epsilon}
 \end{align*}
 
 \textbf{Adam}:
 \begin{align*}
-m_t &= \beta_1 m_{t-1} + (1-\beta_1)g_t \quad \text{(momentum)}\\
-v_t &= \beta_2 v_{t-1} + (1-\beta_2)g_t^2 \quad \text{(RMSProp)}\\
-\hat{m}_t &= \frac{m_t}{1-\beta_1^t} \quad \text{(bias correction)}\\
-\hat{v}_t &= \frac{v_t}{1-\beta_2^t} \quad \text{(bias correction)}\\
-w_{t+1} &= w_t - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
+m_t &= \beta_1 m_{t-1} + (1-\beta_1)\nabla L(w_t) \tag{momentum}\\
+v_t &= \beta_2 v_{t-1} + (1-\beta_2)(\nabla L(w_t))^2 \tag{RMSProp}\\
+\hat{m}_t &= m_t / (1-\beta_1^t) \tag{bias correction}\\
+\hat{v}_t &= v_t / (1-\beta_2^t) \tag{bias correction}\\
+w_{t+1} &= w_t - \alpha \hat{m}_t / (\sqrt{\hat{v}_t} + \epsilon)
 \end{align*}
 
 \textbf{Learning Rate Decay}:
 \begin{itemize}
-\item Step decay: $\alpha_t = \alpha_0 \cdot \gamma^{\lfloor t/\text{epoch} \rfloor}$
-\item Cosine decay: $\alpha_t = \alpha_{\text{min}} + \frac{1}{2}(\alpha_0 - \alpha_{\text{min}})(1 + \cos(\frac{t}{T}\pi))$
+\item Decrease LR over time (step, cosine, linear, etc.)
+\item Linear warmup: increase LR from 0 over first few steps, prevent exploding loss
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
 \item SGD issues: poor conditioning, getting stuck in local minima/saddle points, noisy
-\item Momentum helps overcome oscillations and escape poor local minima
-\item RMSProp addresses AdaGrad's decaying learning rate issue
-\item Adam combines momentum (first moment) and RMSProp (second moment)
+\item Momentum overcomes oscillations and escape poor local minima, continues moving in prev direction
+\item RMSProp adds per-parameter learning rate, addresses AdaGrad's decaying learning rate issue
+\item Adam combines momentum and RMSProp
 \item AdamW separates weight decay from gradient update for better regularization
+\item Second-order methods: $\theta^* = \theta_0 - \alpha H^{-1} \nabla L(\theta_0)$\\
+Better updates, $O(N^2)$ mem and $O(N^3)$ time to invert
 \end{itemize}
 
 \section*{\underline{Neural Networks}}
-\textbf{Multi-layer Perceptron}: $f = W_2 \cdot \text{max}(0, W_1 \cdot x + b_1) + b_2$\\
-\textbf{Dimensions}: $x \in \mathbb{R}^D$, $W_1 \in \mathbb{R}^{H \times D}$, $b_1 \in \mathbb{R}^H$, $W_2 \in \mathbb{R}^{C \times H}$, $b_2 \in \mathbb{R}^C$\\
-
+\textbf{MLP}: $f = W_2 \text{max}(0, W_1 x + b_1) + b_2$\\
+$x \in \mathbb{R}^D$, $W_1 \in \mathbb{R}^{H \times D}$, $b_1 \in \mathbb{R}^H$, $W_2 \in \mathbb{R}^{C \times H}$, $b_2 \in \mathbb{R}^C$\\
 \textbf{Activation Functions}:
 \begin{itemize}
-\item ReLU: $f(x) = \max(0, x)$ (most common)
-\item Leaky ReLU: $f(x) = \max(\alpha x, x)$, $\alpha$ small (e.g., 0.01)
-\item ELU: $f(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha(e^x - 1) & \text{if } x \leq 0 \end{cases}$
-\item GELU: $f(x) = x \cdot \Phi(x)$ (used in transformers)
-\item Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$ (vanishing gradient)
-\item Tanh: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$ (zero-centered)
+\item ReLU: $f(x) = \max(0, x)$
+\item Leaky ReLU: $f(x) = \max(\alpha x, x)$ with small $\alpha$
+\item ELU: $f(x) = \begin{cases} x & \text{if } x \geq 0 \\ \alpha(e^x - 1) & \text{if } x < 0 \end{cases}$
+\item GELU: $f(x) = x \cdot \Phi(x)$
+\item Sigmoid: $\sigma(x) = \frac{1}{1+e^{-x}}$
+\item Tanh: $\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
-\item ReLU has zero gradient when inputs are negative (can cause "dying ReLU")
-\item Leaky ReLU can't cause numerically zero gradients (always has non-zero slope)
-\item Tanh has zero-centered outputs (advantage over sigmoid)
+\item ReLU has zero grad with negative inputs (dying ReLU)
+\item Leaky ReLU (and variants) always has non-zero slope
+\item Tanh has zero-centered outputs (sigmoid has $\mu = 0.5$)
 \item Without nonlinear activations, deep networks reduce to linear models
-\item Deeper networks can represent more complex functions with fewer parameters
+\item Deeper networks can represent more complex functions with fewer parameters (more non-linearities)
 \end{itemize}
 
 \section*{\underline{Backpropagation}}
-\textbf{Chain rule}: $\frac{dz}{dx} = \frac{dz}{dy} \frac{dy}{dx}$\\
-\textbf{Gradient flow}: Local gradients × upstream gradients = downstream gradients\\
-\textbf{Key steps}:
-\begin{enumerate}
-\item Forward pass: compute outputs and cache intermediates
-\item Backward pass: compute gradients using chain rule
-\item Update parameters using gradients
-\end{enumerate}
-
+\textbf{Gradient flow}: Upstream $\times$ Local = Downstream\\
 \textbf{Vector derivatives}:
 \begin{itemize}
-\item Same shape as original variables
+\item $d_x f(x)$ has same shape as $x$
 \item Apply chain rule using matrix calculus
+\item Matmul: $\frac{\partial}{\partial X}(XW) = W^T$ and $\frac{\partial}{\partial W}(XW) = X^T$
+\item Each element $X_{n,d}$ affects the whole row $Y_{n}$
+\item Backprop: X: [N, D], W: [D, M], Y: [N, M]
+$$\frac{\partial L}{\partial X} = \left(\frac{\partial L}{\partial Y}\right)W^T \in [N, D]  \quad\frac{\partial L}{\partial W} = X^T\left(\frac{\partial L}{\partial Y}\right) \in [D, M]$$
 \end{itemize}
-
 \textbf{Special derivatives}:
 \begin{itemize}
-\item Sigmoid: $\frac{d\sigma(x)}{dx} = \sigma(x)(1-\sigma(x))$
-\item Tanh: $\frac{d\tanh(x)}{dx} = 1 - \tanh^2(x)$
-\item ReLU: $\frac{d\text{ReLU}(x)}{dx} = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x < 0 \end{cases}$
+\item Sigmoid: $d_x \sigma(x) = \sigma(x)(1-\sigma(x))$
+\item Tanh: $d_x \tanh(x) = 1 - \tanh^2(x)$
+\item ReLU: $d_x \text{ReLU}(x) = \mathbbm{1}(x > 0)$
+\item Max: $d_x \max(x, y) = \mathbbm{1}(x > y)$
+\item Softmax: $\frac{d p_i}{d s_j} = p_i(\mathbbm{1}(i=j) - p_j)$ where $p = \frac{e^{s}}{\sum_k e^{s_k}}$
+\item Cross-entropy: $d_{s_i} \left(-\sum_j y_j\log(p_j)\right) = p_i - y_i$
+\item Huber Loss: $d_x L_{\delta}(x,y) = \begin{cases} x-y & \text{if } |x-y| < \delta \\ \delta \cdot \text{sign}(x-y) & \text{otherwise} \end{cases}$
+\item L1 Loss: $d_x |x-y| = \text{sign}(x-y)$
 \end{itemize}
 
-\textbf{Key Concepts}:
+\textbf{Key Backpropagation Concepts}:
 \begin{itemize}
-\item Computational graphs organize calculations as directed acyclic graphs
-\item Backprop can handle arbitrary complex computational graphs
+\item Vanishing gradients: gradients become too small in deep networks (esp. with sigmoid/tanh)
+\item Exploding gradients: gradients become too large (common in RNNs)
+\item Gradient clipping: Cap gradient magnitude to prevent explosion
 \end{itemize}
 
 \section*{\underline{Convolutional Neural Networks}}
 \textbf{Conv Layer Summary}:
 \begin{itemize}
-\item \textbf{Input}: $C_{in} \times H \times W$
 \item \textbf{Hyperparameters}:
 \begin{itemize}
 \item Kernel size: $K_H \times K_W$
-\item Number filters: $C_{out}$
-\item Padding: $P = (K-1)/2$ ("same" padding)
+\item Number filters: $C_{\text{out}}$
+\item Padding: $P = (K-1)/2$ (same padding)
 \item Stride: $S$
 \end{itemize}
-\item \textbf{Weight matrix}: $C_{out} \times C_{in} \times K_H \times K_W$
-\item \textbf{Bias vector}: $C_{out}$
-\item \textbf{Output size}: $C_{out} \times H' \times W'$ where:
+\item \textbf{Weight matrix}: $C_{\text{out}} \times C_{\text{in}} \times K_H \times K_W$
+\item \textbf{Bias vector}: $C_{\text{out}}$
+\item \textbf{Input}: $C_{\text{in}} \times H \times W$
+\item \textbf{Output activation}: $C_{\text{out}} \times H' \times W'$ where
 $$
-H', W' = \frac{H - K_{\{H, W\}} + 2P}{S} + 1
+[H', W'] = \frac{[H, W] - K_{[H, W]} + 2P}{S} + 1
 $$
 \end{itemize}
 
@@ -201,6 +204,7 @@ $$
 
 \textbf{Pooling layers}: 
 \begin{itemize}
+\item Given input C×H×W, downsample each 1×H×W plane
 \item Max pooling: Take maximum value in window
 \item Average pooling: Average values in window
 \item Reduces spatial dimensions, increases receptive field
@@ -208,43 +212,40 @@ $$
 
 \textbf{Receptive field}: Region of input that affects output
 \begin{itemize}
-\item For stacked K×K filters, RF grows by (K-1) per layer
-\item With $L$ layers, RF is $1 + L * (K - 1)$
+\item For K×K filters, RF grows by $(K-1)$ per layer
+\item With $L$ layers and $S=1$, RF is $1 + L * (K - 1)$
+\item In general, $R_0 = 1$ and $R_l = R_{l-1} + (K-1) \times S$
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
 \item Multiple 3×3 filters better than single large filter: fewer parameters, more nonlinearities
-\item 1×1 convolutions: used for dimension reduction across channels
+\item 1×1 conv: same H/W, dim reduction across channels
 \item Dilated convolutions: expand receptive field without increasing parameters
-\item Depth-wise separable convs: separate spatial and cross-channel operations
 \end{itemize}
 
 \section*{\underline{Normalization Techniques}}
 \textbf{Batch Normalization}:
 \begin{align*}
-\mu_c &= \frac{1}{N} \sum_{n=1}^{N} x_{n,c,h,w}\\
-\sigma_c &= \sqrt{\frac{1}{N} \sum_{n=1}^{N} (x_{n,c,h,w} - \mu_c)^2}\\
-\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_c}{\sigma_c}\\
-y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\mu_c &= \text{mean of feature values across batch for channel c}\\
+\sigma_c &= \text{standard deviation across batch for channel c}\\
+y &= \gamma_c \cdot \frac{x - \mu_c}{\sigma_c} + \beta_c \quad \text{(scale and shift)}
 \end{align*}
 Normalizes across batch dimension for each channel
 
 \textbf{Layer Normalization}:
 \begin{align*}
-\mu_n &= \frac{1}{C} \sum_{c=1}^{C} x_{n,c,h,w}\\
-\sigma_n &= \sqrt{\frac{1}{C} \sum_{c=1}^{C} (x_{n,c,h,w} - \mu_n)^2}\\
-\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_n}{\sigma_n}\\
-y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\mu_n &= \text{mean across all channels for sample n}\\
+\sigma_n &= \text{standard deviation across all channels for sample n}\\
+y &= \gamma_c \cdot \frac{x - \mu_n}{\sigma_n} + \beta_c \quad \text{(scale and shift)}
 \end{align*}
 Normalizes across channel dimension for each sample
 
 \textbf{Instance Normalization}:
 \begin{align*}
-\mu_{n,c} &= \frac{1}{H \times W} \sum_{h,w} x_{n,c,h,w}\\
-\sigma_{n,c} &= \sqrt{\frac{1}{H \times W} \sum_{h,w} (x_{n,c,h,w} - \mu_{n,c})^2}\\
-\hat{x}_{n,c,h,w} &= \frac{x_{n,c,h,w} - \mu_{n,c}}{\sigma_{n,c}}\\
-y_{n,c,h,w} &= \gamma_c \cdot \hat{x}_{n,c,h,w} + \beta_c
+\mu_{n,c} &= \text{spatial mean for channel c of sample n}\\
+\sigma_{n,c} &= \text{spatial standard deviation for channel c of sample n}\\
+y &= \gamma_c \cdot \frac{x - \mu_{n,c}}{\sigma_{n,c}} + \beta_c \quad \text{(scale and shift)}
 \end{align*}
 Normalizes each channel independently for each sample
 
@@ -254,7 +255,6 @@ Normalizes each channel independently for each sample
 \item LayerNorm: Used in transformers, no dependence on batch statistics
 \item Instance Norm: Used in style transfer, normalizes each feature map
 \item Group Norm: Compromise between Layer and Instance Norm
-\item Normalization adds regularization effect due to noise in batch stats
 \end{itemize}
 
 \section*{\underline{CNN Architectures}}
@@ -309,17 +309,11 @@ Normalizes each channel independently for each sample
 \end{itemize}
 
 \section*{\underline{Training Techniques}}
-\textbf{Data Preprocessing}:
-\begin{itemize}
-\item Zero-centering: $\tilde{x} = x - \mu$
-\item Normalization: $\tilde{x} = \frac{x - \mu}{\sigma}$
-\end{itemize}
-
 \textbf{Data Augmentation}:
 \begin{itemize}
-\item Horizontal flips, random crops, color jitter
-\item Rotations, scaling, shearing (with limits)
-\item CutMix, Mixup: interpolate between images
+\item Increases dataset size/diversity without new data
+\item Robustness to variations (position, lighting)
+\item Common techniques: flips, crops, color jitter, rotations
 \end{itemize}
 
 \textbf{Transfer Learning}:
