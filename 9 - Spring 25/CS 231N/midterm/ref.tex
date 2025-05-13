@@ -6,6 +6,7 @@
 \usepackage{bm}
 \usepackage{bbm}
 \usepackage{xcolor}
+\usepackage{graphicx}
 
 \setlength{\parindent}{0pt} % No paragraph indentation
 \setlength{\parskip}{1pt} % Minimal space between paragraphs
@@ -39,6 +40,7 @@
 \begin{document}
 \fontsize{6pt}{7pt}\selectfont % Size 6 font with 7pt line height
 
+% \raggedcolumns
 \begin{multicols}{3} % Three columns for maximum space utilization
 
 \section*{\underline{Linear Classification}}
@@ -79,7 +81,7 @@
 \textbf{Key concepts}:
 \begin{itemize}
 \item Early stopping: end training when val error increases
-\item Dropout forces redundant representations, acts like ensemble averaging
+\item Dropout forces redundant representations, acts like ensemble that shares parameters
 \item Regularizing bias terms is generally avoided (mainly regularize weights)
 \item Data augmentation: Adding transformed training examples
 \end{itemize}
@@ -224,44 +226,11 @@ $$
 \item Dilated convolutions: expand receptive field without increasing parameters
 \end{itemize}
 
-\section*{\underline{Normalization Techniques}}
-\textbf{Batch Normalization}:
-\begin{align*}
-\mu_c &= \text{mean of feature values across batch for channel c}\\
-\sigma_c &= \text{standard deviation across batch for channel c}\\
-y &= \gamma_c \cdot \frac{x - \mu_c}{\sigma_c} + \beta_c \quad \text{(scale and shift)}
-\end{align*}
-Normalizes across batch dimension for each channel
-
-\textbf{Layer Normalization}:
-\begin{align*}
-\mu_n &= \text{mean across all channels for sample n}\\
-\sigma_n &= \text{standard deviation across all channels for sample n}\\
-y &= \gamma_c \cdot \frac{x - \mu_n}{\sigma_n} + \beta_c \quad \text{(scale and shift)}
-\end{align*}
-Normalizes across channel dimension for each sample
-
-\textbf{Instance Normalization}:
-\begin{align*}
-\mu_{n,c} &= \text{spatial mean for channel c of sample n}\\
-\sigma_{n,c} &= \text{spatial standard deviation for channel c of sample n}\\
-y &= \gamma_c \cdot \frac{x - \mu_{n,c}}{\sigma_{n,c}} + \beta_c \quad \text{(scale and shift)}
-\end{align*}
-Normalizes each channel independently for each sample
-
-\textbf{Key concepts}:
-\begin{itemize}
-\item BatchNorm: Used in CNNs, must track running stats for inference
-\item LayerNorm: Used in transformers, no dependence on batch statistics
-\item Instance Norm: Used in style transfer, normalizes each feature map
-\item Group Norm: Compromise between Layer and Instance Norm
-\end{itemize}
-
 \section*{\underline{CNN Architectures}}
 \textbf{VGG}:
 \begin{itemize}
 \item Multiple 3×3 convs followed by max-pooling
-\item Multiple 3×3 filters have same receptive field as larger filter with fewer parameters
+\item Stack of three 3×3 convs has same receptive field as 7×7 conv, but deeper with less params ($3\times 9C^2$ vs $49C^2$)
 \item Uniform design: doubles channels after each pooling
 \end{itemize}
 
@@ -270,63 +239,110 @@ Normalizes each channel independently for each sample
 \item Skip connections: $\text{output} = F(x) + x$
 \item Allow deeper networks by learning residual mapping
 \item Solves vanishing gradient problem in deep nets
-\item Typical block: Conv → BN → ReLU → Conv → BN → Add → ReLU
+\item Conv → BN → ReLU → Conv → BN → Add → ReLU
 \end{itemize}
 
-\textbf{Bottleneck layer}:
+\section*{\underline{Equivariance and Invariance}}
+\textbf{Definitions:}
 \begin{itemize}
-\item 1×1 conv to reduce channels, 3×3 conv, 1×1 conv to expand
-\item Reduces computation by decreasing channels in 3×3 conv
+  \item \textbf{Equivariant:} $f(Tx) = T f(x)$\hspace{0.5em} (output transforms in the same way as input)
+  \item \textbf{Invariant:} $f(Tx) = f(x)$\hspace{0.5em} (output does not change under transformation)
 \end{itemize}
 
-\textbf{Key concepts}:
+\textbf{Key Types:}
 \begin{itemize}
-\item Network design trade-offs: depth vs. width vs. resolution
-\item Skip connections help gradient flow and enable deeper networks
-\item Deeper networks generally need more regularization
-\item ResNet skip connections: $O_l = I_l + F(I_l)$ not $O_l = I_l * F(I_l)$
+  \item \textbf{Translation equivariant:} Shifting the input causes the output to shift in the same way.
+    \begin{itemize}
+      \item \textit{Example:} \textbf{Convolution:} If you shift an image, the output activation map shifts the same amount.
+      \item \textit{Non-example:} Fully connected (MLP) layers are not translation equivariant.
+    \end{itemize}
+  \item \textbf{Translation invariant:} Shifting the input does not change the output.
+    \begin{itemize}
+      \item \textit{Example:} \textbf{Global pooling:} $\max(x)$ or $\sum x$ over all positions.
+    \end{itemize}
+    \item \textbf{Rotation equivariant:} Rotating the input causes the output to rotate in the same way.
+    \begin{itemize}
+      \item \textit{Non-example:} Standard CNNs with fixed kernels are not rotation equivariant (rotating the image does not rotate the output activation map).
+    \end{itemize}
+  \item \textbf{Rotation invariant:} Rotating the input does not change the output.
+    \begin{itemize}
+      \item \textit{Example:} $\|x\|_2$ (L2 vector norm)
+    \end{itemize}
+  \item \textbf{Permutation equivariant (Self-attention):}
+    \begin{itemize}
+      \item \textit{Definition:} Reordering (permuting) the input sequence reorders the output in the same way.
+      \item \textit{Example:} \textbf{Self-attention without positional encoding:} If you swap two tokens in the input, the outputs for those tokens are swapped.
+      \item \textit{Non-example:} Self-attention with positional encoding is not permutation equivariant.
+    \end{itemize}
+\end{itemize}
+
+\section*{\underline{Normalization Techniques}}
+\includegraphics[width=\columnwidth]{imgs/norm.png}
+\textbf{Batch Normalization}:
+\begin{align*}
+\mu_c &= \text{mean of feature values across batch for channel c}\\
+\sigma_c &= \text{standard deviation across batch for channel c}\\
+y &= \gamma_c \cdot (x - \mu_c)/ \sigma_c + \beta_c
+\end{align*}
+\begin{itemize}
+\item Normalizes across batch dimension for each channel
+\item Used in CNNs, must track running stats for inference
+\end{itemize}
+
+\textbf{Layer Normalization}:
+\begin{align*}
+\mu_n &= \text{mean across all channels for sample n}\\
+\sigma_n &= \text{standard deviation across all channels for sample n}\\
+y &= \gamma_c \cdot (x - \mu_n)/ \sigma_n + \beta_c
+\end{align*}
+\begin{itemize}
+\item Normalizes across channel dimension for each sample
+\item Used in transformers, no dependence on batch statistics, good for sequence models
+\end{itemize}
+
+\textbf{Group Normalization}:
+\begin{itemize}
+\item Group channels into groups, normalize each group independently for each sample
+\item Used in CNNs, good for parallelization
 \end{itemize}
 
 \section*{\underline{Weight Initialization}}
-\textbf{Xavier/Glorot}: $W \sim \mathcal{N}(0, \sqrt{\frac{2}{n_{in} + n_{out}}})$
-\begin{itemize}
-\item For tanh/sigmoid activations
-\item Maintains variance across linear layers
-\end{itemize}
-
 \textbf{Kaiming initialization}: $W \sim \mathcal{N}(0, \sqrt{\frac{2}{D_{in}}})$ for ReLU
 \begin{itemize}
 \item For ReLU activations (accounts for half being zeroed)
-\item For CNN: $D_{in} = \text{kernel\_size}^2 \times \text{input\_channels}$
+\item For CNN: $D_{in} = C_{\text{in}} \times K_H \times K_W$
 \end{itemize}
 
 \textbf{Key concepts}:
 \begin{itemize}
-\item Poor initialization can cause vanishing/exploding gradients
+\item Too small or too large initializations can cause vanishing/exploding gradients
 \item Initialization in deep nets is crucial for trainability
-\item Even with good normalization, bad initialization slows training
+\item Normalization mitigates bad initialization (not solve)
 \item Initialization should match the activation function
 \end{itemize}
 
 \section*{\underline{Training Techniques}}
+\textbf{Data Normalization}: subtract per-channel mean, divide by per-channel std, better convergence and generalization
+
 \textbf{Data Augmentation}:
 \begin{itemize}
 \item Increases dataset size/diversity without new data
-\item Robustness to variations (position, lighting)
+\item Improves robustness to image variations
 \item Common techniques: flips, crops, color jitter, rotations
 \end{itemize}
 
-\textbf{Transfer Learning}:
+\textbf{Transfer Learning}: use pre-trained models
 \begin{itemize}
-\item Small dataset: Freeze pretrained model, retrain final layers
-\item Medium dataset: Freeze early layers, fine-tune later layers
-\item Large dataset: Initialize with pretrained weights, fine-tune all layers
+\item Small dataset + similar: retrain final layer
+\item Small dataset + different: another model or more data
+\item Large dataset + similar: finetune all model layers
+\item Large dataset + different: either finetune all layers or train from scratch
 \end{itemize}
 
 \textbf{Diagnostics}:
 \begin{itemize}
-\item Underfitting: Low train/val accuracy, small gap
-\item Overfitting: High train accuracy, low val accuracy, large gap
+\item Underfitting: Low train/val accuracy, small or no gap
+\item Overfitting: High train, low val accuracy, large gap
 \item Not training enough: Low train/val accuracy with gap
 \end{itemize}
 
@@ -334,19 +350,22 @@ Normalizes each channel independently for each sample
 \begin{itemize}
 \item Random search usually better than grid search
 \item Check initial loss, overfit small sample first
-\item Find LR that makes loss decrease within ~100 iterations
+\item Find LR that makes loss decrease quickly
+\item Split data into train/val/test; tune on validation set
+\item K-fold cross-validation useful for small datasets
 \end{itemize}
 
 \section*{\underline{Loss Functions}}
 \textbf{Cross-entropy}: $L = -\sum_i y_i \log(\hat{y}_i)$
 \begin{itemize}
-\item For classification problems
-\item Measures dissimilarity between two probability distributions
+\item For classification problems, measures how well predictions match true labels
 \end{itemize}
 
-\textbf{KL Divergence}: $D_{KL}(p||q) = \sum_i p_i \log\frac{p_i}{q_i} = \sum_i p_i(\log p_i - \log q_i)$
+\textbf{KL}: $D_{KL}(p||q) = \sum_i p_i \log\frac{p_i}{q_i} = \sum_i p_i(\log p_i - \log q_i)$
 \begin{itemize}
-\item Rewrite as subtraction for numerical stability
+\item $D_{KL}(p||q) = \text{CrossEntropy}(p, q) - H(p)$
+\item In one-hot classification, KL is same as CE because $H(\text{one hot true labels})$ is zero
+\item Measures dissimilarity between probability dist.
 \item Not symmetric: $D_{KL}(p||q) \neq D_{KL}(q||p)$
 \end{itemize}
 
@@ -362,11 +381,11 @@ L_{\delta}(x, y) = \begin{cases}
 \item Differentiable everywhere, robust to outliers
 \end{itemize}
 
-\textbf{Triplet margin loss}: $L(a,p,n) = \max\{d(a,p) - d(a,n) + \text{margin}, 0\}$
+\textbf{Triplet margin}: L(a,p,n) = $\max\{d(a,p) - d(a,n) + \Delta, 0\}$
 \begin{itemize}
-\item Used in contrastive learning
-\item Pushes anchor (a) closer to positive (p) than negative (n)
+\item Used in contrastive learning, pushes anchor (a) closer to positive (p) than negative (n)
 \item Margin controls separation between positive and negative pairs
+\item Small margin $\rightarrow$ harder to separate, larger margin $\rightarrow$ too much separation, difficult to learn
 \end{itemize}
 
 \section*{\underline{Recurrent Neural Networks}}
@@ -377,20 +396,24 @@ y_t &= W_{hy}h_t + b_y
 \end{align*}
 
 \textbf{LSTM}:
-\begin{align*}
-f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)\\
-i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)\\
-\tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)\\
-C_t &= f_t \odot C_{t-1} + i_t \odot \tilde{C}_t\\
-o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)\\
-h_t &= o_t \odot \tanh(C_t)
-\end{align*}
+\begin{itemize}
+\item Solves vanilla RNN's vanishing gradient problem
+\item Cell state ($C_t$) maintains long-term memory
+\item Three gates control information flow:
+  \begin{itemize}
+  \item Forget gate: decides what to discard from cell state
+  \item Input gate: decides what new information to store
+  \item Output gate: controls what parts of cell state affect output
+  \end{itemize}
+\item Gradient can flow unchanged through cell state
+\item More complex but better at capturing long sequences
+\end{itemize}
 
 \textbf{RNN Applications}:
 \begin{itemize}
 \item Language modeling: Predict next token in sequence
-\item Image captioning: CNN feature extractor + RNN decoder
-\item Sequence-to-sequence: Translation, summarization
+\item Captioning: CNN feature extractor + RNN decoder
+\item Sequence-to-sequence: encoder-decoder for translation
 \end{itemize}
 
 \textbf{Training RNNs}:
@@ -403,64 +426,19 @@ h_t &= o_t \odot \tanh(C_t)
 \textbf{Key concepts}:
 \begin{itemize}
 \item RNNs can process variable-length sequences
-\item Vanishing/exploding gradients limit learning long-term dependencies
-\item LSTM addresses vanishing gradients via cell state pathway
+\item Vanishing gradients limit long-term learning
 \item RNNs sequential processing limits parallelization
 \end{itemize}
 
-\section*{\underline{Attention Mechanism}}
-\textbf{Inputs}:
-\begin{itemize}
-\item Input sequence: $X \in \mathbb{R}^{N \times D_{in}}$
-\item Query matrix: $W_Q \in \mathbb{R}^{D_{in} \times D_{out}}$
-\item Key matrix: $W_K \in \mathbb{R}^{D_{in} \times D_{out}}$
-\item Value matrix: $W_V \in \mathbb{R}^{D_{in} \times D_{out}}$
-\end{itemize}
-
-\textbf{Computation}:
-\begin{align*}
-\text{Queries: } Q &= XW_Q \in \mathbb{R}^{N \times D_{out}}\\
-\text{Keys: } K &= XW_K \in \mathbb{R}^{N \times D_{out}}\\
-\text{Values: } V &= XW_V \in \mathbb{R}^{N \times D_{out}}\\
-\text{Similarities: } E &= \frac{QK^T}{\sqrt{D_{out}}} \in \mathbb{R}^{N \times N}\\
-\text{Weights: } A &= \text{softmax}(E, \text{dim=1}) \in \mathbb{R}^{N \times N}\\
-\text{Output: } Y &= AV \in \mathbb{R}^{N \times D_{out}}
-\end{align*}
-
-\textbf{Multi-Head Attention}:
-
-\textbf{Inputs}:
-\begin{itemize}
-\item Input vectors: $X \in \mathbb{R}^{N \times D}$
-\item For each head $h \in \{1,...,H\}$:
-  \begin{itemize}
-  \item Key matrix: $W_K^h \in \mathbb{R}^{D \times D_H}$
-  \item Value matrix: $W_V^h \in \mathbb{R}^{D \times D_H}$
-  \item Query matrix: $W_Q^h \in \mathbb{R}^{D \times D_H}$
-  \end{itemize}
-\item Output matrix: $W_O \in \mathbb{R}^{HD_H \times D}$
-\end{itemize}
-
-\textbf{Computation for each head $h$}:
-\begin{align*}
-\text{Queries: } Q^h &= XW_Q^h \in \mathbb{R}^{N \times D_H}\\
-\text{Keys: } K^h &= XW_K^h \in \mathbb{R}^{N \times D_H}\\
-\text{Values: } V^h &= XW_V^h \in \mathbb{R}^{N \times D_H}\\
-\text{Similarities: } E^h &= \frac{Q^h(K^h)^T}{\sqrt{D_H}} \in \mathbb{R}^{N \times N}\\
-\text{Attention weights: } A^h &= \text{softmax}(E^h, \text{dim=1}) \in \mathbb{R}^{N \times N}\\
-\text{Head output: } Y^h &= A^hV^h \in \mathbb{R}^{N \times D_H}
-\end{align*}
-
-\textbf{Combining heads}:
-\begin{align*}
-\text{Concatenated output: } Y &= [Y^1; Y^2; ...; Y^H] \in \mathbb{R}^{N \times HD_H}\\
-\text{Final output: } O &= YW_O \in \mathbb{R}^{N \times D}
-\end{align*}
-
+\section*{\underline{Attention}}
+\includegraphics[width=\columnwidth]{imgs/cross.png}
+\includegraphics[width=\columnwidth]{imgs/self.png}
+\includegraphics[width=\columnwidth]{imgs/masked.png}
+\includegraphics[width=\columnwidth]{imgs/multihead.png}
 \textbf{Types of Attention}:
 \begin{itemize}
 \item Self-attention: Q, K, V from same sequence
-\item Cross-attention: Q from one sequence, K, V from another
+\item Cross-attention: Q from one, KV from another
 \item Masked attention: Future positions masked (decoder)
 \end{itemize}
 
@@ -472,6 +450,8 @@ h_t &= o_t \odot \tanh(C_t)
 \item Scaling factor $\sqrt{d_k}$ prevents vanishing gradients with large dimensions
 \item Self-attention is permutation equivariant without positional encoding
 \end{itemize}
+
+\includegraphics[width=\columnwidth]{imgs/seqs.png}
 
 \section*{\underline{Transformers}}
 \textbf{Transformer block}:
