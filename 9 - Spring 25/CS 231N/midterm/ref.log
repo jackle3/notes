@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.17)  13 MAY 2025 00:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.17)  13 MAY 2025 00:33
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -323,22 +323,22 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 46.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (11.79327pt too wide) detected at line 160
+Overfull \hbox (11.79327pt too wide) detected at line 170
 [] \OT1/cmr/m/n/6 = [] \OML/cmm/m/it/6 W[] \OMS/cmsy/m/n/6 2 \OT1/cmr/m/n/6 [\OML/cmm/m/it/6 N; D\OT1/cmr/m/n/6 ] [] = \OML/cmm/m/it/6 X[] [] \OMS/cmsy/m/n/6 2 \OT1/cmr/m/n/6 [\OML/cmm/m/it/6 D; M\OT1/cmr/m/n/6 ]
  []
 
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 166.
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 176.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
-Overfull \hbox (10.30693pt too wide) in paragraph at lines 170--171
+Overfull \hbox (10.30693pt too wide) in paragraph at lines 180--181
 []\OT1/cmr/m/n/6 Huber Loss: $\OML/cmm/m/it/6 d[]L[]\OT1/cmr/m/n/6 (\OML/cmm/m/it/6 x; y\OT1/cmr/m/n/6 ) = []$ 
  []
 
 <imgs/norm.png, id=1, 643.40375pt x 172.645pt>
 File: imgs/norm.png Graphic file (type png)
 <use imgs/norm.png>
-Package pdftex.def Info: imgs/norm.png  used on input line 280.
+Package pdftex.def Info: imgs/norm.png  used on input line 290.
 (pdftex.def)             Requested size: 185.4933pt x 49.77335pt.
 [1
 
@@ -346,54 +346,54 @@ Package pdftex.def Info: imgs/norm.png  used on input line 280.
 <imgs/cross.png, id=23, 675.52374pt x 359.3425pt>
 File: imgs/cross.png Graphic file (type png)
 <use imgs/cross.png>
-Package pdftex.def Info: imgs/cross.png  used on input line 434.
+Package pdftex.def Info: imgs/cross.png  used on input line 444.
 (pdftex.def)             Requested size: 185.4933pt x 98.6687pt.
 <imgs/self.png, id=24, 674.52pt x 354.32375pt>
 File: imgs/self.png Graphic file (type png)
 <use imgs/self.png>
-Package pdftex.def Info: imgs/self.png  used on input line 435.
+Package pdftex.def Info: imgs/self.png  used on input line 445.
 (pdftex.def)             Requested size: 185.4933pt x 97.43661pt.
 <imgs/masked.png, id=25, 675.52374pt x 356.33125pt>
 File: imgs/masked.png Graphic file (type png)
 <use imgs/masked.png>
-Package pdftex.def Info: imgs/masked.png  used on input line 436.
+Package pdftex.def Info: imgs/masked.png  used on input line 446.
 (pdftex.def)             Requested size: 185.4933pt x 97.84186pt.
 <imgs/multihead.png, id=26, 675.52374pt x 343.2825pt>
 File: imgs/multihead.png Graphic file (type png)
 <use imgs/multihead.png>
-Package pdftex.def Info: imgs/multihead.png  used on input line 437.
+Package pdftex.def Info: imgs/multihead.png  used on input line 447.
 (pdftex.def)             Requested size: 185.4933pt x 94.25893pt.
 <imgs/seqs.png, id=27, 677.53125pt x 288.07625pt>
 File: imgs/seqs.png Graphic file (type png)
 <use imgs/seqs.png>
-Package pdftex.def Info: imgs/seqs.png  used on input line 454.
+Package pdftex.def Info: imgs/seqs.png  used on input line 462.
 (pdftex.def)             Requested size: 185.4933pt x 78.86736pt.
 <imgs/transformer.png, id=28, 947.54pt x 475.7775pt>
 File: imgs/transformer.png Graphic file (type png)
 <use imgs/transformer.png>
-Package pdftex.def Info: imgs/transformer.png  used on input line 457.
+Package pdftex.def Info: imgs/transformer.png  used on input line 465.
 (pdftex.def)             Requested size: 185.4933pt x 93.13559pt.
 <imgs/upsampl.png, id=29, 659.46375pt x 263.98625pt>
 File: imgs/upsampl.png Graphic file (type png)
 <use imgs/upsampl.png>
-Package pdftex.def Info: imgs/upsampl.png  used on input line 496.
+Package pdftex.def Info: imgs/upsampl.png  used on input line 504.
 (pdftex.def)             Requested size: 185.4933pt x 74.254pt.
 <imgs/video.png, id=30, 678.535pt x 374.39874pt>
 File: imgs/video.png Graphic file (type png)
 <use imgs/video.png>
-Package pdftex.def Info: imgs/video.png  used on input line 587.
+Package pdftex.def Info: imgs/video.png  used on input line 595.
 (pdftex.def)             Requested size: 185.4933pt x 102.34584pt.
  [2 <./imgs/cross.png> <./imgs/self.png> <./imgs/masked.png> <./imgs/multihead.png> <./imgs/seqs.png> <./imgs/transformer.png> <./imgs/upsampl.png> <./imgs/video.png>] (./ref.aux) ) 
 Here is how much of TeX's memory you used:
  4324 strings out of 478268
  64618 string characters out of 5846347
- 454717 words of memory out of 5000000
+ 454767 words of memory out of 5000000
  22473 multiletter control sequences out of 15000+600000
  476853 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,16n,62p,287b,361s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/jackle/Library/texlive/2022/texmf-var/fonts/pk/ljfour/public/bbm/bbm6.600pk>{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb>
-Output written on ref.pdf (2 pages, 1858012 bytes).
+Output written on ref.pdf (2 pages, 1857944 bytes).
 PDF statistics:
  101 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream
